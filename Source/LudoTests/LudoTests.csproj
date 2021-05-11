@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LudoApi\LudoApi.csproj" />
+    <ProjectReference Include="..\LudoEngine\LudoEngine.csproj" />
+  </ItemGroup>
+
 </Project>
