@@ -11,7 +11,6 @@ namespace LudoEngine.Database
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public ConsoleColor ColorCode { get; set; }
+        public string ColorCode { get; set; }
     }
 }

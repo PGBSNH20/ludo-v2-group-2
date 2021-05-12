@@ -20,7 +20,8 @@ namespace LudoEngine.Database
             // production: optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGame");
             // testing: optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting");
             //optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting2");
+            //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting2");
+            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,10 +60,10 @@ namespace LudoEngine.Database
 
             #region Colors
             modelBuilder.Entity<DbColor>().HasData(
-                new DbColor { Id = 1, Name = "Yellow", ColorCode = ConsoleColor.Yellow },
-                new DbColor { Id = 2, Name = "Red", ColorCode = ConsoleColor.Red },
-                new DbColor { Id = 3, Name = "Blue", ColorCode = ConsoleColor.Blue },
-                new DbColor { Id = 4, Name = "Green", ColorCode = ConsoleColor.Green }
+                new DbColor { Id = 1, ColorCode = "" },
+                new DbColor { Id = 2, ColorCode = "" },
+                new DbColor { Id = 3, ColorCode = "" },
+                new DbColor { Id = 4, ColorCode = "" }
             );
             #endregion
 

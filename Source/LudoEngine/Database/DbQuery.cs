@@ -164,7 +164,6 @@ namespace LudoEngine.Database
                 .Select(dbColor => new Color
                 {
                     Id = dbColor.Id,
-                    Name = dbColor.Name,
                     ColorCode = dbColor.ColorCode
                 })
                 .ToListAsync();

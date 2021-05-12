@@ -1,0 +1,22 @@
+
+version: '3.4'
+
+services:
+  #ludoapi:
+  #  image: ${DOCKER_REGISTRY-}ludoapi
+  #  build:
+  #    context: .
+  #    dockerfile: LudoApi/Dockerfile
+  ludodb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "verystrong!pass123"
+      MSSQL_PID: Express
+    volumes:
+      - pgbsnh20Ludo-ex2:/var/opt/mssql
+volumes:
+  pgbsnh20Ludo-ex2:
+    driver: local

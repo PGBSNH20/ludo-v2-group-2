@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LudoApi", "LudoApi\LudoApi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LudoEngine", "LudoEngine\LudoEngine.csproj", "{60820288-FA78-4F2B-B647-657C49F3E7DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudoFrontEnd", "LudoFrontEnd\LudoFrontEnd.csproj", "{C4A43C6E-FCE2-4EA3-B989-6B27CA299077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LudoFrontEnd", "LudoFrontEnd\LudoFrontEnd.csproj", "{C4A43C6E-FCE2-4EA3-B989-6B27CA299077}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LudoTests", "LudoTests\LudoTests.csproj", "{B324E864-A7FD-4098-8426-349E4FB32B08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LudoTests", "LudoTests\LudoTests.csproj", "{B324E864-A7FD-4098-8426-349E4FB32B08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

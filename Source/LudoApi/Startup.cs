@@ -1,3 +1,4 @@
+using LudoEngine.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +28,7 @@ namespace LudoApi
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<LudoContext>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
