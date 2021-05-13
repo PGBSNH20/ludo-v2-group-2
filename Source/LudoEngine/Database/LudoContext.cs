@@ -9,6 +9,7 @@ namespace LudoEngine.Database
 {
     public class LudoContext : DbContext
     {
+       
         public DbSet<DbBoard> Boards { get; set; }
         public DbSet<DbBoardState> BoardStates { get; set; }
         public DbSet<DbColor> Colors { get; set; }

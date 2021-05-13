@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
+using LudoApi.DTOs;
 
 namespace LudoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/winners")]
     [ApiController]
     public class WinnersController : ControllerBase
     {
@@ -20,12 +21,13 @@ namespace LudoApi.Controllers
             _context = context;
         }
 
-        // GET: api/Winners
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbWinner>>> GetWinners()
-        {
-            return await _context.Winners.ToListAsync();
-        }
+        //// GET: api/Winners
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinners()
+        //{
+        //    LudoContext x = new LudoContext();
+        //    return await x.Winners.Select(winners=> DbPlayerToDTO(winners)).ToListAsync();
+        //}
 
         // GET: api/Winners/5
         [HttpGet("{id}")]
@@ -103,5 +105,14 @@ namespace LudoApi.Controllers
         {
             return _context.Winners.Any(e => e.Id == id);
         }
+
+        //private static WinnerDTO DbPlayerToDTO( DbWinner winner) =>
+        //new()
+        //{
+        //    Player=  winner.Player,
+        //    Placement=winner.Placement
+           
+            
+        //};
     }
 }

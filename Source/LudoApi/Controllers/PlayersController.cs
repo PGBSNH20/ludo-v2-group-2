@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
+using LudoApi.DTOs;
 
 namespace LudoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/players")]
     [ApiController]
     public class PlayersController : ControllerBase
     {
@@ -22,23 +23,26 @@ namespace LudoApi.Controllers
 
         // GET: api/Players
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbPlayer>>> GetPlayers()
+        public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetPlayers()
         {
-            return await _context.Players.ToListAsync();
+            return await _context.Players
+                .Select(player=>DbPlayerToDTO(player))
+                .ToListAsync();
         }
 
         // GET: api/Players/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DbPlayer>> GetDbPlayer(int id)
+        public async Task<ActionResult<PlayerDTO>> GetDbPlayer(int id)
         {
             var dbPlayer = await _context.Players.FindAsync(id);
 
             if (dbPlayer == null)
             {
-                return NotFound();
+              
+                return NotFound("Player doesn't exists");
             }
 
-            return dbPlayer;
+            return DbPlayerToDTO( dbPlayer);
         }
 
         // PUT: api/Players/5
@@ -75,12 +79,23 @@ namespace LudoApi.Controllers
         // POST: api/Players
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DbPlayer>> PostDbPlayer(DbPlayer dbPlayer)
+        public async Task<ActionResult<PlayerDTO>> PostDbPlayer(DbPlayer dbPlayer)
         {
             _context.Players.Add(dbPlayer);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, dbPlayer);
+            return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO( dbPlayer));
+        }
+
+        // POST: api/Players/{id}
+        //Admin
+        [HttpPatch]
+        public async Task<ActionResult<DbPlayer>> PatchDbPlayer(int id)
+        {
+            var dbPlayer = await _context.Players.FindAsync(id);
+           
+
+            return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO(dbPlayer));
         }
 
         // DELETE: api/Players/5
@@ -103,5 +118,13 @@ namespace LudoApi.Controllers
         {
             return _context.Players.Any(e => e.Id == id);
         }
+
+        private static PlayerDTO DbPlayerToDTO(DbPlayer player) =>
+        new ()
+        {
+            //Id=park.Id
+            Name=player.Name
+            //Color=park.Color
+        };
     }
 }
