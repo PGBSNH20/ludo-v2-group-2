@@ -10,9 +10,9 @@ namespace LudoApi.DTOs
     {
        
       // public int Id { get; set; }
-      // public int PlayerId { get; set; }
+       public int PlayerId { get; set; }
      
-        public virtual DbPlayer Player { get; set; }
+       // public virtual DbPlayer Player { get; set; }
       // public int BoardId { get; set; }
       //  public virtual DbBoard Board { get; set; }
         public int Placement { get; set; }
