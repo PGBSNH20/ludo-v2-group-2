@@ -9,11 +9,11 @@ Request Type | URL | Description
 ## Players Controller
 Request Type | URL | Description
 ------------ | --- | -----------
-| Get    | /Players         | Gives back all of the Players from the database.                   |
-| Get    | /Players/{id}    | Gives back a player according to his id from the database.         |
-| Put    | /Players/{id}    | Updates a player details according to the given id.                |
-| Post   | /Players         | To create a player and save it to the database.                    |
-| Delete | /Players/{id}    | To delete a player from the database according to the given id.    |
+| Get    | /players         | Gives back all of the Players from the database.                   |
+| Get    | /players/{id}    | Gives back a player according to his id from the database.         |
+| Put    | /players/{id}    | Updates a player details according to the given id.                |
+| Post   | /players         | To create a player and save it to the database.                    |
+| Delete | /players/{id}    | To delete a player from the database according to the given id.    |
 
 ## Winners Controller
 Request Type | URL | Description
