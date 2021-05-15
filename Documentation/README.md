@@ -12,4 +12,4 @@ Made a docker file in order to be able to run the SQL database, the files were r
 ## Razor Pages
 We also decided on using the same flow chart for the Razor Pages to guide our [Main Menu, New Game, Load, and history](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Menu.jpg)
 
-Along with [Flow chart for Ludo Game Idea](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Basic%20Game%20Flow.jpg) 
+Along with [Flow chart for Ludo Game](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Basic%20Game%20Flow.jpg) 
