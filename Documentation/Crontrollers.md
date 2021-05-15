@@ -22,7 +22,8 @@ Request Type | URL | Description
 | Delete | /boardStates/{id} | Deletes a board state depending on the id given, used to delete pieces once they reach the goal. |
 
 ## Colors
-
+Request Type | URL | Description
+------------ | --- | -----------
 | Get | /colors | Gives back a list of all the colors. |
 | Get | /colors/{id} | Gives back a color depending on the Id given. |
 | Post | /colors | Creates a new color |
