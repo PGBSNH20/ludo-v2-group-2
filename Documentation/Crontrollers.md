@@ -1,6 +1,10 @@
 # Base /api
 All of the controllers will start with /api/
 
+Regarding the *Request type: Patch* I had to do some research as to how to do it since it was quite different controller type than the others, but since we update the information on the boarStates each time that a piece has been moved, so I went into the official documentation to try to find out how to do it and found this nice link with a step by step way to do it:  [Microsoft documentation for patch request type](https://docs.microsoft.com/en-us/aspnet/core/web-api/jsonpatch?view=aspnetcore-5.0)
+but then I had issues because I wanted to patch it depending on the Id but the documentation didn't show that so I looked into this other website and found my solution there!
+[Second reference for patching](https://www.roundthecode.com/dotnet/asp-net-core-web-api/asp-net-core-api-how-to-perform-partial-update-using-http-patch)
+
 ## Board Controllers
 Request Type | URL | Description
 ------------ | --- | -----------
