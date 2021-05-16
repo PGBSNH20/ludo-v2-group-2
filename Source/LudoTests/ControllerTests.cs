@@ -13,6 +13,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using FluentAssertions;
 using System.Net;
 using FakeItEasy;
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using Assert = Xunit.Assert;
+using LudoApi.DTOs;
 
 namespace LudoTests
 {
@@ -40,10 +45,18 @@ namespace LudoTests
         [Fact]
         public async Task GetAllSpacePorts()
         {
-            Setup();          
-            var result = await _controller.GetPlayers();
-            Assert.NotNull(result.Value);
-            Close();
+            bool check = false;
+            Setup();
+            var result = await _controller.GetPlayers();            
+            foreach (var item in result.Value)
+            {
+                if (item.Name.Contains("Lisa"))
+                {
+                    check = true;
+                }
+            }            
+            Assert.True(check);
+            Close();          
         }
     }
 }
