@@ -43,7 +43,7 @@ namespace LudoTests
         }
 
         [Fact]
-        public async Task GetAllSpacePorts()
+        public async Task GetAllPlayers_Expect_True()
         {
             bool check = false;
             Setup();
@@ -58,5 +58,39 @@ namespace LudoTests
             Assert.True(check);
             Close();          
         }
+
+        [Fact]
+        public async Task GetPlayerById_Expect_true()
+        {
+            bool check = false;
+            Setup();
+            var result = await _controller.GetDbPlayer(1);
+            
+                if (result.Value.Name.Contains("Lisa"))
+                {
+                    check = true;
+                }
+            
+            Assert.True(check);
+            Close();
+        }
+
+        //[Fact]
+        //public async Task GetPayerSpacePorts()
+        //{
+        //    bool check = false;
+        //    Setup();
+        //    DbPlayer player = new DbPlayer() {Name="Anas" };
+        //    var result = await _controller.PutDbPlayer(1,player);
+        //    var validate = await _controller.GetDbPlayer(1);
+
+        //    if (validate.Value.Name=="Anas")
+        //    {
+        //        check = true;
+        //    }
+
+        //    Assert.True(check);
+        //    Close();
+        //}
     }
 }
