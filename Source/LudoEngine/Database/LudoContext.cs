@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +19,13 @@ namespace LudoEngine.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // production: optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGame");
-            // testing: optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting");
-            //optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
             //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting2");
-            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            //optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json")
+                .Build();
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LudoDatabase"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

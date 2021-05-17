@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
 using LudoEngine.Engine;
 using LudoApi.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
+    [Authorize]
     [Route("api/boards")]
     [ApiController]
     public class BoardsController : ControllerBase

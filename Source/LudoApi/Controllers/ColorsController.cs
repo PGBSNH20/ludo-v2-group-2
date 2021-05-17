@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
 using LudoApi.DTOs;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
+    [Authorize]
     [Route("api/colors")]
     [ApiController]
     public class ColorsController : ControllerBase
