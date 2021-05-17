@@ -43,27 +43,28 @@ namespace LudoTests
         }
 
         [Fact]
-        public async Task GetAllPlayers_Expect_True()
+        public async Task Get_AllPlayers_Expect_True()
         {
-            bool check = false;
+           
             Setup();
+            bool check = false;
             var result = await _controller.GetPlayers();            
             foreach (var item in result.Value)
             {
-                if (item.Name.Contains("Lisa"))
+                if (item.Name.Contains("Anna"))
                 {
                     check = true;
                 }
             }            
             Assert.True(check);
-            Close();          
+           Close();          
         }
 
         [Fact]
-        public async Task GetPlayerById_Expect_true()
+        public async Task Get_PlayerById_Expect_True()
         {
-            bool check = false;
             Setup();
+            bool check = false;           
             var result = await _controller.GetDbPlayer(1);
             
                 if (result.Value.Name.Contains("Lisa"))
@@ -75,21 +76,42 @@ namespace LudoTests
             Close();
         }
 
+        [Fact]
+        public async Task Put_Modify_A_PlayerDetails_Expect_True()
+        {
+            Setup();
+            bool check = false;           
+            DbPlayer player = new DbPlayer() { Name = "Nancy",ColorId=2,Id=1 };
+             await _controller.PutDbPlayer(1, player);
+            var validate = await _controller.GetDbPlayer(1);
+            if (validate.Value.Name == "Nancy")
+            {
+                check = true;
+            }
+            Assert.True(check);
+            Close();
+        }
+
+        [Fact]
+        public async Task Post_AddNewPlayer_Expect_True()
+        {            
+            Setup();
+            DbPlayer player = new DbPlayer() { Name = "Oskar", ColorId = 2 };
+            await _controller.PostDbPlayer( player);
+            var validate =  _controller.DbPlayerNameExists("Oskar");           
+            Assert.True(validate);
+            Close();
+        }
+
         //[Fact]
-        //public async Task GetPayerSpacePorts()
+        //public async Task Delete_DeletePlayer_byId_Expect_False()
         //{
-        //    bool check = false;
         //    Setup();
-        //    DbPlayer player = new DbPlayer() {Name="Anas" };
-        //    var result = await _controller.PutDbPlayer(1,player);
-        //    var validate = await _controller.GetDbPlayer(1);
-
-        //    if (validate.Value.Name=="Anas")
-        //    {
-        //        check = true;
-        //    }
-
-        //    Assert.True(check);
+        //    DbPlayer player = new DbPlayer() { Name = "Oskar", ColorId = 2 };
+        //    await _controller.PostDbPlayer(player);
+        //    await _controller.DeleteDbPlayer(1);
+        //    var validate = _controller.DbPlayerNameExists("Oskar");
+        //    Assert.False(validate);
         //    Close();
         //}
     }

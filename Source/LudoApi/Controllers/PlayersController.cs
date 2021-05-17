@@ -76,7 +76,7 @@ namespace LudoApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Players
+        // Post: api/Players
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<PlayerDTO>> PostDbPlayer(DbPlayer dbPlayer)
@@ -90,7 +90,7 @@ namespace LudoApi.Controllers
         // POST: api/Players/{id}
         //Admin
         [HttpPatch]
-        public async Task<ActionResult<DbPlayer>> PatchDbPlayer(int id)
+        public async Task<ActionResult<PlayerDTO>> PatchDbPlayer(int id)
         {
             var dbPlayer = await _context.Players.FindAsync(id);
            
@@ -118,13 +118,17 @@ namespace LudoApi.Controllers
         {
             return _context.Players.Any(e => e.Id == id);
         }
+        public bool DbPlayerNameExists(string name)
+        {
+            return _context.Players.Any(e => e.Name == name);
+        }
 
         private static PlayerDTO DbPlayerToDTO(DbPlayer player) =>
         new ()
         {
-            //Id=park.Id
+            
             Name=player.Name
-            //Color=park.Color
+             
         };
     }
 }
