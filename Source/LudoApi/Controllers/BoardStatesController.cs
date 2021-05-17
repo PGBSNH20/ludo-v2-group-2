@@ -63,7 +63,7 @@ namespace LudoApi.Controllers
         }
 
         // GET: api/BoardStates/5/10
-        [HttpGet("{boardId}/{playerId}}")]
+        [HttpGet("{boardId}/{playerId}")]
         public async Task<ActionResult<List<BoardStateDTO>>> GetAllBoardStatesForPlayerId(int boardId, int playerId)
         {
             List<BoardStateDTO> boardStates = await _context.BoardStates

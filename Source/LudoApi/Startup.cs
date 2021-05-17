@@ -1,3 +1,5 @@
+using LudoApi.Headers;
+using LudoApi.Middlewares;
 using LudoEngine.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +37,7 @@ namespace LudoApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LudoApi", Version = "v1" });
+                c.OperationFilter<ApiKeyHeaderFilter>();
             });
         }
 
@@ -53,6 +56,9 @@ namespace LudoApi
             app.UseRouting();
 
             app.UseAuthorization();
+
+            string apiKey = Configuration.GetValue<string>("ApiKey");
+            app.UseAPIKey(apiKey);
 
             app.UseEndpoints(endpoints =>
             {

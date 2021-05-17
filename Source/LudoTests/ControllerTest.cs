@@ -3,10 +3,10 @@ using Xunit;
 
 namespace LudoTests
 {
-    public class UnitTest1
+    public class ControllerTest
     {
         [Fact]
-        public void Test1()
+        public void GetColorsController_Expect_List()
         {
 
         }

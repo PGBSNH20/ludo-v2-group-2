@@ -77,6 +77,7 @@ namespace LudoApi.Controllers
             }
         }        
 
+        // Todo: DbColor in the parameter, should that be done this way? check best practice
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
