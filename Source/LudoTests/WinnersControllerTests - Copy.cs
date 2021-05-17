@@ -21,12 +21,12 @@ using LudoApi.DTOs;
 
 namespace LudoTests
 {
-    
-    public class ControllerTests
-        
+
+    public class WinnersControllerTests
+
     {
         private DbContext _context;
-        private PlayersController _controller;
+        private WinnersController _controller;
         public void Setup()
         {
             var dbContextOptions =
@@ -34,7 +34,7 @@ namespace LudoTests
             _context = new LudoContext();
             _context.Database.EnsureCreated();
 
-            _controller = new PlayersController((LudoContext)_context);
+            _controller = new WinnersController((LudoContext)_context);
         }
 
         public void Close()
@@ -43,65 +43,65 @@ namespace LudoTests
         }
 
         [Fact]
-        public async Task Get_AllPlayers_Expect_True()
+        public async Task Get_AllWinners_Expect_True()
         {
-           
+
             Setup();
             bool check = false;
-            var result = await _controller.GetPlayers();            
+            var result = await _controller.GetWinners();
             foreach (var item in result.Value)
             {
-                if (item.Name.Contains("Anna"))
+                if (item != null)
                 {
                     check = true;
                 }
-            }            
-            Assert.True(check);
-           Close();          
-        }
-
-        [Fact]
-        public async Task Get_PlayerById_Expect_True()
-        {
-            Setup();
-            bool check = false;           
-            var result = await _controller.GetDbPlayer(1);
-            
-                if (result.Value.Name.Contains("Lisa"))
-                {
-                    check = true;
-                }
-            
-            Assert.True(check);
-            Close();
-        }
-
-        [Fact]
-        public async Task Put_Modify_A_PlayerDetails_Expect_True()
-        {
-            Setup();
-            bool check = false;           
-            DbPlayer player = new DbPlayer() { Name = "Nancy",ColorId=2,Id=1 };
-             await _controller.PutDbPlayer(1, player);
-            var validate = await _controller.GetDbPlayer(1);
-            if (validate.Value.Name == "Nancy")
-            {
-                check = true;
             }
             Assert.True(check);
             Close();
         }
 
         [Fact]
-        public async Task Post_AddNewPlayer_Expect_True()
-        {            
+        public async Task Get_WinnerById_Expect_True()
+        {
             Setup();
-            DbPlayer player = new DbPlayer() { Name = "Oskar", ColorId = 2 };
-            await _controller.PostDbPlayer( player);
-            var validate =  _controller.DbPlayerNameExists("Oskar");           
-            Assert.True(validate);
+            bool check = false;
+            var result = await _controller.GetDbWinner(1);
+
+            if (result.Value.PlayerId == 1)
+            {
+                check = true;
+            }
+
+            Assert.True(check);
             Close();
         }
+
+        //[Fact]
+        //public async Task Put_Modify_A_WinnerDetails_Expect_True()
+        //{
+        //    Setup();
+        //    bool check = false;
+        //    DbPlayer player = new DbPlayer() { Name = "Nancy", ColorId = 2, Id = 1 };
+        //    await _controller.PutDbPlayer(1, player);
+        //    var validate = await _controller.GetDbPlayer(1);
+        //    if (validate.Value.Name == "Nancy")
+        //    {
+        //        check = true;
+        //    }
+        //    Assert.True(check);
+        //    Close();
+        //}
+
+        //[Fact]
+        //public async Task Post_AddNewWinner_Expect_True()
+        //{
+        //    Setup();
+        //    DbWinner player = new DbWinner() {PlayerId=7,BoardId=3,Placement=1 };
+        //    await _controller.PostDbWinner(player);
+        //    var validate =  _controller.DbWinnerExist(6);
+        //    Assert.True(validate);
+        //    Close();
+        //}
 
         //[Fact]
         //public async Task Delete_DeletePlayer_byId_Expect_False()

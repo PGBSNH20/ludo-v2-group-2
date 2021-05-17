@@ -118,17 +118,11 @@ namespace LudoApi.Controllers
         {
             return _context.Players.Any(e => e.Id == id);
         }
-        public bool DbPlayerNameExists(string name)
-        {
-            return _context.Players.Any(e => e.Name == name);
-        }
-
+        
         private static PlayerDTO DbPlayerToDTO(DbPlayer player) =>
         new ()
-        {
-            
-            Name=player.Name
-             
+        {            
+            Name=player.Name            
         };
     }
 }
