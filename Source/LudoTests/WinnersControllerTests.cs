@@ -76,43 +76,52 @@ namespace LudoTests
             Close();
         }
 
-        //[Fact]
-        //public async Task Put_Modify_A_WinnerDetails_Expect_True()
-        //{
-        //    Setup();
-        //    bool check = false;
-        //    DbPlayer player = new DbPlayer() { Name = "Nancy", ColorId = 2, Id = 1 };
-        //    await _controller.PutDbPlayer(1, player);
-        //    var validate = await _controller.GetDbPlayer(1);
-        //    if (validate.Value.Name == "Nancy")
-        //    {
-        //        check = true;
-        //    }
-        //    Assert.True(check);
-        //    Close();
-        //}
+        [Fact]
+        public async Task Put_Modify_A_WinnerDetails_Expect_True()
+        {
+            Setup();
+            bool check = false;
+            DbWinner player = new DbWinner() { BoardId=3,PlayerId=6,Placement=1 };
+            await _controller.PutDbWinner(1, player);
+            var validate = await _controller.GetDbWinner(6);
+            if (validate.Value.Placement ==1 )
+            {
+                check = true;
+            }
+            Assert.True(check);
+            Close();
+        }
 
-        //[Fact]
-        //public async Task Post_AddNewWinner_Expect_True()
-        //{
-        //    Setup();
-        //    DbWinner player = new DbWinner() {PlayerId=7,BoardId=3,Placement=1 };
-        //    await _controller.PostDbWinner(player);
-        //    var validate =  _controller.DbWinnerExist(6);
-        //    Assert.True(validate);
-        //    Close();
-        //}
+        [Fact]
+        public async Task Post_AddNewWinner_Expect_True()
+        {
+            Setup();
+            bool check = false;
+            DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
+            await _controller.PostDbWinner(player);
+            var validate = await _controller.GetDbWinner(6);
+            if (validate.Value.Placement == 1)
+            {
+                check = true;
+            }
+            Assert.True(check);
+            Close();
+        }
 
-        //[Fact]
-        //public async Task Delete_DeletePlayer_byId_Expect_False()
-        //{
-        //    Setup();
-        //    DbPlayer player = new DbPlayer() { Name = "Oskar", ColorId = 2 };
-        //    await _controller.PostDbPlayer(player);
-        //    await _controller.DeleteDbPlayer(1);
-        //    var validate = _controller.DbPlayerNameExists("Oskar");
-        //    Assert.False(validate);
-        //    Close();
-        //}
+        [Fact]
+        public async Task Delete_DeleteWinner_byId_Expect_True()
+        {
+            Setup();
+            bool check = false;
+          //  DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
+            await _controller.DeleteDbWinner(6);
+            var validate = await _controller.GetDbWinner(6);
+            if (validate.Value==null)
+            {
+                check = true;
+            }
+            Assert.True(check);
+            Close();
+        }
     }
 }
