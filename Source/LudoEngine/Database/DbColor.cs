@@ -11,6 +11,8 @@ namespace LudoEngine.Database
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [StringLength(6)]
         public string ColorCode { get; set; }
     }
 }

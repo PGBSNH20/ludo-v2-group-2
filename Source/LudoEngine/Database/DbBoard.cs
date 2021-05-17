@@ -11,7 +11,10 @@ namespace LudoEngine.Database
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [DataType(DataType.DateTime)]
         public DateTime LastTimePlayed { get; set; }
+        [Required]
         public bool IsFinished { get; set; }
     }
 }
