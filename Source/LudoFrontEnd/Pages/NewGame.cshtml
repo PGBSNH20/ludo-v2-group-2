@@ -1,0 +1,13 @@
+﻿@page
+@model NewGameModel
+@{
+    ViewData["Title"] = "New Game";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>New Game.</p>
+<form method="post">
+    <input type="text" asp-for="postPlayer.Name" placeholder="Player Name" />
+    <input type="text" asp-for="postPlayer.ColorId" placeholder="Player Color" />   
+    <button type="submit">Submit</button>
+</form>

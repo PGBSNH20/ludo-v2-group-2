@@ -14,7 +14,7 @@ namespace LudoApi.Controllers
     [ApiController]
     public class PlayersController : ControllerBase
     {
-        private readonly LudoContext _context;
+        public static LudoContext _context;
 
         public PlayersController(LudoContext context)
         {
