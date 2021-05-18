@@ -9,6 +9,7 @@ namespace LudoEngine.Database
 {
     public class LudoContext : DbContext
     {
+       
         public DbSet<DbBoard> Boards { get; set; }
         public DbSet<DbBoardState> BoardStates { get; set; }
         public DbSet<DbColor> Colors { get; set; }
@@ -21,7 +22,7 @@ namespace LudoEngine.Database
             // testing: optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting");
             //optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
             //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-AFKC3I2\SQLEXPRESS;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;Initial Catalog=LudoGameTesting2");
-            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -69,7 +70,7 @@ namespace LudoEngine.Database
 
             #region Board
             modelBuilder.Entity<DbBoard>().HasData(
-                new DbBoard { Id = 1, LastTimePlayed = DateTime.Parse("2021-03-29 21:55:05"), IsFinished = true },
+                new DbBoard { Id = 1, LastTimePlayed = DateTime.Parse("2021 -03-29 21:55:05"), IsFinished = true },
                 new DbBoard { Id = 2, LastTimePlayed = DateTime.Parse("2021-01-15 21:55:05"), IsFinished = true },
                 new DbBoard { Id = 3, LastTimePlayed = DateTime.Parse("2021-05-02 21:55:05"), IsFinished = true },
                 new DbBoard { Id = 4, LastTimePlayed = DateTime.Parse("2021-02-25 21:55:05"), IsFinished = true },
