@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
+using LudoEngine.Engine;
+using LudoApi.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/boards")]
     [ApiController]
     public class BoardsController : ControllerBase
     {
@@ -22,67 +26,68 @@ namespace LudoApi.Controllers
 
         // GET: api/Boards
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbBoard>>> GetBoards()
+        public async Task<ActionResult<IEnumerable<BoardDTO>>> GetBoards()
         {
-            return await _context.Boards.ToListAsync();
+            return await _context.Boards
+                .Select(board => DbBoardToDTO(board))
+                .ToListAsync();
         }
 
         // GET: api/Boards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DbBoard>> GetDbBoard(int id)
+        public async Task<ActionResult<BoardDTO>> GetDbBoard(int id)
         {
             var dbBoard = await _context.Boards.FindAsync(id);
 
             if (dbBoard == null)
             {
-                return NotFound();
+                return NotFound("No board with that id exists!");
             }
 
-            return dbBoard;
+            return DbBoardToDTO(dbBoard);
         }
 
-        // PUT: api/Boards/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDbBoard(int id, DbBoard dbBoard)
+        // GET: api/Boards/history
+        [HttpGet("history")]
+        public async Task<ActionResult<List<History>>> GetDbBoardsHistory()
         {
-            if (id != dbBoard.Id)
+            var finishedBoards = await DbQuery.GetHistory();
+
+            if (finishedBoards == null)
             {
-                return BadRequest();
+                return NotFound("There are no finished games!");
             }
 
-            _context.Entry(dbBoard).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DbBoardExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return finishedBoards;
         }
 
+        // GET: api/Boards/unfinished
+        [HttpGet("unfinished")]
+        public async Task<ActionResult<List<BoardData>>> GetDbUnfinishedBoards()
+        {
+            var unfinishedBoards = await DbQuery.GetUnfinishedBoards();
+
+            if (unfinishedBoards == null)
+            {
+                return NotFound("There are no unfinished games!");
+            }
+
+            return unfinishedBoards;
+        }
+
+        // To create new boards (in new game menu)
         // POST: api/Boards
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DbBoard>> PostDbBoard(DbBoard dbBoard)
+        public async Task<ActionResult<BoardDTO>> PostDbBoard(DbBoard dbBoard)
         {
             _context.Boards.Add(dbBoard);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDbBoard", new { id = dbBoard.Id }, dbBoard);
+            return CreatedAtAction("GetDbBoard", new { id = dbBoard.Id }, DbBoardToDTO(dbBoard));
         }
 
+        // For admin
         // DELETE: api/Boards/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDbBoard(int id)
@@ -90,7 +95,7 @@ namespace LudoApi.Controllers
             var dbBoard = await _context.Boards.FindAsync(id);
             if (dbBoard == null)
             {
-                return NotFound();
+                return NotFound("Couldn't find the board with that id.");
             }
 
             _context.Boards.Remove(dbBoard);
@@ -103,5 +108,13 @@ namespace LudoApi.Controllers
         {
             return _context.Boards.Any(e => e.Id == id);
         }
+
+        private static BoardDTO DbBoardToDTO(DbBoard board) => 
+        new()
+        {
+            Id = board.Id,
+            LastTimePlayed = board.LastTimePlayed,
+            IsFinished = board.IsFinished       
+        };
     }
 }
