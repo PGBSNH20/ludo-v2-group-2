@@ -1,5 +1,5 @@
 ﻿@page
-@model NewGameModel
+@model LudoFrontEnd.Pages.NewGameModel
 @{
     ViewData["Title"] = "New Game";
 }
@@ -7,7 +7,8 @@
 
 <p>New Game.</p>
 <form method="post">
-    <input type="text" asp-for="postPlayer.Name" placeholder="Player Name" />
-    <input type="text" asp-for="postPlayer.ColorId" placeholder="Player Color" />   
+    <input type="text" asp-for="player.Name" placeholder="Player Name" />
+    <input type="text" asp-for="player.ColorId" placeholder="Player Color Id" />   
+    <input type="text" asp-for="player.Color.ColorCode" placeholder=" Color Code" />
     <button type="submit">Submit</button>
 </form>

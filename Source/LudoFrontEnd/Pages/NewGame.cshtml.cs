@@ -2,6 +2,7 @@
 using LudoEngine.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,24 @@ using System.Threading.Tasks;
 
 namespace LudoFrontEnd.Pages
 {
+   
     public class NewGameModel : PageModel
     {
-       
-        PlayersController _context = new PlayersController(PlayersController._context);
-        public DbPlayer postPlayer = new DbPlayer();
+
+        private DbContext _context;
+        private PlayersController _controller;
+
         
 
-        public IActionResult OnPost()
+        [BindProperty]
+        public DbPlayer player { get; set; }
+
+
+        public async void OnPost()
         {
-            if (ModelState.IsValid==false)
-            {
-                return Page();
-            }
-            return RedirectToPage("/Index");
+            _context = new LudoContext();
+            _controller= new PlayersController((LudoContext)_context);
+           await _controller.PostDbPlayer(player);            
         }
     }
 }
