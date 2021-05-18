@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace LudoApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/winners")]
     [ApiController]
     public class WinnersController : ControllerBase
     {
@@ -22,14 +22,15 @@ namespace LudoApi.Controllers
 
         // GET: api/Winners
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbWinner>>> GetWinners()
+        public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinners()
         {
-            return await _context.Winners.ToListAsync();
+           
+            return await _context.Winners.Select(winners => DbWinnersToDTO(winners)).ToListAsync();
         }
 
         // GET: api/Winners/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DbWinner>> GetDbWinner(int id)
+        public async Task<ActionResult<WinnerDTO>> GetDbWinner(int id)
         {
             var dbWinner = await _context.Winners.FindAsync(id);
 
@@ -38,8 +39,21 @@ namespace LudoApi.Controllers
                 return NotFound();
             }
 
-            return dbWinner;
+            return DbWinnersToDTO(dbWinner);
         }
+
+        [HttpGet("/boards/{id}")]
+        public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinnerBoard(int id)
+        {
+            
+            return  await _context.Winners
+                .Where(x => x.BoardId == id)
+                .Select(player => DbWinnersToDTO(player))
+                .ToListAsync(); 
+        }
+
+
+
 
         // PUT: api/Winners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -103,5 +117,12 @@ namespace LudoApi.Controllers
         {
             return _context.Winners.Any(e => e.Id == id);
         }
+
+        private static WinnerDTO DbWinnersToDTO(DbWinner winner) =>
+        new()
+        {
+            PlayerId=winner.Id,
+            Placement = winner.Placement
+        };
     }
 }
