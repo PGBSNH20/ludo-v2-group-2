@@ -19,109 +19,110 @@ using System.Collections.Generic;
 using Assert = Xunit.Assert;
 using LudoApi.DTOs;
 
-namespace LudoTests
-{
+//namespace LudoTests
+//{
 
-    public class WinnersControllerTests
+//    public class WinnersControllerTests
 
-    {
-        private DbContext _context;
-        private WinnersController _controller;
-        public void Setup()
-        {
-            var dbContextOptions =
-                new DbContextOptionsBuilder<LudoContext>().UseInMemoryDatabase(databaseName: "TestDB");
-            _context = new LudoContext();
-            _context.Database.EnsureCreated();
+//    {
+//        private DbContext _context;
+//        private WinnersController _controller;
 
-            _controller = new WinnersController((LudoContext)_context);
-        }
+//        public void Setup()
+//        {
+//            var dbContextOptions =
+//                new DbContextOptionsBuilder<LudoContext>().UseInMemoryDatabase(databaseName: "TestDB");
+//            _context = new LudoContext();
+//            _context.Database.EnsureCreated();
 
-        public void Close()
-        {
-            _context.Database.EnsureDeleted();
-        }
+//            _controller = new WinnersController((LudoContext)_context);
+//        }
 
-        [Fact]
-        public async Task Get_AllWinners_Expect_True()
-        {
+//        public void Close()
+//        {
+//            _context.Database.EnsureDeleted();
+//        }
 
-            Setup();
-            bool check = false;
-            var result = await _controller.GetWinners();
-            foreach (var item in result.Value)
-            {
-                if (item != null)
-                {
-                    check = true;
-                }
-            }
-            Assert.True(check);
-            Close();
-        }
+//        [Fact]
+//        public async Task Get_AllWinners_Expect_True()
+//        {
 
-        [Fact]
-        public async Task Get_WinnerById_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            var result = await _controller.GetDbWinner(1);
+//            Setup();
+//            bool check = false;
+//            var result = await _controller.GetWinners();
+//            foreach (var item in result.Value)
+//            {
+//                if (item != null)
+//                {
+//                    check = true;
+//                }
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
 
-            if (result.Value.PlayerId == 1)
-            {
-                check = true;
-            }
+//        [Fact]
+//        public async Task Get_WinnerById_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//            var result = await _controller.GetDbWinner(1);
 
-            Assert.True(check);
-            Close();
-        }
+//            if (result.Value.PlayerId == 1)
+//            {
+//                check = true;
+//            }
 
-        [Fact]
-        public async Task Put_Modify_A_WinnerDetails_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            DbWinner player = new DbWinner() { BoardId=3,PlayerId=6,Placement=1 };
-            await _controller.PutDbWinner(1, player);
-            var validate = await _controller.GetDbWinner(6);
-            if (validate.Value.Placement ==1 )
-            {
-                check = true;
-            }
-            Assert.True(check);
-            Close();
-        }
+//            Assert.True(check);
+//            Close();
+//        }
 
-        [Fact]
-        public async Task Post_AddNewWinner_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
-            await _controller.PostDbWinner(player);
-            var validate = await _controller.GetDbWinner(6);
-            if (validate.Value.Placement == 1)
-            {
-                check = true;
-            }
-            Assert.True(check);
-            Close();
-        }
+//        [Fact]
+//        public async Task Put_Modify_A_WinnerDetails_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//            DbWinner player = new DbWinner() { BoardId=3,PlayerId=6,Placement=1 };
+//            await _controller.PutDbWinner(1, player);
+//            var validate = await _controller.GetDbWinner(6);
+//            if (validate.Value.Placement ==1 )
+//            {
+//                check = true;
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
 
-        [Fact]
-        public async Task Delete_DeleteWinner_byId_Expect_True()
-        {
-            Setup();
-            bool check = false;
-          //  DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
-            await _controller.DeleteDbWinner(6);
-            var validate = await _controller.GetDbWinner(6);
-            if (validate.Value==null)
-            {
-                check = true;
-            }
-            Assert.True(check);
-            Close();
-        }
-    }
-}
+//        [Fact]
+//        public async Task Post_AddNewWinner_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//            DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
+//            await _controller.PostDbWinner(player);
+//            var validate = await _controller.GetDbWinner(6);
+//            if (validate.Value.Placement == 1)
+//            {
+//                check = true;
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
+
+//        [Fact]
+//        public async Task Delete_DeleteWinner_byId_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//          //  DbWinner player = new DbWinner() { PlayerId = 6, BoardId = 3, Placement = 1 };
+//            await _controller.DeleteDbWinner(6);
+//            var validate = await _controller.GetDbWinner(6);
+//            if (validate.Value==null)
+//            {
+//                check = true;
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
+//    }
+//}

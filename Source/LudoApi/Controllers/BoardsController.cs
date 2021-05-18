@@ -51,7 +51,7 @@ namespace LudoApi.Controllers
         [HttpGet("history")]
         public async Task<ActionResult<List<History>>> GetDbBoardsHistory()
         {
-            var finishedBoards = await DbQuery.GetHistory();
+            var finishedBoards = await DbQuery.GetHistory(_context);
 
             if (finishedBoards == null)
             {
@@ -65,7 +65,7 @@ namespace LudoApi.Controllers
         [HttpGet("unfinished")]
         public async Task<ActionResult<List<BoardData>>> GetDbUnfinishedBoards()
         {
-            var unfinishedBoards = await DbQuery.GetUnfinishedBoards();
+            var unfinishedBoards = await DbQuery.GetUnfinishedBoards(_context);
 
             if (unfinishedBoards == null)
             {

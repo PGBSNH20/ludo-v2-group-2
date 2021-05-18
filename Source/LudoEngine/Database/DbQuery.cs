@@ -42,11 +42,19 @@ namespace LudoEngine.Database
             return players;
         }
 
+        // todo: use these notes for Documentation, delete afterwards.
+        // If someone calls GetHistory without a parameter, it will be giving it a new LudoContext, but if they put a different Context in the parameter then 
+        // the method has to use that one we did this because for testing we use a different context (overloading a method) solution for testing that is.
         public static async Task<List<History>> GetHistory()
         {
-            await using var context = new LudoContext();
+            return await GetHistory(new LudoContext());
+        }
+
+        public static async Task<List<History>> GetHistory(LudoContext context)
+        {
+            await using var _context = context;
             //we need Winner, Board and Player
-            List<DbWinner> winners = await context.Winners
+            List<DbWinner> winners = await _context.Winners
                 .Include(winner => winner.Board)
                 .Include(winner => winner.Player)
                 .Where(winner => winner.Board.IsFinished)
@@ -70,9 +78,14 @@ namespace LudoEngine.Database
 
         public static async Task<List<BoardData>> GetUnfinishedBoards()
         {
+            return await GetUnfinishedBoards(new LudoContext());
+        }
+
+        public static async Task<List<BoardData>> GetUnfinishedBoards(LudoContext context)
+        {
             // of not finished boards, so we go into Board look at the ids that aren't finished and get a list of boardstates
-            await using var context = new LudoContext();
-            List<DbBoardState> boardStates = await context.BoardStates
+            await using var _context = context;
+            List<DbBoardState> boardStates = await _context.BoardStates
                 .Include(boardState => boardState.Player)
                 .Include(boardState => boardState.Board)
                 .Where(boardState => !boardState.Board.IsFinished)
