@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
-using LudoApi.DTOs;
+
+using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
+    [Authorize]
     [Route("api/players")]
     [ApiController]
     public class PlayersController : ControllerBase

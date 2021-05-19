@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
+using LudoApi.DTOs;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
+    [Route("api/colors")]
     [ApiController]
     public class ColorsController : ControllerBase
     {
@@ -22,14 +26,16 @@ namespace LudoApi.Controllers
 
         // GET: api/Colors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DbColor>>> GetColors()
+        public async Task<ActionResult<IEnumerable<ColorDTO>>> GetColors()
         {
-            return await _context.Colors.ToListAsync();
+            return await _context.Colors
+                .Select(color => DbColorToDTO(color))
+                .ToListAsync();
         }
 
         // GET: api/Colors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DbColor>> GetDbColor(int id)
+        public async Task<ActionResult<ColorDTO>> GetDbColor(int id)
         {
             var dbColor = await _context.Colors.FindAsync(id);
 
@@ -38,40 +44,42 @@ namespace LudoApi.Controllers
                 return NotFound();
             }
 
-            return dbColor;
+            return DbColorToDTO(dbColor);
         }
 
-        // PUT: api/Colors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDbColor(int id, DbColor dbColor)
+        // Patch api/colors/{id}
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchColor(int id,
+            [FromBody] JsonPatchDocument<DbColor> patchDoc)
         {
-            if (id != dbColor.Id)
+            if (patchDoc != null)
             {
-                return BadRequest();
-            }
+                //var color = await DbQuery.GetColor(id);
+                var color = await _context.Colors.FindAsync(id);
 
-            _context.Entry(dbColor).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DbColorExists(id))
+                if (color == null)
                 {
-                    return NotFound();
+                    return NotFound("Couldn't find any color with that Id!");
                 }
-                else
+
+                patchDoc.ApplyTo(color, ModelState);
+
+                _context.SaveChanges();
+
+                if (!ModelState.IsValid)
                 {
-                    throw;
+                    return BadRequest(ModelState);
                 }
+
+                return new ObjectResult(color);
             }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }        
 
-            return NoContent();
-        }
-
+        // Todo: DbColor in the parameter, should that be done this way? check best practice
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -83,6 +91,7 @@ namespace LudoApi.Controllers
             return CreatedAtAction("GetDbColor", new { id = dbColor.Id }, dbColor);
         }
 
+        // Todo: Admin control only
         // DELETE: api/Colors/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDbColor(int id)
@@ -103,5 +112,12 @@ namespace LudoApi.Controllers
         {
             return _context.Colors.Any(e => e.Id == id);
         }
+
+        private static ColorDTO DbColorToDTO(DbColor color) =>
+        new ColorDTO
+        {
+            Id = color.Id,
+            ColorCode = color.ColorCode
+        };
     }
 }

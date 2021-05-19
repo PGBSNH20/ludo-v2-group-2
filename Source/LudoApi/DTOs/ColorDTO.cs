@@ -7,5 +7,7 @@ namespace LudoApi.DTOs
 {
     public class ColorDTO
     {
+        public int Id { get; set; }
+        public string ColorCode { get; set; }
     }
 }
