@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LudoEngine.Migrations
 {
-    public partial class initialMigration : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,8 +27,7 @@ namespace LudoEngine.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ColorCode = table.Column<int>(type: "int", nullable: false)
+                    ColorCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,13 +120,13 @@ namespace LudoEngine.Migrations
 
             migrationBuilder.InsertData(
                 table: "Colors",
-                columns: new[] { "Id", "ColorCode", "Name" },
+                columns: new[] { "Id", "ColorCode" },
                 values: new object[,]
                 {
-                    { 1, 14, "Yellow" },
-                    { 2, 12, "Red" },
-                    { 3, 9, "Blue" },
-                    { 4, 10, "Green" }
+                    { 1, "" },
+                    { 2, "" },
+                    { 3, "" },
+                    { 4, "" }
                 });
 
             migrationBuilder.InsertData(
