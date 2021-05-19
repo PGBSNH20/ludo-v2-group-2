@@ -45,7 +45,7 @@ namespace LudoApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LudoApi", Version = "v1" });
-                c.OperationFilter<ApiKeyHeaderFilter>();
+               // c.OperationFilter<ApiKeyHeaderFilter>();
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -125,8 +125,8 @@ namespace LudoApi
 
             app.UseAuthorization();
 
-            string apiKey = Configuration.GetValue<string>("ApiKey");
-            app.UseAPIKey(apiKey);
+            //string apiKey = Configuration.GetValue<string>("ApiKey");
+            //app.UseAPIKey(apiKey);
 
             app.UseEndpoints(endpoints =>
             {

@@ -29,6 +29,8 @@ namespace LudoFrontEnd.Pages
         {
             _context = new LudoContext();
             _controller= new PlayersController((LudoContext)_context);
+            DbPlayer player = new DbPlayer();
+            player = this.player;
            await _controller.PostDbPlayer(player);            
         }
     }
