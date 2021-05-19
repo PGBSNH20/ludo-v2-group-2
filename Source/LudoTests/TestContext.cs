@@ -25,6 +25,15 @@ namespace LudoTests
             SaveChanges();
         }
 
+        public void SeedColors()
+        {
+            Add(new DbColor { Id = 1, ColorCode = "FF0000"});
+            Add(new DbColor { Id = 2, ColorCode = "680118" });
+            Add(new DbColor { Id = 3, ColorCode = "584147" });
+            Add(new DbColor { Id = 4, ColorCode = "B86161" });
+            SaveChanges();
+        }
+
         public void SeedPlayers()
         {
             Add(new DbPlayer { Id = 1, Name = "Allie", ColorId = 1 });
@@ -53,6 +62,7 @@ namespace LudoTests
             Add(new DbBoardState { Id = 6, PlayerId = 2, BoardId = 2, PieceNumber = 2, PiecePosition = 22, IsInSafeZone = false, IsInBase = false });
             Add(new DbBoardState { Id = 7, PlayerId = 2, BoardId = 2, PieceNumber = 3, PiecePosition = 11, IsInSafeZone = false, IsInBase = false });
             Add(new DbBoardState { Id = 8, PlayerId = 2, BoardId = 2, PieceNumber = 4, PiecePosition = 0, IsInSafeZone = false, IsInBase = true });
+            SaveChanges();
         }
 
         public void SeedHistory()
@@ -67,7 +77,6 @@ namespace LudoTests
             SeedBoards();
             SeedPlayers();
             SeedBoardStates();
-
         }
     }
 }

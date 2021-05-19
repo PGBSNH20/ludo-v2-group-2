@@ -83,12 +83,12 @@ namespace LudoApi.Controllers
         // POST: api/Colors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DbColor>> PostDbColor(DbColor dbColor)
+        public async Task<ActionResult<ColorDTO>> PostDbColor(DbColor dbColor)
         {
             _context.Colors.Add(dbColor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDbColor", new { id = dbColor.Id }, dbColor);
+            return CreatedAtAction("GetDbColor", new { id = dbColor.Id }, DbColorToDTO(dbColor));
         }
 
         // Todo: Admin control only

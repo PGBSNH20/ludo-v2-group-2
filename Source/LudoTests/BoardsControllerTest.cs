@@ -2,6 +2,7 @@ using LudoApi.Controllers;
 using LudoApi.DTOs;
 using LudoEngine.Database;
 using LudoEngine.Engine;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -75,18 +76,33 @@ namespace LudoTests
             Assert.Contains("Allie", unfinishedBoards[0].PlayerNames);
         }
 
-        //[Fact]
-        //public async Task Post_1_Board_Expect_()
-        //{
-        //    await using var context = new TestContext();
+        [Fact]
+        public async Task Post_1_Board_Expect_Identical_Results()
+        {
+            await using var context = new TestContext();
+            var boardsController = new BoardsController(context);
 
-        //    var boardsController = new BoardsController(context);
-        //    var boardActionResult = await boardsController.PostDbBoard();
-        //    BoardDTO board = boardActionResult.Value;
+            var dbBoard = new DbBoard() { LastTimePlayed = DateTime.Now, IsFinished = false };
+            var actionResult = await boardsController.PostDbBoard(dbBoard);
+            var board = (BoardDTO)(actionResult.Result as CreatedAtActionResult).Value;
 
-        //    Assert.Equal(2, board.Id);
-        //    Assert.Equal("2021-04-01 21:55:05", board.LastTimePlayed.ToString());
-        //    Assert.False(board.IsFinished);
-        //}
+            Assert.Equal(dbBoard.LastTimePlayed, board.LastTimePlayed);
+            Assert.False(board.IsFinished);
+        }
+
+        [Fact]
+        public async Task Delete_1_Board_Expect_Null()
+        {
+            await using var context = new TestContext();
+            context.SeedBoards();
+
+            var boardsController = new BoardsController(context);
+            var board = await context.Boards.FindAsync(3);
+            Assert.NotNull(board);
+
+            var boardToBeDeleted = await boardsController.DeleteDbBoard(3);
+            board = await context.Boards.FindAsync(3);
+            Assert.Null(board);
+        }
     }
 }

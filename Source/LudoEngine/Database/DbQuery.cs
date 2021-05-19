@@ -62,6 +62,7 @@ namespace LudoEngine.Database
 
             List<History> history = winners
                 .GroupBy(winner => winner.Board)
+                .OrderBy(board => board.Key.Id)
                 .Select(group => new History()
                 {
                     GameId = group.Key.Id,

@@ -92,6 +92,7 @@ namespace LudoApi.Controllers
         //    return CreatedAtAction("GetDbBoardState", new { id = dbBoardState.Id }, dbBoardState);
         //}
 
+        // TODO: Implement PatchBoardState
         // Patch api/boardStates/{id}
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchColor(int id,
