@@ -95,20 +95,20 @@ namespace LudoApi.Controllers
         // TODO: Implement PatchBoardState
         // Patch api/boardStates/{id}
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchColor(int id,
+        public async Task<IActionResult> PatchBoardState(int id,
             [FromBody] JsonPatchDocument<DbBoardState> patchDoc)
         {
             if (patchDoc != null)
             {
                 //var color = await DbQuery.GetColor(id);
-                var boarState = await _context.BoardStates.FindAsync(id);
+                var boardState = await _context.BoardStates.FindAsync(id);
 
-                if (boarState == null)
+                if (boardState == null)
                 {
-                    return NotFound("Couldn't find any color with that Id!");
+                    return NotFound("Couldn't find any board move with that Id!");
                 }
 
-                patchDoc.ApplyTo(boarState, ModelState);
+                patchDoc.ApplyTo(boardState, ModelState);
 
                 _context.SaveChanges();
 
@@ -117,7 +117,7 @@ namespace LudoApi.Controllers
                     return BadRequest(ModelState);
                 }
 
-                return new ObjectResult(boarState);
+                return new ObjectResult(boardState);
             }
             else
             {

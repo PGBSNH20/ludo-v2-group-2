@@ -2,6 +2,7 @@
 using LudoApi.DTOs;
 using LudoEngine.Database;
 using LudoEngine.Engine;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -67,7 +68,22 @@ namespace LudoTests
             var colorToBeDeleted = await colorsController.DeleteDbColor(4);
             color = await context.Colors.FindAsync(4);
             Assert.Null(color);
+        }
 
+        [Fact]
+        public async Task Patch_1_Color_Expect_A_New_String()
+        {
+            await using var context = new TestContext();
+            context.SeedColors();
+
+            var patchDoc = new JsonPatchDocument<DbColor>();
+            patchDoc.Replace(color => color.ColorCode, "C0FFEE");
+            var colorController = new ColorsController(context);
+            var patchedColor = await colorController.PatchColor(4, patchDoc);
+
+            var objectResult = (ObjectResult)patchedColor;
+            var resultColor = (DbColor)objectResult.Value;
+            Assert.Equal("C0FFEE", resultColor.ColorCode);
         }
     }
 }

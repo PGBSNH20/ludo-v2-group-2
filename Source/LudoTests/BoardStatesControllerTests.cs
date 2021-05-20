@@ -1,5 +1,8 @@
 ﻿using LudoApi.Controllers;
 using LudoApi.DTOs;
+using LudoEngine.Database;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,14 +72,21 @@ namespace LudoTests
             Assert.Equal(4, boardStates.Count);
         }
 
-        // TODO: Implement PatchBoardState
-        //[Fact]
-        //public async Task PatchBoardState()
-        //{
-        //    await using var context = new TestContext();
-        //    var controller = new BoardStatesController(context);
+        [Fact]
+        public async Task Patch_1_BoardState_Expect_Replaced_String()
+        {
+            await using var context = new TestContext();
+            context.SeedBoardStates();
 
-        //}
+            var patchDoc = new JsonPatchDocument<DbBoardState>();
+            patchDoc.Replace(state => state.PiecePosition, 24);
+            var controller = new BoardStatesController(context);
+            var patchedState = await controller.PatchBoardState(6, patchDoc);
+
+            var objectResult = (ObjectResult)patchedState;
+            var resultColor = (DbBoardState)objectResult.Value;
+            Assert.Equal(24, resultColor.PiecePosition);
+        }
 
         [Fact]
         public async Task DeleteDbBoardState_1_and_2_Expect_6_BoardStates()
