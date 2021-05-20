@@ -6,9 +6,37 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>New Game.</p>
-<form method="post">
+
+
+<!--<form method="post">
     <input type="text" asp-for="player.Name" placeholder="Player Name" />
-    <input type="text" asp-for="player.ColorId" placeholder="Player Color Id" />   
+    <input type="text" asp-for="player.ColorId" placeholder="Player Color Id" />
     <input type="text" asp-for="player.Color.ColorCode" placeholder=" Color Code" />
-    <button type="submit">Submit</button>
+    <button type="submit">Submit </button>-->
+@*<button type="@*submit" onclick="RazorFunction">Submit </button>*@
+<!--*
+
+</form>-->
+
+
+<h1>Roll!</h1>
+<form method="post">
+    <input type="text" asp-for="Players[0].Name" placeholder="Player Name 1" />
+    <input type="text" asp-for="Players[0].ColorId" placeholder="Color Id 1" />
+    <input type="text" asp-for="Players[1].Name" placeholder="Player Name 2" />
+    <input type="text" asp-for="Players[1].ColorId" placeholder="Color Id 2" />
+    <button type="submit"  class="btn btn-primary">Add Players!</button>
 </form>
+
+
+@if (string.IsNullOrWhiteSpace(Model.Winner.Name))
+{
+    <p>Will Start First:@Model.Winner.Name</p>
+}
+else
+{
+   <p>Will Start First:@Model.Winner.Name</p>
+}
+
+
+
