@@ -43,10 +43,11 @@ Request Type | URL | Description
 | Get | /game/boards/{boardId}/boardStates | Gives back a list of all boardStates of a game, according to the boardId. |
 | Get | /game/boards/{boardId}/players/{playerId}/boardStates | According to the boardId and playerId given it will give back the pieces for that player. |
 | Get | /game/players/{playerId}/color | Gives back the color that the player with that Id has. |
-| Get | /game/colors |
-| Get | /game/boards |
-| Get | /game/boards/{boardId} |
+| Get | /game/colors | Gives back a list of all colors |
+| Get | /game/boards | Gives back a list of all boards |
+| Get | /game/boards/{boardId} | Gives back a board information according to the board Id given. |
 | Post | /game/new | Creates a new game, so 4 boardStates per player, and a board. |
+| Get | /game/boards/{boardId}/players/{playerId}/next | Gives back the next player, According to the player given. |
 
 Something to note... *Game Controllers* was created very last minute in order to give logic to controllers, Also something to note is that some of these controllers were made in other Controller files, but we left them like this so the unit tests would make sense. 
 
