@@ -1,32 +1,42 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Shadows+Into+Light);
 
 body {
-    background: gold ;
+    background: orange;
 }
 
-#allthethings {
-    width: 0px;
-    height: 0px;
-    border-left: 300px solid transparent;
-    border-right: 300px solid transparent;
-    border-top: 300px solid transparent;
-    border-radius: 0px;
-    position: relative;
-    margin: auto;
-    top: 5px;
-    left: 2px;
+#display-4 {
+    text-align:center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:80px;
 }
-input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+#img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height:auto
 }
-#display-10 {
-    font-family:'Bell MT';
+#but {
+    display:inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: black;
+    background-color: red;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px black;
+}
+#but:hover {
+    background-color: orange;
 }
 
+#but:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
 

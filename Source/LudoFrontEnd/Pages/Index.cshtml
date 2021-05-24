@@ -4,8 +4,31 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4" id="display-10">Welcome to the Ludo Game</h1>
-    <img  src="https://ak.picdn.net/shutterstock/videos/1061248219/thumb/10.jpg?ip=x480" alt="Ludo" height="400" width="700" />
-    <p>Learn about the game <a href="https://www.youtube.com/watch?v=IHkRjn8XVtw">Ludo Rules</a>.</p>
-</div>
+
+<h1 id="display-4">Welcome to the Ludo Game</h1>
+<img src="https://wallpapercave.com/wp/wp4297342.png" id="img" alt="Ludo" />
+
+<button id="but" onclick="NewGame()">New Game</button>
+<button id="but" onclick="Load()">Load Game</button>
+<button id="but" onclick="Learn()">Learn How To Play</button>
+
+
+<script>
+    function NewGame() {
+        location.replace("https://localhost:44310/NewGame")
+    }
+</script>
+
+<script>
+    function Load() {
+        location.replace("https://localhost:44310/Index")
+    }
+</script>
+
+<script>
+    function Learn() {
+        location.replace("https://www.youtube.com/watch?v=lns9TeKVebY")
+    }
+</script>
+
+
