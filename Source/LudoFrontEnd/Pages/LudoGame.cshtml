@@ -3,20 +3,6 @@
 @section Styles {
     <link rel="stylesheet" href="~/css/LudoGame.css" />
 }
-@functions {
-    bool IsPieceAtPosition(int position)
-    {
-        var boardState = Model.BoardStates.Find(state => state.PiecePosition == position);
-        //return boardState.PlayerId
-        //return boardState is not null;
-    }
-
-    //int GetPlayerIdFromBoardState(int stateId)
-    //{
-    //    var boardState = Model.BoardStates.Find(state => state.PiecePosition == position);
-
-    //}
-}
 
 @{
 }
@@ -53,11 +39,6 @@
     @for (int i = 0; i < Model.SquareCoordinates.Length; i++)
     {
         <div class="ludoSquare" id="sq_@i" style="grid-column:@Model.SquareCoordinates[i].x; grid-row:@Model.SquareCoordinates[i].y;">
-            @if(IsPieceAtPosition(i))
-            {
-                @
-                <div class="player player4"></div>
-            }
         </div>
     }
 </div>

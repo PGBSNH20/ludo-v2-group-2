@@ -9,9 +9,9 @@ namespace LudoEngine.Engine
 {
     public class Board
     {
-        private int _boardSize { get; set; }
-        private int _safeZoneSize { get; set; }
-        private int _maxPlayers { get; set; }
+        private int _boardSize = 52;
+        private int _safeZoneSize = 6;
+        private int _maxPlayers = 4;
         public int BoardId { get; set; }
         private List<Player> Players { get; set; } = new();
         public Dictionary<int, Player> Winners { get; set; } = new();
@@ -25,7 +25,6 @@ namespace LudoEngine.Engine
         public int[] PlayerOrder { get; set; }
         public Color[] Colors { get; set; }
 
-        public Board() : this(52, 6, 4) { }
 
         public Board(int boardSize, int safeZoneSize, int maxPlayers)
         {
@@ -36,7 +35,6 @@ namespace LudoEngine.Engine
             Colors = DbQuery.GetAllColors().Result.ToArray();
         }
 
-        // Initializes the game.
         public async Task StartGame(int firstPlayerId, int boardId)
         {
             BoardId = boardId;
@@ -195,6 +193,7 @@ namespace LudoEngine.Engine
                 throw new Exception("Can't move piece beyond safe zone.");
             }
             int startPosition = GetPiecePosition(piece);
+
             Dictionary<int, Piece> playerSafeZone = GetSafeZonePieces(piece);
             playerSafeZone.Remove(startPosition);
             playerSafeZone.Add(targetPosition, piece);

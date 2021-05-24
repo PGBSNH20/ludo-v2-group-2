@@ -20,6 +20,7 @@ namespace LudoEngine.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //optionsBuilder.UseSqlServer(@"Server=192.168.56.101,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
             optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
 
             //IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -120,6 +121,40 @@ namespace LudoEngine.Database
                 new DbPlayer { Id = 6, Name = "Noa", ColorId = 2 }
             );
             #endregion
+        }
+
+        public async Task<int> CreateBoard()
+        {
+            var dbBoard = new DbBoard
+            {
+                IsFinished = false,
+                LastTimePlayed = DateTime.Now
+            };
+
+            await AddAsync(dbBoard);
+            await SaveChangesAsync();
+
+            return dbBoard.Id;
+        }
+
+        public async Task CreateBoardStates(int boardId, int[] playerIds)
+        {
+            foreach (int playerId in playerIds)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    await AddAsync(new DbBoardState
+                    {
+                        BoardId = boardId,
+                        IsInBase = true,
+                        IsInSafeZone = false,
+                        PieceNumber = i + 1,
+                        PiecePosition = 0,
+                        PlayerId = playerId
+                    });
+                }
+            }
+            await SaveChangesAsync();
         }
 
     }
