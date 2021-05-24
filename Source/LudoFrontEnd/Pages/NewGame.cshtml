@@ -5,18 +5,17 @@
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>New Game.</p>
 
 
-<!--<form method="post">
-    <input type="text" asp-for="player.Name" placeholder="Player Name" />
-    <input type="text" asp-for="player.ColorId" placeholder="Player Color Id" />
-    <input type="text" asp-for="player.Color.ColorCode" placeholder=" Color Code" />
-    <button type="submit">Submit </button>-->
-@*<button type="@*submit" onclick="RazorFunction">Submit </button>*@
-<!--*
+@*<form method="post"  asp-page-handler="@Model.GetNumberOfPlayers()">
 
-</form>-->
+        <input type="number" asp-for="NumberOfPlayers" placeholder="Number of players?" />
+
+        <button type="submit">Confirm</button>
+    </form>*@
+
+
+
 
 
 <h1>Roll!</h1>
@@ -25,7 +24,7 @@
     <input type="text" asp-for="Players[0].ColorId" placeholder="Color Id 1" />
     <input type="text" asp-for="Players[1].Name" placeholder="Player Name 2" />
     <input type="text" asp-for="Players[1].ColorId" placeholder="Color Id 2" />
-    <button type="submit"  class="btn btn-primary">Add Players!</button>
+    <button type="submit" class="btn btn-primary">Add Players!</button>
 </form>
 
 
@@ -35,8 +34,5 @@
 }
 else
 {
-   <p>Will Start First:@Model.Winner.Name</p>
+    <p>Will Start First:@Model.Winner.Name</p>
 }
-
-
-

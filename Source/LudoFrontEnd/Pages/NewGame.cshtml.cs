@@ -19,33 +19,32 @@ namespace LudoFrontEnd.Pages
     {
 
         private DbContext _context;
-        private PlayersController _controller;
+        private PlayersController _playerController;
+        private BoardsController _boardController;
 
 
-        //public DbPlayer player { get; set; }
+
         [BindProperty]
-        public List<Player> Players { get; set; }       
-        // public int NumberOfPlayers { get; set; }
+        public List<Player> Players { get; set; }             
         public int FirstPlayerId { get; private set; }
+        public int BoardId { get; private set; }
+        public int NumberOfPlayers { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public Player Winner { get; set; }
-        
-       
 
-        //public async void OnPost()
-        //{
-        //    _context = new LudoContext();
-        //    _controller= new PlayersController((LudoContext)_context);
-
-        //   await _controller.PostDbPlayer(player);            
-        //}
+        Board board = new Board();
 
 
         public async void OnPost()
         {
+            
             _context = new LudoContext();
-            _controller = new PlayersController((LudoContext)_context);
+            _playerController = new PlayersController((LudoContext)_context);
+           
             List<DbPlayer> dbPlayers = new List<DbPlayer>();
+            board = new Board();
+            BoardId =  await AddDbBoard();
 
             foreach (var item in Players)
             {
@@ -56,12 +55,37 @@ namespace LudoFrontEnd.Pages
 
             foreach (var item in dbPlayers)
             {
-                await _controller.PostDbPlayer(item);
+                await _playerController.PostDbPlayer(item);
+               
             }
+            foreach (var item in Players)
+            {
+                AddPlayerToBoard(item);
+            }
+
+            await board.StartGame(Winner.Id, BoardId);
+
+           // await PlayBoard(Winner);
         }
+        private void AddPlayerToBoard(Player player)
+        {
+            board.AddPlayer(player);
+        }
+        private  async Task<int> AddDbBoard()
+        {           
+            var lastTimePlayed = DateTime.Now;
+            DbBoard dbBoard = new DbBoard()
+            {
+                IsFinished = false,
+                LastTimePlayed = lastTimePlayed
+            };
+            _boardController = new BoardsController((LudoContext)_context);
+            await _boardController.PostDbBoard(dbBoard);
+            return dbBoard.Id;
+        }
+
         private DbPlayer Convert(Player player)
         {
-
             DbPlayer db = new DbPlayer() 
             {
                 Name=player.Name,
@@ -69,6 +93,7 @@ namespace LudoFrontEnd.Pages
             };
             return db;
         }
+        
 
         private Player RollForFirstPlayerPrompt(List<Player> players)
         {
