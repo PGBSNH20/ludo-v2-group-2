@@ -1,0 +1,150 @@
+.ludoMainBoard {
+    display: grid;
+    grid-template-columns: repeat(15, [col-start] 1fr [col-end]);
+    /* grid-template-columns: repeat(15, 1fr); */
+    grid-column-gap: 4px;
+    grid-template-rows: repeat(15, [row-start] 1fr [row-end]);
+    /* grid-template-rows: repeat(15, 1fr); */
+    grid-row-gap: 4px;
+    min-width: 550px;
+    min-height: 550px;
+    width: 50vw;
+    height: 50vw;
+}
+
+#ludoBase1 {
+    background-color: blue;
+    grid-column: 1 / span 6;
+    grid-row: 10 / span 6;
+}
+
+#ludoBase2 {
+    background-color: yellow;
+    grid-column: 1 / span 6;
+    grid-row: 1 / span 6;
+}
+
+#ludoBase3 {
+    background-color: green;
+    grid-column: 10 / span 6;
+    grid-row: 1 / span 6;
+}
+
+#ludoBase4 {
+    background-color: red;
+    grid-column: 10 / span 6;
+    grid-row: 10 / span 6;
+}
+
+.ludoBase {
+    border: 10px black solid;
+    font-family: sans-serif;
+    color: white;
+    text-transform: uppercase;
+    font-size: 96px;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    -webkit-text-stroke: 3px black;
+}
+
+.goal {
+    border: 2px black solid;
+    font-family: sans-serif;
+    color: white;
+    text-transform: uppercase;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    -webkit-text-stroke: 1px black;
+}
+
+#lodoGoal1 {
+    background-color: blue;
+    grid-column: 8;
+    grid-row: 9;
+}
+
+#lodoGoal2 {
+    background-color: yellow;
+    grid-column: 7;
+    grid-row: 8;
+}
+
+#lodoGoal3 {
+    background-color: green;
+    grid-column: 8;
+    grid-row: 7;
+}
+
+#lodoGoal4 {
+    background-color: red;
+    grid-column: 9;
+    grid-row: 8;
+}
+
+.safeZone1 {
+    background-color: blue !important;
+    grid-row: 8;
+    grid-column: 2;
+}
+
+.safeZone2 {
+    background-color: yellow !important;
+    grid-column: 8;
+}
+
+.safeZone3 {
+    background-color: green !important;
+    grid-row: 8;
+}
+
+.safeZone4 {
+    background-color: red !important;
+    grid-column: 8;
+}
+
+.ludoSquare {
+    background-color: rgba(0,0,0,.2);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    border: 2px black solid;
+}
+
+.ludoSquareBlank {
+    background-color: white !important;
+    border: 2px white solid !important;
+}
+
+.player {
+    border-radius: 100%;
+    border: 2px black solid;
+    width: 50%;
+    height: 50%;
+}
+
+.player1 {
+    background-color: blue;
+}
+
+.player2 {
+    background-color: yellow;
+}
+
+.player3 {
+    background-color: green;
+}
+
+.player4 {
+    background-color: red;
+}

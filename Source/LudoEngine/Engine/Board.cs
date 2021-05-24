@@ -12,11 +12,9 @@ namespace LudoEngine.Engine
         private int _boardSize { get; set; }
         private int _safeZoneSize { get; set; }
         private int _maxPlayers { get; set; }
-
         public int BoardId { get; set; }
         private List<Player> Players { get; set; } = new();
         public Dictionary<int, Player> Winners { get; set; } = new();
-
         public List<Piece> BasePieces { get; set; } = new();
         public Dictionary<int, Piece> BoardPieces { get; set; } = new();
         // Top dictionary key: playerId, value: <position, piece>

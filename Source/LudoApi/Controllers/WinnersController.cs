@@ -9,7 +9,7 @@ using LudoApi.DTOs;
 
 namespace LudoApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/winners")]
     [ApiController]
     public class WinnersController : ControllerBase

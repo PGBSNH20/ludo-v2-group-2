@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/boardStates")]
     [ApiController]
     public class BoardStatesController : ControllerBase
@@ -47,13 +47,13 @@ namespace LudoApi.Controllers
             return DbBoardStateToDTO(dbBoardState);
         }
 
-        // GET: api/BoardStates/5
-        [HttpGet("{boardId}")]
-        public async Task<ActionResult<List<BoardStateDTO>>> GetAllBoardStatesByBoardId(int id)
+        // GET: api/BoardStates/Board/5
+        [HttpGet("board/{boardId}")]
+        public async Task<ActionResult<List<BoardStateDTO>>> GetAllBoardStatesByBoardId(int boardId)
         {
             List<BoardStateDTO> boardStates = await _context.BoardStates
-                .Where(boardId => boardId.BoardId == id)
-                .Select(board => DbBoardStateToDTO(board))
+                .Where(state => state.BoardId == boardId)
+                .Select(state => DbBoardStateToDTO(state))
                 .ToListAsync();
 
             if (boardStates == null)
@@ -65,7 +65,7 @@ namespace LudoApi.Controllers
         }
 
         // GET: api/BoardStates/5/10
-        [HttpGet("{boardId}/{playerId}")]
+        [HttpGet("board/{boardId}/{playerId}")]
         public async Task<ActionResult<List<BoardStateDTO>>> GetAllBoardStatesForPlayerId(int boardId, int playerId)
         {
             List<BoardStateDTO> boardStates = await _context.BoardStates
@@ -92,7 +92,6 @@ namespace LudoApi.Controllers
         //    return CreatedAtAction("GetDbBoardState", new { id = dbBoardState.Id }, dbBoardState);
         //}
 
-        // TODO: Implement PatchBoardState
         // Patch api/boardStates/{id}
         [HttpPatch("{id}")]
         public async Task<IActionResult> PatchBoardState(int id,

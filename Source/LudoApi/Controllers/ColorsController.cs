@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace LudoApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/colors")]
     [ApiController]
     public class ColorsController : ControllerBase

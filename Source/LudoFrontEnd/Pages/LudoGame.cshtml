@@ -1,4 +1,63 @@
-﻿@page "{id:int?}"
+﻿@page "{boardId:int?}"
 @model LudoFrontEnd.Pages.LudoGameModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/LudoGame.css" />
+}
+@functions {
+    bool IsPieceAtPosition(int position)
+    {
+        var boardState = Model.BoardStates.Find(state => state.PiecePosition == position);
+        //return boardState.PlayerId
+        //return boardState is not null;
+    }
+
+    //int GetPlayerIdFromBoardState(int stateId)
+    //{
+    //    var boardState = Model.BoardStates.Find(state => state.PiecePosition == position);
+
+    //}
+}
+
 @{
 }
+<div class="ludoMainBoard">
+    @* Base Squares *@
+    <div class="ludoBase" id="ludoBase1">0</div>
+    <div class="ludoBase" id="ludoBase2">0</div>
+    <div class="ludoBase" id="ludoBase3">0</div>
+    <div class="ludoBase" id="ludoBase4">0</div>
+
+    @* Goal Squares *@
+    <div class="goal" id="lodoGoal1">0</div>
+    <div class="goal" id="lodoGoal2">0</div>
+    <div class="goal" id="lodoGoal3">0</div>
+    <div class="goal" id="lodoGoal4">0</div>
+
+    @* Blank/unused squares *@
+    <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 7"></div>
+    <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 9"></div>
+    <div class="ludoSquare ludoSquareBlank" style="grid-row: 8; grid-column: 8"></div>
+    <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 7"></div>
+    <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 9"></div>
+
+    @* SafeZones *@
+    @foreach (var player in Model.SafeZones)
+    {
+        foreach (var coords in player.Value)
+        {
+            <div class="ludoSquare @("safeZone"+player.Key)" style="grid-column: @coords.x; grid-row: @coords.y;"></div>
+        }
+    }
+
+    @* Board Squares *@
+    @for (int i = 0; i < Model.SquareCoordinates.Length; i++)
+    {
+        <div class="ludoSquare" id="sq_@i" style="grid-column:@Model.SquareCoordinates[i].x; grid-row:@Model.SquareCoordinates[i].y;">
+            @if(IsPieceAtPosition(i))
+            {
+                @
+                <div class="player player4"></div>
+            }
+        </div>
+    }
+</div>

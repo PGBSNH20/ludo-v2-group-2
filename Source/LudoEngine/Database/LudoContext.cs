@@ -20,11 +20,13 @@ namespace LudoEngine.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
-                .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LudoDatabase"));
+            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+
+            //IConfigurationRoot configuration = new ConfigurationBuilder()
+            //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            //    .AddJsonFile("appsettings.json")
+            //    .Build();
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("LudoDatabase"));
             // Anas : 
             //optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
 
