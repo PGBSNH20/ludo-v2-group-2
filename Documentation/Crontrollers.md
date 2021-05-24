@@ -34,6 +34,22 @@ Request Type | URL | Description
 | Patch | /colors/{id} | Depending on Id given, it will change the information in that color partially. Admin usage. |
 | Delete | /colors/{id} | Deletes a color depending on Id given. |
 
+## Game Controllers
+Request Type | URL | Description
+------------ | --- | -----------
+| Get | /game/boards/{boardId}/players | You give it a board Id, and you get back a list of players for that board |
+| Get | /game//players/{playerId} | Gives back a player, depending on the Id given. |
+| Post | /game/players | Creates a new player. |
+| Get | /game/boards/{boardId}/boardStates | Gives back a list of all boardStates of a game, according to the boardId. |
+| Get | /game/boards/{boardId}/players/{playerId}/boardStates | According to the boardId and playerId given it will give back the pieces for that player. |
+| Get | /game/players/{playerId}/color | Gives back the color that the player with that Id has. |
+| Get | /game/colors |
+| Get | /game/boards |
+| Get | /game/boards/{boardId} |
+| Post | /game/new | Creates a new game, so 4 boardStates per person, and a board. |
+
+Something to note... *Game Controllers* was created very last minute in order to give logic to controllers, Also something to note is that some of these controllers were made in other Controller files, but we left them like this so the unit tests would make sense. 
+
 ## Players Controller
 Request Type | URL | Description
 ------------ | --- | -----------
