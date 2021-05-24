@@ -48,6 +48,14 @@ Request Type | URL | Description
 | Get | /game/boards/{boardId} | Gives back a board information according to the board Id given. |
 | Post | /game/new | Creates a new game, so 4 boardStates per player, and a board. |
 | Get | /game/boards/{boardId}/players/{playerId}/next | Gives back the next player, According to the player given. |
+| Get | /game/boards/{boardId}/players/{playerId}/haswon | Checks if that player, in a specific board has won, returns back a boolean |
+| Get | /game/boards/{boardId}/GameOver | Checks if the game is over, if there is only one player left then the game will be over |
+| Post | /game/boards/{boardId}/players/{playersId}/leaveBase | Finds a piece in the base for that player in that board, and will take it out, will return a boolean if its successfull or not. |
+| Get | /game/boards/{boardId}/squares/{position}/isOcupied | Will return a boolean if a specific square in the board given is ocupied. |
+| Get | /game/boards/{boardId}/players/{playerId}/startingPosition | Gives back the position for that player, since each player starts at different positions (t.ex: 0,13,26,39) |
+| Post | /game/boards/{boardId}/players/{playerId}/pieces/{pieceNumber}/{steps} | Gets a specific player piece for a specific board and moves it if its a valid move, returns a boolean if it can move or not. |
+| Get | /game/boards/{boardId}/players/{playerId}/pieces/base | Gives back a count of pieces that are in the base for that specific player in that specific board. |
+| Get | /game/boards/{boardId}/players/{playerId}/goal | Gives back a count of pieces that are in the goal for that specific board. |
 
 Something to note... *Game Controllers* was created very last minute in order to give logic to controllers, Also something to note is that some of these controllers were made in other Controller files, but we left them like this so the unit tests would make sense. 
 
