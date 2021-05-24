@@ -46,7 +46,7 @@ Request Type | URL | Description
 | Get | /game/colors |
 | Get | /game/boards |
 | Get | /game/boards/{boardId} |
-| Post | /game/new | Creates a new game, so 4 boardStates per person, and a board. |
+| Post | /game/new | Creates a new game, so 4 boardStates per player, and a board. |
 
 Something to note... *Game Controllers* was created very last minute in order to give logic to controllers, Also something to note is that some of these controllers were made in other Controller files, but we left them like this so the unit tests would make sense. 
 
