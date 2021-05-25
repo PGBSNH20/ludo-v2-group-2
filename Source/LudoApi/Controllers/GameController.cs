@@ -158,6 +158,13 @@ namespace LudoApi.Controllers
             return boardId;
         }
 
+        [HttpPost("boards/{boardId}/skipround")]
+        public async Task<ActionResult> SkipRound(int boardId)
+        {
+            await SetNextPlayer(boardId);
+            return Ok();
+        }
+
         [HttpGet("boards/{boardId}/players/{playerId}/next")]
         public async Task<ActionResult<int>> GetNextPlayer(int boardId, int playerId)
         {
@@ -272,6 +279,7 @@ namespace LudoApi.Controllers
 
                 dbBoardState.PiecePosition = targetPosition;
                 await _context.SaveChangesAsync();
+                await SetNextPlayer(boardId);
 
                 return true;
             }
@@ -286,6 +294,7 @@ namespace LudoApi.Controllers
                 dbBoardState.IsInSafeZone = true;
                 dbBoardState.PiecePosition = safeZonePosition;
                 await _context.SaveChangesAsync();
+                await SetNextPlayer(boardId);
 
                 return true;
             }
@@ -302,6 +311,8 @@ namespace LudoApi.Controllers
 
                 dbBoardState.PiecePosition = targetPosition;
                 await _context.SaveChangesAsync();
+                await SetNextPlayer(boardId);
+
                 return true;
             }
 
@@ -309,7 +320,7 @@ namespace LudoApi.Controllers
         }
 
         [HttpGet("boards/{boardId}/players/{playerId}/pieces/base/")]
-        public async Task<ActionResult<IEnumerable<BoardStateDTO>>> GetBasePiece(int boardId, int playerId)
+        public async Task<ActionResult<IEnumerable<BoardStateDTO>>> GetBasePieces(int boardId, int playerId)
         {
             return await _context.BoardStates
                 .Where(state => state.BoardId == boardId && state.PlayerId == playerId && state.IsInBase)
@@ -371,6 +382,14 @@ namespace LudoApi.Controllers
             return await _context.BoardStates.AnyAsync(state => state.PlayerId == dbBoardState.PlayerId
                                                            && state.IsInSafeZone
                                                            && state.PiecePosition == targetPosition);
+        }
+
+        private async Task SetNextPlayer(int boardId)
+        {
+            var board = await _context.Boards.FindAsync(boardId);
+            var nextPlayer = await GetNextPlayer(boardId, board.activePlayerId);
+            board.activePlayerId = nextPlayer.Value;
+            await _context.SaveChangesAsync();
         }
 
         private async Task<int> GetTargetPosition(DbBoardState boardState, int steps)

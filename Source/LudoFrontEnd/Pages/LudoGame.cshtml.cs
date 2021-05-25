@@ -19,6 +19,7 @@ namespace LudoFrontEnd.Pages
         public Dictionary<int, int> BaseCount { get; set; } = new();
 
         public List<int> Players = new();
+
         public int ActivePlayerId { get; set; }
 
         public (int x, int y)[] SquareCoordinates { get; } =
@@ -35,6 +36,7 @@ namespace LudoFrontEnd.Pages
             (15, 9), (14, 9), (13, 9), (12, 9), (11, 9), (10, 9),
             (9, 10), (9, 11), (9, 12), (9, 13), (9, 14), (9, 15),
             (8, 15)
+
         };
 
         public List<(int x, int y)[]> SafeZones { get; } = new List<(int x, int y)[]>
@@ -45,9 +47,10 @@ namespace LudoFrontEnd.Pages
             new(int x, int y)[] { (14, 8), (13, 8), (12, 8), (11, 8), (10, 8) }
         };
 
-        public async Task OnGet(int boardId)
+        public async Task OnGetAsync(int boardId)
         {
             BoardId = boardId;
+            await GetColors();
             if (BoardId == 0)
             {
                 return;
@@ -57,7 +60,6 @@ namespace LudoFrontEnd.Pages
             await GetActivePlayer();
             await CountBasePieces();
             await CountGoalPieces();
-            await GetColors();
         }
 
         private async Task GetActivePlayer()
@@ -65,7 +67,7 @@ namespace LudoFrontEnd.Pages
             ActivePlayerId = await _ludoApi.GetActivePlayerId(BoardId);
         }
 
-        private async Task GetColors()
+        public async Task GetColors()
         {
             Colors = await _ludoApi.GetColors();
         }
