@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LudoEngine.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -116,7 +116,7 @@ namespace LudoEngine.Migrations
                     { 2, true, new DateTime(2021, 1, 15, 21, 55, 5, 0, DateTimeKind.Unspecified), 0 },
                     { 3, true, new DateTime(2021, 5, 2, 21, 55, 5, 0, DateTimeKind.Unspecified), 0 },
                     { 4, true, new DateTime(2021, 2, 25, 21, 55, 5, 0, DateTimeKind.Unspecified), 0 },
-                    { 5, false, new DateTime(2021, 3, 21, 21, 55, 5, 0, DateTimeKind.Unspecified), 0 }
+                    { 5, false, new DateTime(2021, 3, 21, 21, 55, 5, 0, DateTimeKind.Unspecified), 1 }
                 });
 
             migrationBuilder.InsertData(

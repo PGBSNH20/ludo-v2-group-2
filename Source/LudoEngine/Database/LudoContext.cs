@@ -20,8 +20,8 @@ namespace LudoEngine.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=192.168.56.101,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
-            //optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            //optionsBuilder.UseSqlServer(@"Server=192.168.56.101,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
 
             //IConfigurationRoot configuration = new ConfigurationBuilder()
             //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)

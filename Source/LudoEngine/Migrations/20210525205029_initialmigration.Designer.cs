@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LudoEngine.Migrations
 {
     [DbContext(typeof(LudoContext))]
-    [Migration("20210525022844_Initial")]
-    partial class Initial
+    [Migration("20210525205029_initialmigration")]
+    partial class initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,7 +75,7 @@ namespace LudoEngine.Migrations
                             Id = 5,
                             IsFinished = false,
                             LastTimePlayed = new DateTime(2021, 3, 21, 21, 55, 5, 0, DateTimeKind.Unspecified),
-                            activePlayerId = 0
+                            activePlayerId = 1
                         });
                 });
 
