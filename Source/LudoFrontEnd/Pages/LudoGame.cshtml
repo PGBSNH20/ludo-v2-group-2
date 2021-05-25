@@ -1,44 +1,75 @@
 ﻿@page "{boardId:int?}"
-@model LudoFrontEnd.Pages.LudoGameModel
+@model LudoGameModel
 @section Styles {
-    <link rel="stylesheet" href="~/css/LudoGame.css" />
+<link rel="stylesheet" href="~/css/LudoGame.css" />
+<style>
+    @for(int i=0;i<Model.Players.Count;i++){@Html.Raw($".player{i+1}"+"{");@Html.Raw($"background-color:#{Model.Colors[Model.Players[i]].ColorCode}"+"!important");@Html.Raw("}");}
+</style>
 }
-
-@{
+@section Scripts {
+<script>
+    var activePlayerId = @Model.ActivePlayerId;
+    var activePlayerIndex = @Model.Players.IndexOf(Model.ActivePlayerId);
+    var boardId = @Model.BoardId;
+</script>
+<script src="~/js/ludogame.js"></script>
 }
+@{ }
 <div class="ludoMainBoard">
     @* Base Squares *@
-    <div class="ludoBase" id="ludoBase1">0</div>
-    <div class="ludoBase" id="ludoBase2">0</div>
-    <div class="ludoBase" id="ludoBase3">0</div>
-    <div class="ludoBase" id="ludoBase4">0</div>
+    @for (int i = 0; i < 4; i++)
+
+    {
+        <div class="ludoBase @("player"+(i+1))" id="@("ludoBase"+(i+1))">@Model.GetBaseCount(i)</div>
+
+    }
 
     @* Goal Squares *@
-    <div class="goal" id="lodoGoal1">0</div>
-    <div class="goal" id="lodoGoal2">0</div>
-    <div class="goal" id="lodoGoal3">0</div>
-    <div class="goal" id="lodoGoal4">0</div>
+    @for (int i = 0; i < 4; i++)
+
+    {
+        <div class="goal @("player"+(i+1))" id="@("lodoGoal"+(i+1))">@Model.GetGoalCount(i)</div>
+    }
 
     @* Blank/unused squares *@
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 7"></div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 9"></div>
-    <div class="ludoSquare ludoSquareBlank" style="grid-row: 8; grid-column: 8"></div>
+    <div class="ludoSquare" type="button" id="roll-button" style="grid-row: 8; grid-column: 8">Roll</div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 7"></div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 9"></div>
 
     @* SafeZones *@
-    @foreach (var player in Model.SafeZones)
-    {
-        foreach (var coords in player.Value)
-        {
-            <div class="ludoSquare @("safeZone"+player.Key)" style="grid-column: @coords.x; grid-row: @coords.y;"></div>
-        }
-    }
+    @for (int i = 0; i < Model.SafeZones.Count; i++)
 
+    {
+
+        for (int j = 0; j < Model.SafeZones[i].Length; j++)
+
+        {
+            <div class="ludoSquare safeZone @("player" + (i+1))"
+        style="grid-column: @Model.SafeZones[i][j].x; grid-row: @Model.SafeZones[i][j].y;">
+                @if (Model.IsOccupied(j, true, i))
+
+                {
+                    <div class="piece @("player" + (i+1))"></div>
+                }
+            </div>
+        }
+
+    }
     @* Board Squares *@
     @for (int i = 0; i < Model.SquareCoordinates.Length; i++)
+
     {
-        <div class="ludoSquare" id="sq_@i" style="grid-column:@Model.SquareCoordinates[i].x; grid-row:@Model.SquareCoordinates[i].y;">
+        <div class="ludoSquare" id="sq_@i"
+        style="grid-column:@Model.SquareCoordinates[i].x; grid-row:@Model.SquareCoordinates[i].y;">
+            @if (Model.IsOccupied(i))
+
+            {
+
+                int playerId = Model.GetPlayerIdAtIndex(i);
+                <div class="piece piece @("player" + (Model.GetPlayerIndex(playerId) + 1))"></div>
+            }
         </div>
     }
 </div>

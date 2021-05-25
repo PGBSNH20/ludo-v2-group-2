@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LudoApi.DTOs
+namespace LudoFrontEnd.Api
 {
-    public class BoardDTO
+    public class LudoBoard
     {
         public int Id { get; set; }
         public DateTime LastTimePlayed { get; set; }

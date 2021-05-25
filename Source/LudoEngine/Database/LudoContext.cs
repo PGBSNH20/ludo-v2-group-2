@@ -20,8 +20,8 @@ namespace LudoEngine.Database
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=192.168.56.101,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
-            optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            optionsBuilder.UseSqlServer(@"Server=192.168.56.101,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
+            //optionsBuilder.UseSqlServer(@"Server=localhost,1433;Initial Catalog=LudoGame;User Id=sa;Password=verystrong!pass123;");
 
             //IConfigurationRoot configuration = new ConfigurationBuilder()
             //    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
@@ -69,10 +69,10 @@ namespace LudoEngine.Database
 
             #region Colors
             modelBuilder.Entity<DbColor>().HasData(
-                new DbColor { Id = 1, ColorCode = "" },
-                new DbColor { Id = 2, ColorCode = "" },
-                new DbColor { Id = 3, ColorCode = "" },
-                new DbColor { Id = 4, ColorCode = "" }
+                new DbColor { Id = 1, ColorCode = "FFD700" },
+                new DbColor { Id = 2, ColorCode = "ADD8E6" },
+                new DbColor { Id = 3, ColorCode = "ADFF2F" },
+                new DbColor { Id = 4, ColorCode = "F08080" }
             );
             #endregion
 
@@ -82,7 +82,7 @@ namespace LudoEngine.Database
                 new DbBoard { Id = 2, LastTimePlayed = DateTime.Parse("2021-01-15 21:55:05"), IsFinished = true },
                 new DbBoard { Id = 3, LastTimePlayed = DateTime.Parse("2021-05-02 21:55:05"), IsFinished = true },
                 new DbBoard { Id = 4, LastTimePlayed = DateTime.Parse("2021-02-25 21:55:05"), IsFinished = true },
-                new DbBoard { Id = 5, LastTimePlayed = DateTime.Parse("2021-03-21 21:55:05"), IsFinished = false }
+                new DbBoard { Id = 5, LastTimePlayed = DateTime.Parse("2021-03-21 21:55:05"), IsFinished = false, activePlayerId = 1 }
 
             );
             #endregion
@@ -123,12 +123,13 @@ namespace LudoEngine.Database
             #endregion
         }
 
-        public async Task<int> CreateBoard()
+        public async Task<int> CreateBoard(int firstPlayer)
         {
             var dbBoard = new DbBoard
             {
                 IsFinished = false,
-                LastTimePlayed = DateTime.Now
+                LastTimePlayed = DateTime.Now,
+                activePlayerId = firstPlayer
             };
 
             await AddAsync(dbBoard);

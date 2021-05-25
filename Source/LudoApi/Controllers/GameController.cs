@@ -24,6 +24,8 @@ namespace LudoApi.Controllers
             _context = context;
         }
 
+        // ToDo: remove piece when at goal
+
         [HttpGet("boards/{boardId}/players/")]
         public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetPlayersByBoard(int boardId)
         {
@@ -149,9 +151,9 @@ namespace LudoApi.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<ActionResult<int>> NewGame(int[] playerIds)
+        public async Task<ActionResult<int>> NewGame(int[] playerIds, int firstPlayer)
         {
-            int boardId = await _context.CreateBoard();
+            int boardId = await _context.CreateBoard(firstPlayer);
             await _context.CreateBoardStates(boardId, playerIds);
             return boardId;
         }
@@ -306,7 +308,6 @@ namespace LudoApi.Controllers
             return false;
         }
 
-        // GetBasePieceAmount(int boardId, playerId)
         [HttpGet("boards/{boardId}/players/{playerId}/pieces/base/")]
         public async Task<ActionResult<IEnumerable<BoardStateDTO>>> GetBasePiece(int boardId, int playerId)
         {
@@ -327,6 +328,20 @@ namespace LudoApi.Controllers
             return maxPieceAmount - activePlayerPieceAmount;
         }
 
+        [HttpGet("boards/{boardId}/players/{playerId}/pieces/movable/{steps}")]
+        public async Task<ActionResult<IEnumerable<BoardStateDTO>>>GetMovablePieces(int boardId, int playerId, int steps)
+        {
+            var tempStates = await _context.BoardStates.Where(state => state.BoardId == boardId && state.PlayerId == playerId && !state.IsInBase).ToListAsync();
+            List<BoardStateDTO> boardStateDTOs = new();
+            foreach (var state in tempStates)
+            {
+                if(await IsValidBoardMove(state, steps))
+                {
+                    boardStateDTOs.Add(DbBoardStateToDTO(state));
+                }
+            }
+            return boardStateDTOs;
+        }
 
         private async Task<bool> IsValidBoardMove(DbBoardState dbBoardState, int steps)
         {
@@ -424,7 +439,8 @@ namespace LudoApi.Controllers
         {
             Id = board.Id,
             IsFinished = board.IsFinished,
-            LastTimePlayed = board.LastTimePlayed
+            LastTimePlayed = board.LastTimePlayed,
+            activePlayerId = board.activePlayerId
         };
 
         private static PlayerDTO DbPlayerToDTO(DbPlayer dbPlayer) => new()
@@ -453,7 +469,7 @@ namespace LudoApi.Controllers
 
         // HasActivePieces(int boardId, int playerId)
         // GetActivePieces(int boardId, int playerId)
-        // GetMovablePieces(int boardId, int playerId)
+        // GetMovablePieces(int boardId, int playerId, int steps)
         // IsMovable(int boardId, playerId, pieceNo)
     }
 }
