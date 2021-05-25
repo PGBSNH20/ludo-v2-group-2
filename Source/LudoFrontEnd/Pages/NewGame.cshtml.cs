@@ -35,10 +35,13 @@ namespace LudoFrontEnd.Pages
 
         Board board = new Board();
 
-
+        public int OnGet()
+        {
+            return NumberOfPlayers;
+        }
         public async void OnPost()
         {
-            
+           
             _context = new LudoContext();
             _playerController = new PlayersController((LudoContext)_context);
            
@@ -63,7 +66,7 @@ namespace LudoFrontEnd.Pages
                 AddPlayerToBoard(item);
             }
 
-            await board.StartGame(Winner.Id, BoardId);
+           // await board.StartGame(Winner.Id, BoardId);
 
            // await PlayBoard(Winner);
         }
@@ -89,7 +92,9 @@ namespace LudoFrontEnd.Pages
             DbPlayer db = new DbPlayer() 
             {
                 Name=player.Name,
-                ColorId=player.ColorId
+                ColorId=player.ColorId,
+                
+                
             };
             return db;
         }

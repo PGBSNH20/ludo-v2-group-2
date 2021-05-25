@@ -1,26 +1,33 @@
 ﻿@page
 @model LudoFrontEnd.Pages.NewGameModel
-@{
-    ViewData["Title"] = "New Game";
+@section Styles {
+    <link href="~/css/NewGame.css" rel="stylesheet" type="text/css" />
 }
+
 <h1>@ViewData["Title"]</h1>
 
 
-<h1>Roll!</h1>
 <form method="post">
-    <input type="text" asp-for="Players[0].Name" placeholder="Player Name 1" />
-    <input type="text" asp-for="Players[0].ColorId" placeholder="Color Id 1" />
-    <input type="text" asp-for="Players[1].Name" placeholder="Player Name 2" />
-    <input type="text" asp-for="Players[1].ColorId" placeholder="Color Id 2" />
-    <button type="submit" class="btn btn-primary">Add Players!</button>
+    
+        <input id="inp" type="number" asp-for="NumberOfPlayers" placeholder="Player Name " />        
+        <button id="inp" type="submit" value="Submit">Add Players!</button>
 </form>
+
+@*<form method="post">
+    @for (int i = 0; i < Model.NumberOfPlayers; i++)
+     {
+      <input id="inp" type="text" asp-for="Players[i].Name" placeholder="Player Name " />
+      <input id="inp" type="text" asp-for="Players[i].ColorId" placeholder="Color Id" />     
+     }
+    <button id="inp" type="submit" class="btn btn-primary">Add Players!</button>
+</form>*@
 
 
 @if (string.IsNullOrWhiteSpace(Model.Winner.Name))
 {
-    <p>Will Start First:@Model.Winner.Name</p>
+    <p id="firststart">Will Start First:@Model.Winner.Name</p>
 }
 else
 {
-    <p>Will Start First:@Model.Winner.Name</p>
+    <p id="firststart">Will Start First:@Model.Winner.Name</p>
 }
