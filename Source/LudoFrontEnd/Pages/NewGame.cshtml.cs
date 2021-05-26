@@ -28,18 +28,59 @@ namespace LudoFrontEnd.Pages
         public List<Player> Players { get; set; }             
         public int FirstPlayerId { get; private set; }
         public int BoardId { get; private set; }
+
+         [BindProperty(SupportsGet = true)]
         public int NumberOfPlayers { get; set; }
 
-        [BindProperty(SupportsGet = true)]
+        
         public Player Winner { get; set; }
 
         Board board = new Board();
+        public bool Disbale1 { get; set; }
+        public bool Disbale2 { get; set; }
+        public bool Disbale3 { get; set; }
+        public bool Disbale4 { get; set; }
 
-        public int OnGet()
+        public IActionResult OnPostCheck()
         {
-            return NumberOfPlayers;
+            if (NumberOfPlayers==2)
+            {
+                Disbale1 = true;
+                Disbale2 = true;
+                Disbale3 = false;
+                Disbale4 = false;
+
+                return Page();
+            }
+            else if(NumberOfPlayers == 3)
+            {
+                Disbale1 = true;
+                Disbale2 = false;
+                Disbale3 = false;
+                Disbale4 = false;
+
+                return Page();
+            }
+            else if(NumberOfPlayers == 4)
+            {
+                Disbale1 = false;
+                Disbale2 = false;
+                Disbale3 = false;
+                Disbale4 = false;
+
+                return Page();
+            }
+            else
+            {
+                return Page();
+            }
+
+           
+           
         }
-        public async void OnPost()
+
+        
+        public async void OnPostAdd()
         {
            
             _context = new LudoContext();
@@ -52,23 +93,26 @@ namespace LudoFrontEnd.Pages
             foreach (var item in Players)
             {
                 dbPlayers.Add(Convert(item));
-            }            
-            var x = RollForFirstPlayerPrompt(Players);
-            Winner = x;
-
-            foreach (var item in dbPlayers)
-            {
-                await _playerController.PostDbPlayer(item);
-               
             }
-            foreach (var item in Players)
-            {
-                AddPlayerToBoard(item);
-            }
+            Winner = RollForFirstPlayerPrompt(Players);
 
-           // await board.StartGame(Winner.Id, BoardId);
+           
+            Winner = RollForFirstPlayerPrompt(Players);
+           
+           
+            //foreach (var item in dbPlayers)
+            //{
+            //    await _playerController.PostDbPlayer(item);
 
-           // await PlayBoard(Winner);
+            //}
+            //foreach (var item in Players)
+            //{
+            //    AddPlayerToBoard(item);
+            //}
+
+            // await board.StartGame(Winner.Id, BoardId);
+
+            // await PlayBoard(Winner);
         }
         private void AddPlayerToBoard(Player player)
         {
