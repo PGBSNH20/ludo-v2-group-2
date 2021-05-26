@@ -13,8 +13,7 @@ class Position {
 async function rollDice() {
     if (window.roll == 0) {
         // Todo: uncomment:
-        //window.roll = Math.floor(Math.random() * 6) + 1;
-        window.roll = 1;
+        window.roll = Math.floor(Math.random() * 6) + 1;
         let rollButton = document.getElementById("roll-button");
         rollButton.innerHTML = window.roll;
         rollButton.removeEventListener("click", rollDice);
