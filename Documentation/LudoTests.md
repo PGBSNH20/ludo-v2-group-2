@@ -19,10 +19,25 @@ Reference:
 
 
 ## ColorsControllerTests.cs
+All tests are Facts, in this test example we will be showing how the Delete Controller works,
+
+First we give it a new TestContext, then we seed the database with some colors, we then test that the color is actually there before deleting it, then we call the controller method to delete the color, we give it the color Id, and then we test that it is null.
+
+![image](https://user-images.githubusercontent.com/70092696/119715480-5959da80-be64-11eb-88d7-dcf3d41b134b.png)
 
 ## PlayersControllerTests.cs
 
 ## TestContext.cs
-Here we have the context that we will be using for [BoardsControllerTests.cs](#anchor-boards)
+Here we have the context that we will be using for BoardsControllerTests.cs I (Alejandra) really wanted to give testing a real go this project, first I make a class named this, TestContext. which inherits from LudoContext then in the configuring we call a Guid, that is simply creating a unique identifier, then we convert it into a string, so that we can have a "new" TestConext name each time and our tests can always come out correct because its a new database and we also use-in-momory-database.
+
+![image](https://user-images.githubusercontent.com/70092696/119717513-adfe5500-be66-11eb-888b-b8584af246cb.png)
+
+Then after is just the seeding that was needed for each unit test
+References: 
+[Microsoft-Docs: Guid Struct](https://docs.microsoft.com/en-us/dotnet/api/system.guid?view=net-5.0)
+[StackOverflow: More than one DbContext was found](https://stackoverflow.com/questions/52311053/more-than-one-dbcontext-was-found)
+[Miscrosoft-Docs: Unit Testing best practices](https://docs.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
+[Microsoft-Docs: Testing code that uses EF core](https://docs.microsoft.com/en-us/ef/core/testing/)
+[Microsoft-Docs: EF core testing sample](https://docs.microsoft.com/en-us/ef/core/testing/testing-sample)
 
 ## WinnersControllerTests.cs
