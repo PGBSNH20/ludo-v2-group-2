@@ -13,14 +13,17 @@ namespace LudoFrontEnd.Pages
     {
         private readonly LudoApi _ludoApi = new();
         public int BoardId { get; set; }
-        public List<LudoBoardState> BoardStates = new();
+        public List<BoardState> BoardStates = new();
         public List<Color> Colors { get; set; } = new();
-        public Dictionary<int, int> GoalCount { get; set; } = new();
-        public Dictionary<int, int> BaseCount { get; set; } = new();
-
-        public List<int> Players = new();
-
+        // color/board-Index, count
+        public int[] GoalCount { get; set; } = new int[4];
+        // color/board-Index, count
+        public int[] BaseCount { get; set; } = new int[4];
+        // color/board-Index, player
+        public Dictionary<int, Player> Players = new();
         public int ActivePlayerId { get; set; }
+        public int ActivePlayerIndex { get; set; }
+        public Dictionary<int, int> Winners { get; set; } = new();
 
         public (int x, int y)[] SquareCoordinates { get; } =
         {
@@ -49,71 +52,92 @@ namespace LudoFrontEnd.Pages
 
         public async Task OnGetAsync(int boardId)
         {
+            if (await _ludoApi.IsGameOver(boardId))
+            {
+                Response.Redirect($"/LudoGame/{boardId}/gameover");
+            }
+            await LoadColors();
             BoardId = boardId;
-            await GetColors();
             if (BoardId == 0)
             {
                 return;
             }
             BoardStates = await _ludoApi.GetBoardStatesByBoard(boardId);
-            GetPlayers();
-            await GetActivePlayer();
+            await LoadPlayers();
+            await LoadActivePlayer();
+            await LoadWinners();
             await CountBasePieces();
             await CountGoalPieces();
         }
 
-        private async Task GetActivePlayer()
+        private async Task LoadWinners()
         {
-            ActivePlayerId = await _ludoApi.GetActivePlayerId(BoardId);
+            List<Winner> winners = await _ludoApi.GetWinners(BoardId);
+            if (winners is null)
+            {
+                return;
+            }
+
+            Winners = winners.ToDictionary(winner => winner.Placement, Winner => Winner.PlayerId);
         }
 
-        public async Task GetColors()
+        private async Task LoadActivePlayer()
+        {
+            ActivePlayerId = await _ludoApi.GetActivePlayerId(BoardId);
+            ActivePlayerIndex = Players.FirstOrDefault(player => player.Value.Id == ActivePlayerId).Key;
+        }
+
+        public async Task LoadColors()
         {
             Colors = await _ludoApi.GetColors();
         }
 
-        private void GetPlayers()
+        private async Task LoadPlayers()
         {
-            Players = BoardStates
+            if (Colors.Count < 4)
+            {
+                throw new Exception("Looks like there aren't enough colors!");
+            }
+            List<int> playerIds = BoardStates
                 .GroupBy(state => state.PlayerId)
                 .Select(group => group.Key)
                 .ToList();
+            Players = new();
+            foreach (var id in playerIds)
+            {
+                var player = await _ludoApi.GetPlayer(id);
+                Players.Add(Colors.FindIndex(color => color.Id == player.ColorId), player);
+            }
         }
 
         private async Task CountBasePieces()
         {
-            foreach (var playerId in Players)
+            foreach (var player in Players)
             {
-                var basePieces = await _ludoApi.GetBasePieces(BoardId, playerId);
-                if(!BaseCount.TryAdd(playerId, basePieces.Count))
-                {
-                    BaseCount[playerId] = basePieces.Count;
-                }
+                var basePieces = await _ludoApi.GetBasePieces(BoardId, player.Value.Id);
+                BaseCount[player.Key] = basePieces.Count;
             }
         }
 
         private async Task CountGoalPieces()
         {
-            foreach (var playerId in Players)
+            foreach (var player in Players)
             {
-                var goalCount = await _ludoApi.GetGoalCount(BoardId, playerId);
-                if(!GoalCount.TryAdd(playerId, goalCount))
-                {
-                    GoalCount[playerId] = goalCount;
-                }
+                var goalCount = await _ludoApi.GetGoalCount(BoardId, player.Value.Id);
+                GoalCount[player.Key] = goalCount;
             }
         }
 
-        public bool IsOccupied(int position, bool isInSaveZone = false, int playerIndex = 0)
+        public bool IsOccupied(int position, bool isInSaveZone = false, int playerIndex = -1)
         {
-            if(isInSaveZone && playerIndex < Players.Count)
+            if (isInSaveZone && Players.ContainsKey(playerIndex))
             {
                 return BoardStates.Any(state => !state.IsInBase
                     && state.IsInSafeZone == isInSaveZone
-                    && state.PlayerId == Players[playerIndex]
+                    && state.PlayerId == Players[playerIndex].Id
                     && state.PiecePosition == position);
-
             }
+            if (isInSaveZone) return false;
             return BoardStates.Any(state => !state.IsInBase && !state.IsInSafeZone && state.PiecePosition == position);
         }
 
@@ -129,23 +153,55 @@ namespace LudoFrontEnd.Pages
 
         public int GetPlayerIndex(int playerId)
         {
-            return Players.IndexOf(playerId);
+            return Players.FirstOrDefault(player => player.Value.Id == playerId).Key;
         }
 
         public int GetBaseCount(int index)
         {
-            return index >= Players.Count ? 0 : BaseCount[Players[index]];
+            return BaseCount[index];
         }
 
         public int GetGoalCount(int index)
         {
-            return index >= Players.Count ? 0 : GoalCount[Players[index]];
+            return GoalCount[index];
         }
 
         public int RollDie()
         {
             Random random = new();
             return random.Next(1, 7);
+        }
+
+        public async Task<int> GetWinnerIndex(int playerId)
+        {
+            var playerColor = await _ludoApi.GetPlayerColor(playerId);
+            return Colors.FindIndex(color => color.Id == playerColor.Id);
+        }
+
+        public async Task<int> GetPlacement(int playerIndex)
+        {
+            foreach (var winner in Winners)
+            {
+                var winnerIndex = await GetWinnerIndex(winner.Value);
+                if (winnerIndex == playerIndex)
+                {
+                    return winner.Key;
+                }
+            }
+            return -1;
+        }
+
+        public async Task<bool> IsWinner(int playerIndex)
+        {
+            foreach (var winner in Winners)
+            {
+                if (await GetWinnerIndex(winner.Value) == playerIndex)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

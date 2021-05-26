@@ -53,9 +53,6 @@ namespace LudoApi.Controllers
                 .ToListAsync(); 
         }
 
-
-
-
         // PUT: api/Winners/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -122,7 +119,7 @@ namespace LudoApi.Controllers
         private static WinnerDTO DbWinnersToDTO(DbWinner winner) =>
         new()
         {
-            PlayerId=winner.Id,
+            PlayerId = winner.PlayerId,
             Placement = winner.Placement
         };
     }

@@ -3,9 +3,18 @@
 var roll = 0;
 var movablePieces = [];
 
+class Position {
+    constructor(position, isInSafeZone) {
+        this.position = position;
+        this.isInSafeZone = isInSafeZone;
+    }
+}
+
 async function rollDice() {
     if (window.roll == 0) {
-        window.roll = Math.floor(Math.random() * 6) + 1;
+        // Todo: uncomment:
+        //window.roll = Math.floor(Math.random() * 6) + 1;
+        window.roll = 1;
         let rollButton = document.getElementById("roll-button");
         rollButton.innerHTML = window.roll;
         rollButton.removeEventListener("click", rollDice);
@@ -15,29 +24,33 @@ async function rollDice() {
         rollButton.style.fontWeight = 700;
 
         window.movablePieces = await getMovablePieces();
+        await skipRound();
         highlightMovablePieces();
-        highlightPossibleTargetSquares();
+        await highlightPossibleTargetSquares();
         addMoveClickListener();
         addMouseOverHighlight();
         await addLeaveBaseClick();
     }
 }
 
-function skipRound() {
-    if (window.movablePieces.length == 0 && !canLeaveBase()) {
-        apiSkipRound();
+async function skipRound() {
+    if (window.movablePieces.length == 0 &&!(await canLeaveBase())) {
+        console.log("nani");
+        await apiSkipRound();
+        alert("No possible moves, skip round!");
+        location.reload();
     }
 }
 
 async function addLeaveBaseClick() {
     removeLeaveBaseClicks();
-    setTimeout(function() {
-        if (canLeaveBase()) {
+    setTimeout(await (async function() {
+        if (await canLeaveBase()) {
             let base = document.getElementById("ludoBase" + (activePlayerIndex + 1));
             base.style.cursor = "pointer";
             base.addEventListener("click", function() { leaveBase() }, false);
         }
-    }, 5);
+    }), 5);
 }
 
 function removeLeaveBaseClicks() {
@@ -52,32 +65,23 @@ async function canLeaveBase() {
     if (window.roll != 6) {
         return false;
     }
-
-    if (isOccupied(await apiGetStartPosition())) {
+    if (await isOccupied(await apiGetStartPosition())) {
         return false;
     }
 
     if (getBasePieceCount() == 0) {
         return false;
     }
-
     return true;
 }
 
 function addMouseOverHighlight() {
     for (const piece of window.movablePieces) {
-        let squarePiece = document.getElementById("sq_" + piece).getElementsByClassName("piece")[0];
+        let square = getSquare(activePlayerIndex, piece);
+        let squarePiece = getSquarePiece(square);
         squarePiece.addEventListener("mouseover", highlightCurrentTargetOnly, false);
         squarePiece.addEventListener("mouseleave", highlightPossibleTargetSquares, false);
     }
-}
-
-function highlightCurrentTargetOnly(event) {
-    removeAllSquareHighlights();
-    let mouseoverSquare = event.relatedTarget.id;
-    let originId = parseInt(mouseoverSquare.substring(3), 10);
-    let targetId = originId + window.roll;
-    highlightSquare("sq_" + targetId);
 }
 
 function highlightSquare(id) {
@@ -85,36 +89,70 @@ function highlightSquare(id) {
     square.classList.add("targetSquare");
 }
 
-function removeAllSquareHighlights() {
-    let squares = document.getElementsByClassName("ludoSquare");
-    for (const square of squares) {
-        square.classList.remove("targetSquare");
-    }
+async function highlightCurrentTargetOnly(event) {
+    removeAllSquareHighlights();
+    let mouseoverSquare = event.relatedTarget.id;
+    let isInSafeZone = mouseoverSquare.includes("p_");
+    let positionIndex = mouseoverSquare.indexOf("sq_") + 3;
+    let position = mouseoverSquare.substring(positionIndex);
+    let piece = window.movablePieces.find(piece => piece.position == position && piece.isInSafeZone == isInSafeZone);
+
+    let targetPosition = await fetchTargetPosition(window.boardId, window.activePlayerId, piece.position, piece.isInSafeZone, window.roll);
+    let targetSquare = getSquare(window.activePlayerIndex, targetPosition);
+    targetSquare.classList.add("targetSquare");
 }
 
 function highlightMovablePieces() {
     for (const piece of window.movablePieces) {
-        let squarePiece = document.getElementById("sq_" + piece).getElementsByClassName("piece")[0];
+        let square = getSquare(activePlayerIndex, piece);
+        let squarePiece = getSquarePiece(square);
         squarePiece.classList.add("movablePiece");
     }
 }
 
 function addMoveClickListener() {
     for (const piece of window.movablePieces) {
-        let squarePiece = document.getElementById("sq_" + piece).getElementsByClassName("piece")[0];
+        let square = getSquare(activePlayerIndex, piece);
+        let squarePiece = getSquarePiece(square);
         squarePiece.addEventListener("click", function() { apiMovePiece(piece) }, false);
     }
 }
 
-function highlightPossibleTargetSquares() {
+function getSquare(playerIndex, position) {
+    let square;
+    if (position.isInSafeZone) {
+        if (position.position == 5) {
+            square = document.getElementById("ludoGoal" + (playerIndex + 1));
+        } else {
+            square = document.getElementById("p_" + (playerIndex + 1) + "_sq_" + position.position);
+        }
+    }
+    else {
+        square = document.getElementById("sq_" + position.position);
+    }
+    return square;
+}
+
+function getSquarePiece(square) {
+    return square.getElementsByClassName("piece")[0];
+}
+
+async function highlightPossibleTargetSquares() {
     removeAllSquareHighlights();
-    setTimeout(function() {
+    setTimeout(async function() {
         for (const piece of window.movablePieces) {
-            let targetSquare = piece + window.roll;
-            let squarePiece = document.getElementById("sq_" + targetSquare);
-            squarePiece.classList.add("targetSquare");
+            let targetPosition = await fetchTargetPosition(window.boardId, window.activePlayerId, piece.position, piece.isInSafeZone, window.roll);
+            let targetSquare = getSquare(window.activePlayerIndex, targetPosition);
+            targetSquare.classList.add("targetSquare");
         }
     }, 5);
+}
+
+function removeAllSquareHighlights() {
+    let squares = document.getElementsByClassName("ludoSquare");
+    for (const square of squares) {
+        square.classList.remove("targetSquare");
+    }
 }
 
 function highLightActivePlayer() {
@@ -126,34 +164,37 @@ async function getMovablePieces() {
     pieces = await fetchMovablePieces();
     var movablePieces = [];
     pieces.forEach(piece => {
-        movablePieces.push(piece["piecePosition"]);
+        movablePieces.push(new Position(piece["piecePosition"], piece["isInSafeZone"]));
     });
     return movablePieces;
 }
 
 async function getBasePieceCount() {
     const result = await apiFetch('boards/' + window.boardId + '/players/' + window.activePlayerId + '/pieces/base/', 'GET');
-    console.log('getBasePieceCount: ' + result);
     return result.length;
 }
 
 async function isOccupied(position) {
     const result = await apiFetch('boards/' + window.boardId + '/squares/' + position + '/isOccupied/', 'GET');
-    console.log('isOccupied: ' + result);
     return result;
 }
 
+//async function isOccupiedInSafeZone(position) {
+//    const result = await apiFetch('boards/' + window.boardId + '/players/' + window.activePlayerId + '/safezone/' + position + '/isOccupied/', 'GET');
+//    return result;
+//}
+
 async function leaveBase() {
-    const result = await apiFetch('boards/' + window.boardId + '/players/' + window.activePlayerId + '/leaveBase', 'POST');
-    console.log('leaveBase: ' + result);
+    const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/leaveBase';
+    const result = await apiFetch(url, 'POST');
     location.reload();
     return result;
 }
 
 async function apiMovePiece(position) {
     let pieceNumber = await getPieceNumberByPosition(position)
-    const result = await apiFetch('boards/' + window.boardId + '/players/' + window.activePlayerId + '/pieces/' + pieceNumber + '/' + window.roll, 'POST');
-    console.log('apiMovePiece: ' + result);
+    const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/pieces/' + pieceNumber + '/' + window.roll;
+    const result = await apiFetch(url, 'POST');
     location.reload();
     return result;
 }
@@ -163,23 +204,13 @@ async function getPieceNumberByPosition(position) {
     
     let pieceNumber = -1;
     result.forEach(state => {
-        if(state["piecePosition"] == position) {
+        if(state["piecePosition"] == position.position && state["isInSafeZone"] == position.isInSafeZone && state["isInBase"] == false) {
             pieceNumber = state["pieceNumber"];
             return false;
         }
     });
-
-    console.log('getPieceNumberByPosition: ' + result);
-    console.log('getPieceNumberByPosition(pieceNumber): ' + pieceNumber);
         
     return pieceNumber;
-}
-
-async function fetchMovablePieces() {
-    const url = 'boards/' + window.boardId+ '/players/' + window.activePlayerId + '/pieces/movable/' + window.roll;
-    const result = await apiFetch(url, 'GET');
-    console.log('fetchMovablePieces(' + url + '): ' + result);
-    return result;
 }
 
 async function apiSkipRound() {
@@ -188,9 +219,22 @@ async function apiSkipRound() {
     return result;
 }
 
+async function fetchTargetPosition(boardId, playerId, piecePosition, isInSafeZone, steps)
+{
+   const url = 'boards/' + boardId + '/players/' + playerId + '/pieces/pos/' + piecePosition + '/safezone/' + isInSafeZone + '/targetposition/' + steps;
+   const result = await apiFetch(url, 'GET');
+   return new Position(result["position"], result["isInSafeZone"]);
+}
+
+async function fetchMovablePieces() {
+    const url = 'boards/' + window.boardId+ '/players/' + window.activePlayerId + '/pieces/movable/' + window.roll;
+    const result = await apiFetch(url, 'GET');
+    return result;
+}
+
 async function apiGetStartPosition() {
-    const result = await apiFetch('boards/' + window.boardId+ '/players/' + window.activePlayerId + '/startingPosition', 'GET')
-    console.log('apiGetStartPosition: ' + result);
+    const url = 'boards/' + window.boardId+ '/players/' + window.activePlayerId + '/startingPosition';
+    const result = await apiFetch(url, 'GET')
     return result;
 }
 

@@ -121,7 +121,7 @@ namespace LudoApi.Controllers
             return boardState;
         }
 
-            [HttpGet("players/{playerId}/color")]
+        [HttpGet("players/{playerId}/color")]
         public async Task<ActionResult<ColorDTO>> GetPlayerColor(int playerId)
         {
             DbPlayer dbPlayer = await _context.Players.FindAsync(playerId);
@@ -238,7 +238,15 @@ namespace LudoApi.Controllers
         public async Task<ActionResult<bool>> IsOccupied(int boardId, int position)
         {
             return await _context.BoardStates
-                .Where(state => state.BoardId == boardId && state.PiecePosition == position)
+                .Where(state => state.BoardId == boardId && state.PiecePosition == position && state.IsInBase == false && state.IsInSafeZone == false)
+                .AnyAsync();
+        }
+
+        [HttpGet("boards/{boardId}/players/{playerId}/safezone/{position}/isOccupied")]
+        public async Task<ActionResult<bool>> IsOccupiedInSafezone(int boardId, int playerId, int position)
+        {
+            return await _context.BoardStates
+                .Where(state => state.BoardId == boardId && state.PiecePosition == position && state.PlayerId == playerId && state.IsInSafeZone == true)
                 .AnyAsync();
         }
 
@@ -246,10 +254,14 @@ namespace LudoApi.Controllers
         public async Task<ActionResult<int>> GetStartingPosition(int boardId, int playerId)
         {
             var players = (await GetPlayersByBoard(boardId)).Value as List<PlayerDTO>;
-            int playerOrderPosition = players
-                .OrderBy(player => player.ColorId)
-                .ToList()
-                .FindIndex(player => player.Id == playerId);
+            var player = players.FirstOrDefault(player => player.Id == playerId);
+            var colors = await _context.Colors.OrderBy(color => color.Id).ToListAsync();
+            int playerOrderPosition = colors.FindIndex(color => color.Id == player.ColorId);
+
+            //int playerOrderPosition = players
+            //    .OrderBy(player => player.ColorId)
+            //    .ToList()
+            //    .FindIndex(player => player.Id == playerId);
 
             int positionOffset = _boardSize / _maxPlayers;
 
@@ -268,6 +280,10 @@ namespace LudoApi.Controllers
                 return false;
             }
 
+            var board = await _context.Boards.FindAsync(boardId);
+            board.LastTimePlayed = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             int targetPosition = await GetTargetPosition(dbBoardState, steps);
 
             if (dbBoardState.IsInSafeZone && await IsValidSafeZoneMove(dbBoardState, targetPosition))
@@ -278,7 +294,13 @@ namespace LudoApi.Controllers
                 }
 
                 dbBoardState.PiecePosition = targetPosition;
-                await _context.SaveChangesAsync();
+                if (IsInGoal(dbBoardState))
+                {
+                    _context.Remove(dbBoardState);
+                    await _context.SaveChangesAsync();
+                    await AddWinner(dbBoardState.BoardId, dbBoardState.PlayerId);
+                    await EndGameIfOver(boardId);
+                }
                 await SetNextPlayer(boardId);
 
                 return true;
@@ -293,7 +315,14 @@ namespace LudoApi.Controllers
 
                 dbBoardState.IsInSafeZone = true;
                 dbBoardState.PiecePosition = safeZonePosition;
-                await _context.SaveChangesAsync();
+                if (IsInGoal(dbBoardState))
+                {
+                    _context.Remove(dbBoardState);
+                    await _context.SaveChangesAsync();
+                    await AddWinner(dbBoardState.BoardId, dbBoardState.PlayerId);
+                    await EndGameIfOver(boardId);
+                }
+
                 await SetNextPlayer(boardId);
 
                 return true;
@@ -317,6 +346,30 @@ namespace LudoApi.Controllers
             }
 
             return false;
+        }
+
+        private async Task<bool> EndGameIfOver(int boardId)
+        {
+            bool isGameOver = (await IsGameOver(boardId)).Value;
+            if (!isGameOver)
+            {
+                return false;
+            }
+
+            var boardStates = await _context.BoardStates.Where(state => state.BoardId == boardId).ToListAsync();
+            _context.RemoveRange(boardStates);
+            await _context.SaveChangesAsync();
+
+            var board = await _context.Boards.FindAsync(boardId);
+            board.IsFinished = true;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private bool IsInGoal(DbBoardState dbBoardState)
+        {
+            return dbBoardState.IsInSafeZone && dbBoardState.PiecePosition == _safeZoneSize - 1;
         }
 
         [HttpGet("boards/{boardId}/players/{playerId}/pieces/base/")]
@@ -346,12 +399,72 @@ namespace LudoApi.Controllers
             List<BoardStateDTO> boardStateDTOs = new();
             foreach (var state in tempStates)
             {
-                if(await IsValidBoardMove(state, steps))
+                if (await IsMovable(state, steps))
                 {
                     boardStateDTOs.Add(DbBoardStateToDTO(state));
                 }
             }
             return boardStateDTOs;
+        }
+
+        [HttpGet("boards/{boardId}/players/{playerId}/pieces/pos/{piecePosition}/safezone/{isInSafeZone}/targetposition/{steps}")]
+        public async Task<object> GetTargetPositionForPlayerMove(int boardId, int playerId, int piecePosition, bool isInSafeZone, int steps)
+        {
+            var boardState = await _context.BoardStates.FirstOrDefaultAsync(state => state.BoardId == boardId
+                                                                                     && state.PlayerId == playerId
+                                                                                     && state.PiecePosition == piecePosition
+                                                                                     && state.IsInSafeZone == isInSafeZone
+                                                                                     && state.IsInBase == false);
+            int targetPosition = await GetTargetPosition(boardState, steps);
+            bool targetIsInSafeZone = boardState.IsInSafeZone || await IsMovingToSafeZone(boardState, steps);
+
+            return new { position = targetPosition, isInSafeZone = targetIsInSafeZone };
+        }
+
+        [HttpGet("boards/{id}/winners")]
+        public async Task<ActionResult<IEnumerable<WinnerDTO>>> GetWinnersByBoard(int id)
+        {
+            return await _context.Winners
+                .Where(winner => winner.BoardId == id)
+                .Select(winner => DbWinnerToDTO(winner))
+                .ToListAsync();
+        }
+
+        private async Task<bool> AddWinner(int boardId, int playerId)
+        {
+            bool hasWon = (await HasPlayerWon(boardId, playerId)).Value;
+            if (!hasWon)
+            {
+                return false;
+            }
+            var winners = _context.Winners.Where(winner => winner.BoardId == boardId);
+            var placement = winners.Count() + 1;
+            await _context.AddAsync(new DbWinner
+            {
+                BoardId = boardId,
+                PlayerId = playerId,
+                Placement = placement
+            });
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private async Task<bool> IsMovable(DbBoardState boardState, int steps)
+        {
+            int targetPosition = await GetTargetPosition(boardState, steps);
+
+            if (boardState.IsInSafeZone && await IsValidSafeZoneMove(boardState, targetPosition)) { return true; }
+
+            if (await IsMovingToSafeZone(boardState, steps))
+            {
+                int remainingBoardSteps = await GetRemainingBoardSteps(boardState);
+                int safeZonePosition = steps - remainingBoardSteps - 1;
+
+                return await IsValidSafeZoneMove(boardState, safeZonePosition);
+            }
+
+            return await IsValidBoardMove(boardState, steps);
         }
 
         private async Task<bool> IsValidBoardMove(DbBoardState dbBoardState, int steps)
@@ -452,6 +565,16 @@ namespace LudoApi.Controllers
             }
 
             return playerPath;
+        }
+        private static WinnerDTO DbWinnerToDTO(DbWinner winner)
+        {
+            return new WinnerDTO
+            {
+                Id = winner.Id,
+                PlayerId = winner.PlayerId,
+                BoardId = winner.BoardId,
+                Placement = winner.Placement,
+            };
         }
 
         private static BoardDTO DbBoardToDTO(DbBoard board) => new()

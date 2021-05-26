@@ -56,7 +56,7 @@ namespace LudoTests
         }
 
         [Fact]
-        public async Task Post_1_Color_Expect_Iden()
+        public async Task Delete_1_Color_Expect_Color_To_Be_Gone()
         {
             await using var context = new TestContext();
             context.SeedColors();

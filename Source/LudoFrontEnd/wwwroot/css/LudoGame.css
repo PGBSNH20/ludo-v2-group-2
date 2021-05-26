@@ -46,6 +46,11 @@
     -webkit-text-stroke: .3vmin black;
 }
 
+.winnerbase {
+    font-size: 3vmin;
+    -webkit-text-stroke: .1vmin black;
+}
+
 .goal {
     border: .15vmin black solid;
     font-family: sans-serif;
@@ -61,28 +66,28 @@
     -webkit-text-stroke: 1px black;
 }
 
-#lodoGoal1 {
+#ludoGoal1 {
     grid-column: 8;
     grid-row: 9;
 }
 
-#lodoGoal2 {
+#ludoGoal2 {
     grid-column: 7;
     grid-row: 8;
 }
 
-#lodoGoal3 {
+#ludoGoal3 {
     grid-column: 8;
     grid-row: 7;
 }
 
-#lodoGoal4 {
+#ludoGoal4 {
     grid-column: 9;
     grid-row: 8;
 }
 
 .ludoSquare {
-    background-color: rgba(0,0,0,.2);
+    background-color: #cccccc;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -130,7 +135,8 @@
 }
 
 .movablePiece {
-    animation: piece-pulse 3s infinite;
+    animation: piece-pulse 2s infinite;
+    animation-timing-function: ease-in-out;
     cursor: pointer;
 }
 
@@ -141,13 +147,16 @@
 
 @keyframes square-pulse {
     0% {
-		background-color: rgba(0,0,0,.2);
+		/* background-color: rgba(0,0,0,.2); */
+        filter: brightness(100%);
 	}
 	50% {
-		background-color: rgba(0,0,0,.4);
+		/* background-color: rgba(0,0,0,.4); */
+        filter: brightness(80%);
 	}
     100% {
-		background-color: rgba(0,0,0,.2);
+		/* background-color: rgba(0,0,0,.2); */
+        filter: brightness(100%);
 	}
 }
 

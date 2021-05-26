@@ -1,0 +1,11 @@
+﻿@page "~/LudoGame/{boardId:int}/gameover"
+@model GameOverModel
+@{
+}
+GAME OVER!
+
+<div>Placement:</div>
+@foreach (var winner in Model.Winners)
+{
+    <div class="placement">@winner.Key. @winner.Value.Name</div>
+}

@@ -18,16 +18,16 @@ namespace LudoFrontEnd.Api
             client.AddDefaultHeader("ApiKey", "Mountain24");
         }
 
-        public async Task<List<LudoBoardState>> GetBoardStatesByBoard(int boardId)
+        public async Task<List<BoardState>> GetBoardStatesByBoard(int boardId)
         {
             var request = new RestRequest($"/boards/{boardId}/boardStates", DataFormat.Json);
-            return await client.GetAsync<List<LudoBoardState>>(request);
+            return await client.GetAsync<List<BoardState>>(request);
         }
 
-        public async Task<List<LudoBoardState>> GetBasePieces(int boardId, int playerId)
+        public async Task<List<BoardState>> GetBasePieces(int boardId, int playerId)
         {
             var request = new RestRequest($"boards/{boardId}/players/{playerId}/pieces/base/", DataFormat.Json);
-            return await client.GetAsync<List<LudoBoardState>>(request);
+            return await client.GetAsync<List<BoardState>>(request);
         }
 
         public async Task<int> GetGoalCount(int boardId, int playerId)
@@ -42,17 +42,47 @@ namespace LudoFrontEnd.Api
             return await client.GetAsync<List<Color>>(request);
         }
 
+        public async Task<Color> GetPlayerColor(int playerId)
+        {
+            var request = new RestRequest($"players/{playerId}/color", DataFormat.Json);
+            return await client.GetAsync<Color>(request);
+        }
+
         public async Task<int> GetActivePlayerId(int boardId)
         {
             var request = new RestRequest($"boards/{boardId}", DataFormat.Json);
-            var ludoBoard = await client.GetAsync<LudoBoard>(request);
+            var ludoBoard = await client.GetAsync<Board>(request);
             return ludoBoard.activePlayerId;
         }
 
-        public async Task<List<LudoBoardState>> GetMovablePieces(int boardId, int playerId, int steps)
+        public async Task<List<BoardState>> GetMovablePieces(int boardId, int playerId, int steps)
         {
             var request = new RestRequest($"boards/{boardId}/players/{playerId}/pieces/movable/{steps}", DataFormat.Json);
-            return await client.GetAsync<List<LudoBoardState>>(request);
+            return await client.GetAsync<List<BoardState>>(request);
         }
+
+        public async Task<Player> GetPlayer(int playerId)
+        {
+            var request = new RestRequest($"players/{playerId}", DataFormat.Json);
+            return await client.GetAsync<Player>(request);
+        }
+
+        public async Task<List<Winner>> GetWinners(int boardId)
+        {
+            var request = new RestRequest($"boards/{boardId}/winners", DataFormat.Json);
+            return await client.GetAsync<List<Winner>>(request);
+        }
+
+        public async Task<bool> IsGameOver(int boardId)
+        {
+            var request = new RestRequest($"boards/{boardId}/GameOver", DataFormat.Json);
+            return await client.GetAsync<bool>(request);
+        }
+
+        //public async Task<object> GetTargetPositionForPlayer(int boardId, int playerId, int pieceNumber, int steps)
+        //{
+        //    var request = new RestRequest($"boards/{boardId}/players/{playerId}/pieces/{pieceNumber}/targetposition/{steps}", DataFormat.Json);
+        //    return await client.GetAsync<object>(request);
+        //}
     }
 }
