@@ -23,11 +23,12 @@ Along with [Flow chart for Ludo Game](https://github.com/PGBSNH20/ludo-v2-group-
 
 ### Razor Pages: Home Page
 This page contains the main menu of the game where there is several options for the  user to choose.
-*New Game: Will redirect the user to another page were he can enter the number of players and the players details to start a new game.
-*Load Game: Will redirect the user to another page were he can choose between the games which is not finished yet.
-*Learn How To Play: Will redirect the user to another page were  there will be a video which explain briefly the game rules.
-*Credits: Will show the credits :)
-*Exit: Will return the user to the main page.
+
+* New Game: Will redirect the user to another page were he can enter the number of players and the players details to start a new game.
+* Load Game: Will redirect the user to another page were he can choose between the games which is not finished yet.
+* Learn How To Play: Will redirect the user to another page were  there will be a video which explain briefly the game rules.
+* Credits: Will show the credits :)
+* Exit: Will return the user to the main page.
 
 ### Razor Pages: New Game
 In this page the user/s will enter the number of players and their details. By default it will always show 4 players input fields, but when the user changes the number of players to 2 or 3 then the input fields will change according to the number of players.
