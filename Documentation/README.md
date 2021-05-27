@@ -22,8 +22,19 @@ We also decided on using the same flow chart for the Razor Pages to guide our [M
 Along with [Flow chart for Ludo Game](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Basic%20Game%20Flow.jpg) 
 
 ### Razor Pages: Home Page
+This page contains the main menu of the game where there is several options for the  user to choose.
+New Game: Will redirect the user to another page were he can enter the number of players and the players details to start a new game.
+Load Game: Will redirect the user to another page were he can choose between the games which is not finished yet.
+Learn How To Play: Will redirect the user to another page were  there will be a video which explain briefly the game rules.
+Credits: Will show the credits :)
+Exit: Will return the user to the main page.
 
 ### Razor Pages: New Game
+In this page the user/s will enter the number of players and their details. By default it will always show 4 players input fields, but when the user changes the number of players to 2 or 3 then the input fields will change according to the number of players.
+When the players are done from writing their names and the colors
+they will click on the button Add Players! then all the details will be added to a list and each of them will automatically roll a dice once to see who will get the highest number in order to start first.
+Then  we make some REST Api calls in order to save the players to the database and to create a new board.
+
 
 ### [Razor Pages: Play!](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages:%20Play!.md)
 This is the page where you actually play the game, it has it's own set of [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md) called GameControllers, this is were we make REST Api calls with logic in order to make moves and make sure they are getting checked by before they go into the database. This one was perticularly hard, and realized that the original plan that we had on just wasn't going to work very well..
