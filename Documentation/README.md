@@ -16,10 +16,13 @@ References:
 
 [Authenticate and Authorization with ASP.NET Core](https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/)
 
-## Razor Pages
+## LudoFrontEnd
 We also decided on using the same flow chart for the Razor Pages to guide our [Main Menu, New Game, Load, and history](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Menu.jpg)
 
 Along with [Flow chart for Ludo Game](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Basic%20Game%20Flow.jpg) 
+
+### LudoApi
+In this folder we will be using RestSharp in order to make the api calls to use the controllers, this way the Frontend/website will be making Rest Api calls that control the logic.
 
 ### Razor Pages: Home Page
 This page contains the main menu of the game where there is several options for the  user to choose.
