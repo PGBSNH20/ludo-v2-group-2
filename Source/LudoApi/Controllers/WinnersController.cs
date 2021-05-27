@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
 using Microsoft.AspNetCore.Authorization;
+using LudoApi.DTOs;
 
 namespace LudoApi.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/winners")]
     [ApiController]
     public class WinnersController : ControllerBase

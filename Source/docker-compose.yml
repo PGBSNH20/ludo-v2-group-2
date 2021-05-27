@@ -10,7 +10,7 @@ services:
   ludodb:
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
-      - "1433:1433"
+      - "21433:1433"
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: "verystrong!pass123"

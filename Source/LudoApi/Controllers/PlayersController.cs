@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using LudoEngine.Database;
 
 using Microsoft.AspNetCore.Authorization;
+using LudoApi.DTOs;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace LudoApi.Controllers
 {
-    [Authorize]
+   // [Authorize]
     [Route("api/players")]
     [ApiController]
     public class PlayersController : ControllerBase
@@ -89,15 +91,37 @@ namespace LudoApi.Controllers
             return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO( dbPlayer));
         }
 
-        // POST: api/Players/{id}
+        // PATCH: api/Players/{id}
         //Admin
-        [HttpPatch]
-        public async Task<ActionResult<PlayerDTO>> PatchDbPlayer(int id)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchColor(int id,
+            [FromBody] JsonPatchDocument<DbPlayer> patchDoc)
         {
-            var dbPlayer = await _context.Players.FindAsync(id);
-           
+            if (patchDoc != null)
+            {
+                //var color = await DbQuery.GetColor(id);
+                var playerState = await _context.Players.FindAsync(id);
 
-            return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO(dbPlayer));
+                if (playerState == null)
+                {
+                    return NotFound("Couldn't find any color with that Id!");
+                }
+
+                patchDoc.ApplyTo(playerState, ModelState);
+
+                _context.SaveChanges();
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                return new ObjectResult(playerState);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
 
         // DELETE: api/Players/5

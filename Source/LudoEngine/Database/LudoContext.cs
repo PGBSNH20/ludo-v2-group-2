@@ -27,7 +27,7 @@ namespace LudoEngine.Database
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json")
                 .Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LudoDatabase"))
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("LudoDatabase"));
             // Anas : 
             //optionsBuilder.UseSqlServer(@"Server = DESKTOP-7NBHFKN; Database = LudoGame; Trusted_Connection = True;");
 

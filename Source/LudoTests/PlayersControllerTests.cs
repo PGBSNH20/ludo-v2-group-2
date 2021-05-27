@@ -28,7 +28,7 @@ namespace LudoTests
         private DbContext _context;
         private PlayersController _controller;
         
-        public void Setup()
+        private void Setup()
         {
             var dbContextOptions =
                 new DbContextOptionsBuilder<LudoContext>().UseInMemoryDatabase(databaseName: "TestDB");
@@ -38,7 +38,7 @@ namespace LudoTests
             _controller = new PlayersController((LudoContext)_context);
         }
 
-        public void Close()
+        private void Close()
         {
             _context.Database.EnsureDeleted();
         }
@@ -46,7 +46,6 @@ namespace LudoTests
         [Fact]
         public async Task Get_AllPlayers_Expect_True()
         {
-
             Setup();
             bool check = false;
             var result = await _controller.GetPlayers();
