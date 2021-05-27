@@ -28,5 +28,3 @@ Here will be our explanation of the testing we did, they are all Xunit tests.
 ## Things we regret/ could have done better:
 
 **Alejandra's regrets**
-
-I picked to be incharge of the Play! LudoFrontEnd page, where is where you actually play a game, I had read the instructions wrong.. wasted 2 weeks, and realized when I started to implement actual board logic into the ludogame.js / LudoGame.cshtml/.cs that infact I needed to make the logic in the controllers, and use the controllers to stir and play the game,  and the .js script is there to make the api calls to make the board work in the razor pages, Thing that I am proud is that now the game could be played in Postman or in Swagger if someone wanted to. But because it was days before the actual turn in I had to cut corners: no unit testing for the GIGA file *GameController* also that Giga file could have definitely seperated into smaller-more-readable files...
