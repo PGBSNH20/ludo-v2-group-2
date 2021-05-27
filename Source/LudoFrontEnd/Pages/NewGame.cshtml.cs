@@ -36,13 +36,11 @@ namespace LudoFrontEnd.Pages
         public Player Winner { get; set; }
 
         Board board = new Board();
-        public bool Disbale1 { get; set; }
-        public bool Disbale2 { get; set; }
-        public bool Disbale3 { get; set; }
-        public bool Disbale4 { get; set; }
+      
 
         public IActionResult OnPostCheck()
         {
+           
             if (NumberOfPlayers==2)
             {                               
                 return Page();
@@ -125,26 +123,26 @@ namespace LudoFrontEnd.Pages
         private Player RollForFirstPlayerPrompt(List<Player> players)
         {
             
-                Dictionary<Player, int> playerRolls = new();
+            Dictionary<Player, int> playerRolls = new();
 
-                foreach (Player player in players)
-                {
+            foreach (Player player in players)
+            {
                    
-                    int roll = Die.Roll();                 
-                    playerRolls.Add(player, roll);
+                int roll = Die.Roll();                 
+                playerRolls.Add(player, roll);
                    
-                }                
+            }                
 
-                List<Player> maxRollPlayers = GetMaxRollPlayers(playerRolls);
+            List<Player> maxRollPlayers = GetMaxRollPlayers(playerRolls);
 
-                if (maxRollPlayers.Count == 1)
-                {
-                    Player winner = maxRollPlayers[0];                    
-                    FirstPlayerId = winner.Id;
-                    Winner = winner;
-                    return winner;
-                }
-                return RollForFirstPlayerPrompt(maxRollPlayers);            
+            if (maxRollPlayers.Count == 1)
+            {
+                Player winner = maxRollPlayers[0];                    
+                FirstPlayerId = winner.Id;
+                Winner = winner;
+                return winner;
+            }
+            return RollForFirstPlayerPrompt(maxRollPlayers);            
         }
         
         private List<Player> GetMaxRollPlayers(Dictionary<Player, int> playerRolls)
