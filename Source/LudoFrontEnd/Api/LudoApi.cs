@@ -79,6 +79,21 @@ namespace LudoFrontEnd.Api
             return await client.GetAsync<bool>(request);
         }
 
+        public async Task<int> AddPlayer(Player player)
+        {
+            var request = new RestRequest($"players", Method.POST, DataFormat.Json);
+            request.AddJsonBody(player);
+            return (await client.PostAsync<Player>(request)).Id;
+        }
+
+        public async Task<int> NewGame(int[] playerIds, int firstPlayer)
+        {
+            var request = new RestRequest($"new?firstPlayer={firstPlayer}", Method.POST, DataFormat.Json);
+            request.AddJsonBody(playerIds);
+            var boardId = await client.PostAsync<int>(request);
+            return boardId;
+        }
+
         //public async Task<object> GetTargetPositionForPlayer(int boardId, int playerId, int pieceNumber, int steps)
         //{
         //    var request = new RestRequest($"boards/{boardId}/players/{playerId}/pieces/{pieceNumber}/targetposition/{steps}", DataFormat.Json);

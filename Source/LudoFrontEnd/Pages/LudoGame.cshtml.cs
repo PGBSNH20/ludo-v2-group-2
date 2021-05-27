@@ -61,26 +61,28 @@ namespace LudoFrontEnd.Pages
             new(int x, int y)[] { (14, 8), (13, 8), (12, 8), (11, 8), (10, 8) }
         };
 
-        public async Task OnGetAsync(int boardId, int playerNumber)
+        public async Task<IActionResult> OnGetAsync(int boardId, int playerNumber)
         {
+            if (boardId == 0)
+            {
+                return new RedirectToPageResult("/Index");
+
+            }
             if (await _ludoApi.IsGameOver(boardId))
             {
                 Response.Redirect($"/LudoGame/{boardId}/gameover");
             }
+            BoardId = boardId;
 
             await LoadColors();
-            BoardId = boardId;
             PlayerNumber = playerNumber;
-            if (BoardId == 0)
-            {
-                return;
-            }
             BoardStates = await _ludoApi.GetBoardStatesByBoard(boardId);
             await LoadPlayers();
             await LoadActivePlayer();
             await LoadWinners();
             await CountBasePieces();
             await CountGoalPieces();
+            return new PageResult();
         }
 
         private async Task LoadWinners()
