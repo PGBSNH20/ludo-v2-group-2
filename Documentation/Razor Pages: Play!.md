@@ -1,6 +1,11 @@
 This page is for the actual game, to play an active game that is!
 
-## CSS
+## CSS: LudoGame.css
+This is to style the look of the board, I mostly stuck to vmin, I thought by default it makes it responsive
+
+References:
+
+[Vmin css-tricks.com](https://css-tricks.com/simple-little-use-case-vmin/)
 
 ## Api Calls
 
