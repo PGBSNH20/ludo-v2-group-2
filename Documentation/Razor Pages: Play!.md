@@ -12,15 +12,20 @@ References:
 
 [Pulsating effect]()
 
+[Loading Custom Css Files in Razor Pages](https://dev.to/amjadmh73/loading-custom-css-files-in-razor-pages-4no9)
+
 ## Api Calls
+We use the 'Giga'-file called: **GameController.cs** this file holds all the logic for the controllers/api calls in order for the board to get information out of the database
+Sadly the file is very messy due to lack of time.
 
 ## LudoGame.js
 This file is for the webside so everything that is happening in the browser, so everything that doesn't need to be run in the server side it gets run here, for example the rolls, the animations like highlighting the pieces if they can move, the logic that tells the board its the next players so there needs to be a red-border, and it also lets us click when it's possible, this is all happening on the page.
 
 ## LudoGame.cshtml
+This is where the HTML stuff is 
 
 ## LudoGame.cshtml.cs
-This file is used for the server side, 
+This file is used for the server side, this is the logic the LudoGame.cshtml.
 * This is where we give our board coordinates. 
 * Calls the logic for the board stuff, so calls methods/Api for the board to do stuff, here are some examples of the types of things you would find there:
   * Checks if the game is over
