@@ -23,6 +23,6 @@ This file is for the webside so everything that is happening in the browser, so 
 This file is used for the server side, 
 * This is where we give our board coordinates. 
 * Calls the logic for the board stuff, so calls methods/Api for the board to do stuff, here are some examples of the types of things you would find there:
- * Checks if the game is over
- * Loads a game
- * If a spot is occupied
+  * Checks if the game is over
+  * Loads a game
+  * If a spot is occupied
