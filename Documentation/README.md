@@ -33,6 +33,9 @@ So after some thought it was decided that **New Plan** would be making new contr
 
 I made a seperate file to explain more about it, because it is alot of different components that took to make this [Play! Page](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages:%20Play!.md)
 
+## Game over!
+Once a game has been completed, so we get all of the winners for that Board it will automatically take the user to the Game Over! page and display the winners.
+
 ## [LudoTests](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoTests.md)
 Here will be our explanation of the testing we did, they are all Xunit tests.
 
