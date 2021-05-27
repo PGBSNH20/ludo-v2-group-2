@@ -7,7 +7,7 @@ but then I had issues because I wanted to patch it depending on the Id but the d
 
 ## Board Controllers
 Request Type | URL | Description
------------- | --- | -----------
+--- | --- | -----------
 | Get | /boards | Gives back all of the Boards from the database. |
 | Get | /boards/{id} | Depending on Id given it will give back the board. |
 | Get | /boards/history | Gives back a list of games that have been finished. |
