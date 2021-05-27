@@ -31,8 +31,8 @@ Exit: Will return the user to the main page.
 
 ### Razor Pages: New Game
 In this page the user/s will enter the number of players and their details. By default it will always show 4 players input fields, but when the user changes the number of players to 2 or 3 then the input fields will change according to the number of players.
-When the players are done from writing their names and the colors
-they will click on the button Add Players! then all the details will be added to a list and each of them will automatically roll a dice once to see who will get the highest number in order to start first.
+When the players are done from writing their names and colors
+they will click on the button Add Players! then all the details will be added to a list and each of them will automatically roll a dice once, to see who will get the highest number in order to start first.
 Then  we make some REST Api calls in order to save the players to the database and to create a new board.
 
 
