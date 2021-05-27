@@ -1,4 +1,4 @@
-﻿@page "{boardId:int}"
+﻿@page "{boardId:int}/{playerNumber:int?}"
 @model LudoGameModel
 @section Styles {
     <link rel="stylesheet" href="~/css/LudoGame.css" />
@@ -20,22 +20,23 @@
 }
 @{ }
 
-<div class="ludoMainBoard">
+<div class="ludoMainBoard @if (Model.IsActivePlayer && Model.PlayerNumber != 0) { @Html.Raw("ludoMainBoardActive") }">
     @* Base Squares *@
     @for (int i = 0; i < 4; i++)
     {
         var isWinner = await Model.IsWinner(i);
         var placement = await Model.GetPlacement(i);
-        <div class="ludoBase @("player"+(i+1)) @if (isWinner) { @Html.Raw("winnerbase") } " id="@("ludoBase"+(i+1))">
-        @if (isWinner)
-        {
-            @Html.Raw($"Place: " + placement);
-        }
-        else
-        {
-            @Model.GetBaseCount(i)
-        }
-    </div>
+        <div class="ludoBase @("player"+(i+1)) @if (isWinner) { @Html.Raw("winnerbase") }" id="@("ludoBase"+(i+1))">
+            @if (isWinner)
+            {
+                @Html.Raw(Model.AddOrdinal(placement) + " Place!");
+            }
+            else
+            {
+@Model.GetBaseCount(i)
+            }
+<div class="@("corner"+i)">@await Model.GetPlayerName(i)</div>
+        </div>
     }
 
     @* Goal Squares *@
@@ -52,7 +53,7 @@
     @* Blank/unused squares *@
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 7"></div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 7; grid-column: 9"></div>
-    <div class="ludoSquare" type="button" id="roll-button" style="grid-row: 8; grid-column: 8">Roll</div>
+    <div class="ludoSquare @if (Model.IsActivePlayer) { @Html.Raw("activePlayer") }" type="button" id="roll-button" style="grid-row: 8; grid-column: 8">Roll</div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 7"></div>
     <div class="ludoSquare ludoSquareBlank" style="grid-row: 9; grid-column: 9"></div>
 
@@ -82,3 +83,4 @@
         </div>
     }
 </div>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>

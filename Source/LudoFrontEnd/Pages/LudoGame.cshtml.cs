@@ -21,9 +21,20 @@ namespace LudoFrontEnd.Pages
         public int[] BaseCount { get; set; } = new int[4];
         // color/board-Index, player
         public Dictionary<int, Player> Players = new();
+        // placement, playerid
+        public Dictionary<int, int> Winners { get; set; } = new();
         public int ActivePlayerId { get; set; }
         public int ActivePlayerIndex { get; set; }
-        public Dictionary<int, int> Winners { get; set; } = new();
+        public int PlayerNumber { get; set; }
+        public bool IsActivePlayer {
+            get {
+                if (PlayerNumber == 0)
+                {
+                    return true;
+                }
+                return ActivePlayerIndex == PlayerNumber - 1;
+            }
+        }
 
         public (int x, int y)[] SquareCoordinates { get; } =
         {
@@ -50,14 +61,16 @@ namespace LudoFrontEnd.Pages
             new(int x, int y)[] { (14, 8), (13, 8), (12, 8), (11, 8), (10, 8) }
         };
 
-        public async Task OnGetAsync(int boardId)
+        public async Task OnGetAsync(int boardId, int playerNumber)
         {
             if (await _ludoApi.IsGameOver(boardId))
             {
                 Response.Redirect($"/LudoGame/{boardId}/gameover");
             }
+
             await LoadColors();
             BoardId = boardId;
+            PlayerNumber = playerNumber;
             if (BoardId == 0)
             {
                 return;
@@ -202,6 +215,50 @@ namespace LudoFrontEnd.Pages
             }
 
             return false;
+        }
+
+        public async Task<string> GetPlayerName(int playerIndex)
+        {
+            if (Players.ContainsKey(playerIndex))
+            {
+                return Players[playerIndex].Name;
+            }
+
+            foreach (var winner in Winners)
+            {
+                if (await GetWinnerIndex(winner.Value) == playerIndex)
+                {
+                    var player = await _ludoApi.GetPlayer(winner.Value);
+                    return player.Name;
+                }
+            }
+
+            return "";
+        }
+
+        public string AddOrdinal(int num)
+        {
+            if (num <= 0) return num.ToString();
+
+            switch (num % 100)
+            {
+                case 11:
+                case 12:
+                case 13:
+                    return num + "th";
+            }
+
+            switch (num % 10)
+            {
+                case 1:
+                    return num + "st";
+                case 2:
+                    return num + "nd";
+                case 3:
+                    return num + "rd";
+                default:
+                    return num + "th";
+            }
         }
     }
 }

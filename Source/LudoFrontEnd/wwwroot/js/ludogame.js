@@ -10,18 +10,9 @@ class Position {
     }
 }
 
-async function rollDice() {
+async function playTurn() {
     if (window.roll == 0) {
-        // Todo: uncomment:
-        window.roll = Math.floor(Math.random() * 6) + 1;
-        let rollButton = document.getElementById("roll-button");
-        rollButton.innerHTML = window.roll;
-        rollButton.removeEventListener("click", rollDice);
-        rollButton.style.fontSize = "3vmin";
-        rollButton.style.fontFamily = "sans-serif";
-        rollButton.style.color = "white";
-        rollButton.style.fontWeight = 700;
-
+        RollDie();
         window.movablePieces = await getMovablePieces();
         await skipRound();
         highlightMovablePieces();
@@ -36,8 +27,7 @@ async function skipRound() {
     if (window.movablePieces.length == 0 &&!(await canLeaveBase())) {
         console.log("nani");
         await apiSkipRound();
-        alert("No possible moves, skip round!");
-        location.reload();
+        NextTurn();
     }
 }
 
@@ -46,7 +36,7 @@ async function addLeaveBaseClick() {
     setTimeout(await (async function() {
         if (await canLeaveBase()) {
             let base = document.getElementById("ludoBase" + (activePlayerIndex + 1));
-            base.style.cursor = "pointer";
+            base.classList.add("leaveBase");
             base.addEventListener("click", function() { leaveBase() }, false);
         }
     }), 5);
@@ -55,7 +45,7 @@ async function addLeaveBaseClick() {
 function removeLeaveBaseClicks() {
     let ludoBases = document.getElementsByClassName("ludoBase");
     for (const base of ludoBases) {
-        base.style.cursor = "default";
+        base.classList.remove("leaveBase");
         base.removeEventListener("click", function() { leaveBase() }, false);
     }
 }
@@ -67,8 +57,7 @@ async function canLeaveBase() {
     if (await isOccupied(await apiGetStartPosition())) {
         return false;
     }
-
-    if (getBasePieceCount() == 0) {
+    if (await getBasePieceCount() <= 0) {
         return false;
     }
     return true;
@@ -157,10 +146,11 @@ function removeAllSquareHighlights() {
 function highLightActivePlayer() {
     let elementId = "ludoBase" + (window.activePlayerIndex + 1);
     document.getElementById(elementId).style.borderColor = "red";
+    document.getElementById(elementId).style.borderWidth = ".5vmin";
 }
 
 async function getMovablePieces() {
-    pieces = await fetchMovablePieces();
+    let pieces = await fetchMovablePieces();
     var movablePieces = [];
     pieces.forEach(piece => {
         movablePieces.push(new Position(piece["piecePosition"], piece["isInSafeZone"]));
@@ -186,16 +176,14 @@ async function isOccupied(position) {
 async function leaveBase() {
     const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/leaveBase';
     const result = await apiFetch(url, 'POST');
-    location.reload();
-    return result;
+    NextTurn();
 }
 
 async function apiMovePiece(position) {
     let pieceNumber = await getPieceNumberByPosition(position)
     const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/pieces/' + pieceNumber + '/' + window.roll;
     const result = await apiFetch(url, 'POST');
-    location.reload();
-    return result;
+    NextTurn();
 }
 
 async function getPieceNumberByPosition(position) {
@@ -214,7 +202,6 @@ async function getPieceNumberByPosition(position) {
 
 async function apiSkipRound() {
     const result = await apiFetch('boards/' + window.boardId+ '/skipround', 'POST');
-    console.log('apiSkipRound: ' + result);
     return result;
 }
 
@@ -257,4 +244,42 @@ async function apiFetch(url, verb) {
     return result;
 }
 
-document.getElementById("roll-button").addEventListener("click", rollDice);
+function NextTurn() {
+    InvokeSignalRMessage("reload", "")
+}
+
+function RollDie() {
+    window.roll = Math.floor(Math.random() * 6) + 1;
+    InvokeSignalRMessage("showroll", "" + window.roll)
+}
+
+async function ShowRoll(number) {
+    let rollButton = document.getElementById("roll-button");
+    rollButton.innerHTML = number;
+    rollButton.removeEventListener("click", playTurn);
+    rollButton.style.fontSize = "3vmin";
+    rollButton.style.fontFamily = "sans-serif";
+    rollButton.style.color = "white";
+    rollButton.style.fontWeight = 700;
+}
+
+function InvokeSignalRMessage(action, data) {
+    connection.invoke("SendMessage", action, data).catch(function (err) {
+        return console.error(err.toString());
+    }); 
+}
+
+document.getElementById("roll-button").addEventListener("click", playTurn);
+
+var connection = new signalR.HubConnectionBuilder().withUrl("/ludoHub").build();
+
+connection.on("ReceiveMessage", function (action, data) {
+    if (action === "reload") {
+        location.reload();
+    }
+    if (action === "showroll") {
+        ShowRoll(data);
+    }
+});
+
+connection.start();

@@ -32,5 +32,11 @@ namespace LudoFrontEnd.Pages
                 Winners.TryAdd(winner.Placement, await _ludoApi.GetPlayer(winner.PlayerId));
             }
         }
+
+        public async Task<string> GetPlayerColor(int playerId)
+        {
+            var color = await _ludoApi.GetPlayerColor(playerId);
+            return color.ColorCode;
+        }
     }
 }

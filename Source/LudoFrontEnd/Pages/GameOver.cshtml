@@ -1,11 +1,14 @@
 ﻿@page "~/LudoGame/{boardId:int}/gameover"
 @model GameOverModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/GameOver.css" />
+}
 @{
 }
-GAME OVER!
+<h1>GAME OVER!</h1>
 
-<div>Placement:</div>
+<h2>Placement:</h2>
 @foreach (var winner in Model.Winners)
 {
-    <div class="placement">@winner.Key. @winner.Value.Name</div>
+    <p class="placement" style="color: @("#"+(await Model.GetPlayerColor(winner.Value.Id)))">@winner.Key. @winner.Value.Name</p>
 }
