@@ -9,6 +9,13 @@ Made a docker file in order to be able to run the SQL database, the files were r
 
 ![image](https://user-images.githubusercontent.com/70092696/118378991-ad003480-b5d7-11eb-9a80-d76c1006e12d.png)
 
+## Authentication and Authorization
+The files got added in the LudoApi, along with in the start up, but due to time constraints it never got implemented onto the FrontEnd
+
+References:
+
+[Authenticate and Authorization with ASP.NET Core](https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/)
+
 ## Razor Pages
 We also decided on using the same flow chart for the Razor Pages to guide our [Main Menu, New Game, Load, and history](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Menu.jpg)
 
