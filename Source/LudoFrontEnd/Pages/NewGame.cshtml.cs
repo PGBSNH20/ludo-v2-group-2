@@ -44,39 +44,17 @@ namespace LudoFrontEnd.Pages
         public IActionResult OnPostCheck()
         {
             if (NumberOfPlayers==2)
-            {
-                Disbale1 = true;
-                Disbale2 = true;
-                Disbale3 = false;
-                Disbale4 = false;
-
+            {                               
                 return Page();
             }
             else if(NumberOfPlayers == 3)
-            {
-                Disbale1 = true;
-                Disbale2 = false;
-                Disbale3 = false;
-                Disbale4 = false;
-
+            {                  
                 return Page();
-            }
-            else if(NumberOfPlayers == 4)
-            {
-                Disbale1 = false;
-                Disbale2 = false;
-                Disbale3 = false;
-                Disbale4 = false;
-
-                return Page();
-            }
+            }            
             else
             {
-                return Page();
-            }
-
-           
-           
+                return RedirectToPage("/Error");
+            }   
         }
 
         

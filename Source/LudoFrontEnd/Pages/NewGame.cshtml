@@ -10,36 +10,36 @@
 <form method="post" asp-page-handler="Add">
 
     <input id="inp" type="number" asp-for="NumberOfPlayers" placeholder="Player Name " />
-    <button id="inp" type="submit" asp-page-handler="Check" class="btn btn-primary">Check!</button>
+    <button id="inp" type="submit" asp-page-handler="Confirm" class="btn btn-primary">Check!</button>
+
 
     @if (Model.NumberOfPlayers == 2)
-    {
-        <input type="text" asp-for="Players[1].Id" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[1].Name" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Id" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Name" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
-    }
+     {
+        @for (int i = 0; i <= Model.NumberOfPlayers - 1; i++)
+         {
+            <input type="text" asp-for="Players[i].Name" class="btn btn-success"  />
+            <input type="text" asp-for="Players[i].ColorId" class="btn btn-success"  />
+         }
+
+     }
+
     else if (Model.NumberOfPlayers == 3)
     {
-        <input type="text" asp-for="Players[2].Name" class="btn btn-success" disabled="@(Model.Disbale2 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[2].Name" class="btn btn-success" disabled="@(Model.Disbale2 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[1].Name" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[1].Name" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Name" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Name" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
+        @for (int i = 0; i <= Model.NumberOfPlayers - 1; i++)
+         {
+            <input type="text" asp-for="Players[i].Name" class="btn btn-success"  />
+            <input type="text" asp-for="Players[i].ColorId" class="btn btn-success"  />
+         }
     }
     else if (true)
     {
-        <input type="text" asp-for="Players[3].Name" class="btn btn-success" disabled="@(Model.Disbale1 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[3].Name" class="btn btn-success" disabled="@(Model.Disbale1 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[2].Name" class="btn btn-success" disabled="@(Model.Disbale2 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[2].Name" class="btn btn-success" disabled="@(Model.Disbale2 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[1].Name" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[1].Name" class="btn btn-success" disabled="@(Model.Disbale3 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Name" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
-        <input type="text" asp-for="Players[0].Name" class="btn btn-success" disabled="@(Model.Disbale4 ? "disabled" : null)" />
+        @for (int i = 0; i <= 3; i++)
+         {
+            <input type="text" asp-for="Players[i].Name" class="btn btn-success"  />
+            <input type="text" asp-for="Players[i].ColorId" class="btn btn-success"  />
+         }
     }
-   
+
 
 
 
