@@ -31,3 +31,6 @@ This file is used for the server side, this is the logic the LudoGame.cshtml.
   * Checks if the game is over
   * Loads a game
   * If a spot is occupied
+
+## SignalR
+This is where SignalR got implemented, if you have different browsers open it should automatically show when people have moved and rolled, when its *Your* turn in your browser the whole board will have a border to try to notify you its your turn, and you can see if anyone is cheating by refreshing the page to re-roll again! 😉
