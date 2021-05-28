@@ -1,36 +1,50 @@
 ﻿@page "/LudoGame/NewGame"
 @model NewGamePlusModel
 @section Styles {
-    <link rel="stylesheet" href="~/css/NewGame.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 }
 @{
 }
 @* Player amount selection *@
 @if (Model.PlayerCount <= 0)
 {
-    <form method="post">
-        <p>How many players?</p>
+<form class="form-style-4" method="post">
+    <label>
+        <h1 id="NOF">How many players?</h1>
         @for (int i = 2; i < 5; i++)
         {
-            <input type="radio" id="@("playerCount"+i)" name="playerCount" value="@i" required>
-            <label for="@("playerCount"+i)">@i</label><br>
+            
+            <label class="checkbox-label" for="@("playerCount"+i)">
+                        <input type="radio" id="@("playerCount"+i)" name="playerCount" value="@i" required>
+                        <span class="checkbox-custom"></span>
+                        @i
+            </label><br>
         }
         <input type="submit" value="Submit">
-    </form>
+    </label>
+</form>
 }
 
 @if (Model.Players.Count < Model.PlayerCount)
 {
-    <form method="post">
-        <h2>Player @(Model.CurrentPlayer)</h2>
-        Name: <input name="playerName" minlength="1"/><br />
+<form class="form-style-4" method="post">
+    <h3 id="NOF">Player @(Model.CurrentPlayer) Name:</h3>
+    <label for="field1">
+        <input type="text" name="playerName" minlength="1" /><br />
+    </label>
 
         @foreach (var index in Model.GetAvailableColorIndixes())
         {
-            <input type="radio" id="@("color" +index)" name="colorId" value="@(Model.Colors[index].Id)" required>
-            <label for="@("color" +index)" style="font-weight: bold; color: @("#"+Model.Colors[index].ColorCode)">@Model.ColorNames[index]</label>
+
+            <label class="checkbox-label" for="@("color" +index)" style="font-weight: bold; color: @("#"+Model.Colors[index].ColorCode)">
+
+                <input  type="radio" id="@("color" +index)" name="colorId" value="@(Model.Colors[index].Id)" required >
+                <span class="checkbox-custom"></span>
+                @Model.ColorNames[index]
+
+            </label>
         }
         <br />
         <input type="submit" />
-    </form>
+</form>
 }

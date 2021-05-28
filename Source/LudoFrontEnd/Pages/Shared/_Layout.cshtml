@@ -3,17 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LudoFrontEnd</title>    
+    <title>@ViewData["Title"] - Ludo Game</title>    
     <link rel="stylesheet" href="~/css/site.css" />   
     @RenderSection("Styles", required: false)
 </head>
 <body>
     <div class="header">
-        <a href="#default" class="logo">Ludo Land </a>
+        <a href="https://localhost:44310/Index" class="logo">Ludo Land </a>
         <div class="header-right">
-            <a class="active" href="#home">Home</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
+            <a class="active"  onclick="location.href='https://localhost:44310/Index'" href="#home">Home</a>           
+            <a href="#about" onclick="location.href='https://github.com/PGBSNH20/ludo-v2-group-2/blob/AlejandraV2/README.md'">About</a>
         </div>
     </div>
     <div class="container">
@@ -25,11 +24,11 @@
     <div class="footer-basic">
         <footer>
 
-            <ul class="list-inline">
+            @*<ul class="list-inline">
                 <li class="list-inline-item"><a href="#">Services</a></li>
                 <li class="list-inline-item"><a href="#">Terms</a></li>
                 <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-            </ul>
+            </ul>*@
             <p class="copyright">Anas & Alejandra  © 2021</p>
         </footer>
     </div>
