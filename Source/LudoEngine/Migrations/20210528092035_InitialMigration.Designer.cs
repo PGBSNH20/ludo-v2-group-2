@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LudoEngine.Migrations
 {
     [DbContext(typeof(LudoContext))]
-    [Migration("20210527215430_InitialMigration")]
+    [Migration("20210528092035_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
