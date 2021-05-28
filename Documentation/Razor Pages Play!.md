@@ -4,7 +4,12 @@ This page is for the actual game, to play an active game that is!
 This is to style the look of the board, I mostly stuck to vmin, I thought by default it makes it responsive. Vmin looks at height and width and takes the percentage of whichever of the two that is smallest.  
 Some things worthy of mention:
 * Used a pulsating effect to show the user which pieces they can move, and where they would move to.
+
+![Possible moves showing the pulse effect](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/PlayerRollsShowAllPossibleMoves.gif)
+
 * When its the players turn their Base zone they will get a Red border alerting them its their turn, and if they are playing in different browsers/computers the whole board will have a red border telling them its their turn. 
+
+![Who's turn is it?](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/WhosTurnIsIt.gif)
 
 References:
 
