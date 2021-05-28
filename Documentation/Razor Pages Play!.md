@@ -19,7 +19,7 @@ References:
 
 [Vmin css-tricks.com](https://css-tricks.com/simple-little-use-case-vmin/)
 
-[Pulsating effect]()
+[Pulsating effect](https://www.florin-pop.com/blog/2019/03/css-pulse-effect/)
 
 [Loading Custom Css Files in Razor Pages](https://dev.to/amjadmh73/loading-custom-css-files-in-razor-pages-4no9)
 
