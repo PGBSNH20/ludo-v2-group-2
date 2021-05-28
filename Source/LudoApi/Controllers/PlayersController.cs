@@ -90,37 +90,15 @@ namespace LudoApi.Controllers
             return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO( dbPlayer));
         }
 
-        // PATCH: api/Players/{id}
+        // POST: api/Players/{id}
         //Admin
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchColor(int id,
-            [FromBody] JsonPatchDocument<DbPlayer> patchDoc)
+        [HttpPatch]
+        public async Task<ActionResult<PlayerDTO>> PatchDbPlayer(int id)
         {
-            if (patchDoc != null)
-            {
-                //var color = await DbQuery.GetColor(id);
-                var playerState = await _context.Players.FindAsync(id);
+            var dbPlayer = await _context.Players.FindAsync(id);
+           
 
-                if (playerState == null)
-                {
-                    return NotFound("Couldn't find any color with that Id!");
-                }
-
-                patchDoc.ApplyTo(playerState, ModelState);
-
-                _context.SaveChanges();
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                return new ObjectResult(playerState);
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            return CreatedAtAction("GetDbPlayer", new { id = dbPlayer.Id }, DbPlayerToDTO(dbPlayer));
         }
 
         // DELETE: api/Players/5

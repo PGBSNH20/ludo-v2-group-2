@@ -33,16 +33,27 @@ using LudoApi.DTOs;
 //            _controller = new PlayersController((LudoContext)_context);
 //        }
 
-    {
-        private DbContext _context;
-        private PlayersController _controller;
-        
-        private void Setup()
-        {
-            var dbContextOptions =
-                new DbContextOptionsBuilder<LudoContext>().UseInMemoryDatabase(databaseName: "TestDB");
-            _context = new LudoContext();
-            _context.Database.EnsureCreated();
+//        private void Close()
+//        {
+//            _context.Database.EnsureDeleted();
+//        }
+
+//        [Fact]
+//        public async Task Get_AllPlayers_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//            var result = await _controller.GetPlayers();
+//            foreach (var item in result.Value)
+//            {
+//                if (item.Name.Contains("Anna"))
+//                {
+//                    check = true;
+//                }
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
 
 //        [Fact]
 //        public async Task Get_PlayerById_Expect_True()
@@ -51,60 +62,30 @@ using LudoApi.DTOs;
 //            bool check = false;
 //            var result = await _controller.GetDbPlayer(1);
 
-        private void Close()
-        {
-            _context.Database.EnsureDeleted();
-        }
+//            if (result.Value.Name.Contains("Lisa"))
+//            {
+//                check = true;
+//            }
 
-        [Fact]
-        public async Task Get_AllPlayers_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            var result = await _controller.GetPlayers();
-            foreach (var item in result.Value)
-            {
-                if (item.Name.Contains("Anna"))
-                {
-                    check = true;
-                }
-            }
-            Assert.True(check);
-            Close();
-        }
+//            Assert.True(check);
+//            Close();
+//        }
 
-        [Fact]
-        public async Task Get_PlayerById_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            var result = await _controller.GetDbPlayer(1);
-
-            if (result.Value.Name.Contains("Lisa"))
-            {
-                check = true;
-            }
-
-            Assert.True(check);
-            Close();
-        }
-
-        [Fact]
-        public async Task Put_Modify_A_PlayerDetails_Expect_True()
-        {
-            Setup();
-            bool check = false;
-            DbPlayer player = new DbPlayer() { Name = "Nancy", ColorId = 2, Id = 1 };
-            await _controller.PutDbPlayer(1, player);
-            var validate = await _controller.GetDbPlayer(1);
-            if (validate.Value.Name == "Nancy")
-            {
-                check = true;
-            }
-            Assert.True(check);
-            Close();
-        }
-        }
+//        [Fact]
+//        public async Task Put_Modify_A_PlayerDetails_Expect_True()
+//        {
+//            Setup();
+//            bool check = false;
+//            DbPlayer player = new DbPlayer() { Name = "Nancy", ColorId = 2, Id = 1 };
+//            await _controller.PutDbPlayer(1, player);
+//            var validate = await _controller.GetDbPlayer(1);
+//            if (validate.Value.Name == "Nancy")
+//            {
+//                check = true;
+//            }
+//            Assert.True(check);
+//            Close();
+//        }
         
 //        [Fact]
 //        public async Task Post_AddNewPlayer_Expect_True()
