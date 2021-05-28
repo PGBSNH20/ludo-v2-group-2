@@ -60,8 +60,8 @@ namespace LudoApi
 
             app.UseAuthorization();
 
-            string apiKey = Configuration.GetValue<string>("ApiKey");
-            app.UseAPIKey(apiKey);
+            //string apiKey = Configuration.GetValue<string>("ApiKey");
+            //app.UseAPIKey(apiKey);
 
             app.UseEndpoints(endpoints =>
             {
