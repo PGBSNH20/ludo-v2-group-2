@@ -58,6 +58,9 @@ I made a seperate file to explain more about it, because it is alot of different
 ## Game over!
 Once a game has been completed, so we get all of the winners for that Board it will automatically take the user to the Game Over! page and display the winners.
 
+## Load Game
+In this page it will display all games that haven't been finished that we have currently in the database, it will display the last time played, and the player names. 
+
 ![Game Over](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/GameOver.png)
 
 ## [LudoTests](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoTests.md)
