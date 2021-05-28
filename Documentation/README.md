@@ -26,7 +26,7 @@ Along with [Flow chart for Ludo Game](https://github.com/PGBSNH20/ludo-v2-group-
 ### LudoApi
 In this folder we will be using RestSharp in order to make the api calls to use the controllers, this way the Frontend/website will be making Rest Api calls that control the logic.
 
-### Razor Pages: Home Page
+### Razor Pages Home Page
 This page contains the main menu of the game where there is several options for the  user to choose.
 
 * New Game: Will redirect the user to another page were he can enter the number of players and the players details to start a new game.
@@ -35,17 +35,17 @@ This page contains the main menu of the game where there is several options for 
 * Credits: Will show the credits :)
 * Exit: Will return the user to the main page.
 
-### Razor Pages: New Game
+### Razor Pages New Game
 In this page the user/s will enter the number of players and their details. By default it will always show 4 players input fields, but when the user changes the number of players to 2 or 3 then the input fields will change according to the number of players.
 When the players are done from writing their names and colors
 they will click on the button Add Players! then all the details will be added to a list and each of them will automatically roll a dice once, to see who will get the highest number in order to start first.
 Then  we make some REST Api calls in order to save the players to the database and to create a new board.
 
 
-### Razor Pages: Play! 
+### Razor Page Play! 
 This is the page where you actually play the game, it has it's own set of [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md) called GameControllers, this is were we make REST Api calls with logic in order to make moves and make sure they are getting checked by before they go into the database. This one was perticularly hard, and realized that the original plan that we had on just wasn't going to work very well..
 
-**Original Plan:** was to have a LudoApi, LudoEngine, and a LudoFrontEnd, and do the api calls once the logic was decided on the LudoFrontEnd... but it got quite complicated to write the code there, and then realized that they weren't really restfull Api calls... 
+**Original Plan** was to have a LudoApi, LudoEngine, and a LudoFrontEnd, and do the api calls once the logic was decided on the LudoFrontEnd... but it got quite complicated to write the code there, and then realized that they weren't really restfull Api calls... 
 So after some thought it was decided that **New Plan** would be making new controllers would be made that would have logic in the Api calls, However the Dice will be in the LudoFrontEnd because we will not be saving the dice information onto the database.
 
 I made a seperate file to explain more about it, because it is alot of different components that took to make this [Play! Page](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages:%20Play!.md)
