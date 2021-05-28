@@ -48,13 +48,13 @@ they will click on the button Add Players! then all the details will be added to
 Then  we make some REST Api calls in order to save the players to the database and to create a new board.
 
 
-### Razor Page Play! 
+### [Razor Page Play!](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages%20Play!.md) 
 This is the page where you actually play the game, it has it's own set of [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md) called GameControllers, this is were we make REST Api calls with logic in order to make moves and make sure they are getting checked by before they go into the database. This one was perticularly hard, and realized that the original plan that we had on just wasn't going to work very well..
 
 **Original Plan** was to have a LudoApi, LudoEngine, and a LudoFrontEnd, and do the api calls once the logic was decided on the LudoFrontEnd... but it got quite complicated to write the code there, and then realized that they weren't really restfull Api calls... 
 So after some thought it was decided that **New Plan** would be making new controllers would be made that would have logic in the Api calls, However the Dice will be in the LudoFrontEnd because we will not be saving the dice information onto the database.
 
-I made a seperate file to explain more about it, because it is alot of different components that took to make this [Play! Page](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages:%20Play!.md)
+I made a seperate file to explain more about it, because it is alot of different components that took to make this [Play! Page](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages%20Play!.md)
 
 ## Game over!
 Once a game has been completed, so we get all of the winners for that Board it will automatically take the user to the Game Over! page and display the winners.
