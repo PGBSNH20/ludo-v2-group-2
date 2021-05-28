@@ -7,7 +7,7 @@ In order for the program to run:
 3. RightClick the LudoApi solution and press "Build"
 4. Right click the LudoApi solution again and click on "Open File in File Explorer" then, click "bin" then, "Debug" then "net5.0" and finally you want to click on the LudoApi.exe, this **must** be on in the background in order to execute the Api, so we can make calls to it.
 
-[Video of the steps you need to do before running the program!](https://gfycat.com/idolizedpettycamel)
+![Video of the steps you need to do before running the program!](https://gfycat.com/idolizedpettycamel)
 
  
 
