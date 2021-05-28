@@ -7,6 +7,10 @@ Some things worthy of mention:
 
 ![Possible moves showing the pulse effect](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/PlayerRollsShowAllPossibleMoves.gif)
 
+* Something to note is that the player pieces don't pulsate if you can't move them
+
+![Example of not a possible move](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/MouseoverOfPossibleMoveAndCantPulsateWhenNotMovable.gif)
+
 * When its the players turn their Base zone they will get a Red border alerting them its their turn, and if they are playing in different browsers/computers the whole board will have a red border telling them its their turn. 
 
 ![Who's turn is it?](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/WhosTurnIsIt.gif)
@@ -25,6 +29,18 @@ Sadly the file is very messy due to lack of time.
 
 ## LudoGame.js
 This file is for the webside so everything that is happening in the browser, so everything that doesn't need to be run in the server side it gets run here, for example the rolls, the animations like highlighting the pieces if they can move, the logic that tells the board its the next players so there needs to be a red-border, and it also lets us click when it's possible, this is all happening on the page.
+
+* Added functionality that the player gets skipped if there is no possible moves for that person with that roll
+
+![No possible move](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/NoPossibleMovePlayerGetsSkipped.gif)
+
+* Punting an opponents piece is possible!
+
+![Example of punting an opponent player's piece](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/PuntingOfAPiece.gif)
+
+* If certain players have won the board will keep checking if its a Game over, if not then the current winners will not be able to play but it will display which place they have gotten
+
+[Game is still going but we have some winners!](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/WhenPlayersHaveWon.png)
 
 ## LudoGame.cshtml
 This is where the HTML stuff is 
