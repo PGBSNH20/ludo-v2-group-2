@@ -18,7 +18,9 @@
     </script>
     <script src="~/js/ludogame.js"></script>
 }
-@{ }
+@{ 
+    ViewData["Title"] = "Play!";
+}
 
 <div class="ludoMainBoard @if (Model.IsActivePlayer && Model.PlayerNumber != 0) { @Html.Raw("ludoMainBoardActive") }">
     @* Base Squares *@

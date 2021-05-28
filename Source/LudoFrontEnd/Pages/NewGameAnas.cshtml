@@ -1,0 +1,51 @@
+﻿@page
+@model NewGameAnasModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/siteAnas.css" />
+}
+@{
+    ViewData["Title"] = "New Game (Anas)";
+}
+@* Player amount selection *@
+@if (Model.PlayerCount <= 0)
+{
+<form class="form-style-4" method="post">
+    <label>
+        <h1 id="NOF" style="font-size:30px">How many players?</h1>
+        @for (int i = 2; i < 5; i++)
+        {
+            
+            <label class="checkbox-label" for="@("playerCount"+i)" style="font-size:30px;">
+                <input type="radio" id="@("playerCount"+i)" name="playerCount" value="@i" required style="width:20px;height:20px">
+                <span class="checkbox-custom" style="top:20px"></span>  @i
+
+            </label><br>
+        }
+        <input type="submit" value="Submit">
+    </label>
+</form>
+}
+
+@if (Model.Players.Count < Model.PlayerCount)
+{
+<form class="form-style-4" method="post">
+    <h3 id="NOF">Player @(Model.CurrentPlayer) Name:</h3>
+    <label for="field1">
+        <input type="text" name="playerName" minlength="1" /><br />
+    </label>
+
+        @foreach (var index in Model.GetAvailableColorIndixes())
+        {
+
+            <label class="checkbox-label" for="@("color" +index)" style="font-size: 30px; color: @("#"+Model.Colors[index].ColorCode)">
+
+                <input type="radio" id="@("color" +index)" name="colorId" value="@(Model.Colors[index].Id)" required style="width:20px;height:20px">
+                <span class="checkbox-custom" style="top:20px"></span>@Model.ColorNames[index]
+
+
+            </label>
+        }
+        <br />
+        <input type="submit" />
+</form>
+}

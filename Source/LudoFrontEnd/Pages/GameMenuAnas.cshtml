@@ -1,0 +1,18 @@
+﻿@page "/GameMenuAnas"
+@model GameMenuAnasModel
+@section Styles {
+    <link rel="stylesheet" href="~/css/GameMenuAnas.css" />
+}
+@{
+    ViewData["Title"] = "Game Menu";
+}
+<h1 id="welcm">Welcome to the Ludo Game!</h1>
+<div id="allthethings">
+    <div id="left"></div>
+    <div id="newgame" onclick="location.href='/NewGameAnas'"><p>New Game</p></div>
+    <div id="loadgame" onclick="location.href='/LudoGame/Load'"><p>Load Game</p></div>
+    <div id="learn" onclick="window.open('https://www.youtube.com/watch?v=lns9TeKVebY&t=1s')"><p>Learn How To Play</p></div>
+    <div id="right"></div>
+    <div id="exit"></div>
+    <div id="circle"></div>
+</div>
