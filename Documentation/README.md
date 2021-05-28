@@ -38,13 +38,12 @@ This page contains the main menu of the game where there is several options for 
 * New Game: Will redirect the user to another page were he can enter the number of players and the players details to start a new game.
 * Load Game: Will redirect the user to another page were he can choose between the games which is not finished yet.
 * Learn How To Play: Will redirect the user to another page were  there will be a video which explain briefly the game rules.
-* Credits: Will show the credits :)
 * Exit: Will return the user to the main page.
 
 ### Razor Pages New Game
-In this page the user/s will enter the number of players and their details. By default it will always show 4 players input fields, but when the user changes the number of players to 2 or 3 then the input fields will change according to the number of players.
-When the players are done from writing their names and colors
-they will click on the button Add Players! then all the details will be added to a list and each of them will automatically roll a dice once, to see who will get the highest number in order to start first.
+In this page the user/s will enter the number of players and their details.  
+The user will choose how many players will be playing, if the user chooses 2 players so he will be allowed to enter only 2 player details and start the game directly.
+When the button is clicked all the details will be added to a list and each of them will automatically roll a dice once, to see who will get the highest number in order to start first.
 Then  we make some REST Api calls in order to save the players to the database and to create a new board.
 
 
