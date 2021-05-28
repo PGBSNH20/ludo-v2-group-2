@@ -3,8 +3,22 @@
 @{
     ViewData["Title"] = "Home page";
 }
+@section Styles {
+    <link href="~/css/MainMenu.css" rel="stylesheet" type="text/css" />
+}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<body>
+
+    <h1 id="welcm">Welcome to the Ludo Game!</h1>
+    <div id="allthethings">
+        <div id="left"></div>
+        <div onclick="location.href='https://localhost:44310/NewGamePlus'" id="newgame"><p>New Game</p></div>
+        <div onclick="location.href='https://www.google.com/'" id="loadgame"><p>Load Game</p></div>
+        <div onclick="location.href='https://www.youtube.com/watch?v=lns9TeKVebY&t=1s'" id="learn"><p>Learn How To Play</p></div>
+        <div onclick="location.href='https://www.metacritic.com/game/pc/ludo-online/details'" id="credits"><p>CREDITS</p></div>
+        <div id="right"></div>
+
+        <div onclick="location.href='https://localhost:44310/MainMenu'" id="exit"></div>
+        <div id="circle"></div>
+    </div>
+</body>
