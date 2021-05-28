@@ -7,7 +7,7 @@ In order for the program to run:
 3. RightClick the LudoApi solution and press "Build"
 4. Right click the LudoApi solution again and click on "Open File in File Explorer" then, click "bin" then, "Debug" then "net5.0" and finally you want to click on the LudoApi.exe, this **must** be on in the background in order to execute the Api, so we can make calls to it.
 
-![Video to show how to Docker compose up, and open the Api](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/DockerComposeLudoApiexe.gif)
+![How to Docker compose, and execute LudoApi](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/DockerComposeAndLudoApiExecuteHowTo.gif)
 
 ## [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md)
 We made different controllers according to the [tables](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/ERDiagramLudo.png) we have on the Ludo Engine, We need all the controllers in order to get/post/patch/delete information in the database.
