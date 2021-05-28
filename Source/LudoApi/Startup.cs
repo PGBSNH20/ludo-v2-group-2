@@ -1,6 +1,6 @@
 using LudoApi.Headers;
 using LudoApi.Middlewares;
-using LudoEngine.Database;
+using LudoApi.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

@@ -1,0 +1,27 @@
+﻿@page "/LudoGame/Load"
+@model LoadGameModel
+@section Styles {
+<style>
+    input[type="radio"] {
+        visibility: hidden;
+        display: none;
+    }
+    input[type="radio"]:checked+label {
+        background-color: aquamarine;
+    }
+</style>
+}
+@{
+}
+<h1>Load Game!</h1>
+<form method="post">
+    @foreach (var board in Model.Boards.Keys)
+    {
+        string players = Model.GetPlayersString(board.Id);
+        <div>
+            <input type="radio" id="@("board"+board.Id)" name="boardId" value="@board.Id" required>
+            <label for="@("board"+board.Id)">@($"Board: {board.Id} ({board.LastTimePlayed}) - Players: {players}")</label>
+        </div>
+    }
+    <input type="submit" value="Load Game!" />
+</form>

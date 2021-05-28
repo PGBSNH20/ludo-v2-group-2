@@ -9,13 +9,15 @@
 @if (Model.PlayerCount <= 0)
 {
     <form method="post">
-        <p>How many players?</p>
-        @for (int i = 2; i < 5; i++)
-        {
-            <input type="radio" id="@("playerCount"+i)" name="playerCount" value="@i" required>
-            <label for="@("playerCount"+i)">@i</label><br>
-        }
-        <input type="submit" value="Submit">
+        <h2>How many players?</h2>
+        <div>
+            @for (int i = 2; i < 5; i++)
+            {
+                <input type="radio" id="@("playerCount"+i)" name="playerCount" value="@i" required>
+                <label for="@("playerCount"+i)" class="circleLabel numberSelection">@i</label>
+            }
+        </div>
+        <input type="submit" value="Next">
     </form>
 }
 
@@ -23,14 +25,14 @@
 {
     <form method="post">
         <h2>Player @(Model.CurrentPlayer)</h2>
-        Name: <input name="playerName" minlength="1"/><br />
-
-        @foreach (var index in Model.GetAvailableColorIndixes())
-        {
-            <input type="radio" id="@("color" +index)" name="colorId" value="@(Model.Colors[index].Id)" required>
-            <label for="@("color" +index)" style="font-weight: bold; color: @("#"+Model.Colors[index].ColorCode)">@Model.ColorNames[index]</label>
-        }
-        <br />
-        <input type="submit" />
+        Name: <input name="playerName" minlength="1"/>
+              <div>
+                  @foreach (var index in Model.GetAvailableColorIndixes())
+                  {
+                      <input type="radio" id="@("color" +index)" name="colorId" value="@(Model.Colors[index].Id)" required>
+                      <label for="@("color" +index)" class="circleLabel" style="background-color: @("#"+Model.Colors[index].ColorCode)"></label>
+                  }
+              </div>
+        <input type="submit" value="Next"/>
     </form>
 }

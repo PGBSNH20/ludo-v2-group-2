@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LudoEngine.Engine
+namespace LudoEngine.EngineModel
 {
     public class Die
     {

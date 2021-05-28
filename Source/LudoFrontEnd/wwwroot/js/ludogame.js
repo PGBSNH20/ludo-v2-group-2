@@ -168,11 +168,6 @@ async function isOccupied(position) {
     return result;
 }
 
-//async function isOccupiedInSafeZone(position) {
-//    const result = await apiFetch('boards/' + window.boardId + '/players/' + window.activePlayerId + '/safezone/' + position + '/isOccupied/', 'GET');
-//    return result;
-//}
-
 async function leaveBase() {
     const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/leaveBase';
     const result = await apiFetch(url, 'POST');
@@ -180,7 +175,7 @@ async function leaveBase() {
 }
 
 async function apiMovePiece(position) {
-    let pieceNumber = await getPieceNumberByPosition(position)
+    let pieceNumber = await getPieceNumberByPosition(position);
     const url = 'boards/' + window.boardId + '/players/' + window.activePlayerId + '/pieces/' + pieceNumber + '/' + window.roll;
     const result = await apiFetch(url, 'POST');
     NextTurn();
@@ -188,15 +183,18 @@ async function apiMovePiece(position) {
 
 async function getPieceNumberByPosition(position) {
     const result = await apiFetch('boards/' + window.boardId + '/boardStates', 'GET');
-    
+
     let pieceNumber = -1;
-    result.forEach(state => {
-        if(state["piecePosition"] == position.position && state["isInSafeZone"] == position.isInSafeZone && state["isInBase"] == false) {
+    for (const state of result) {
+        if (state["piecePosition"] == position.position
+            && state["playerId"] == window.activePlayerId
+            && state["isInSafeZone"] == position.isInSafeZone
+            && state["isInBase"] == false) {
             pieceNumber = state["pieceNumber"];
-            return false;
+            break;
         }
-    });
-        
+    }
+
     return pieceNumber;
 }
 

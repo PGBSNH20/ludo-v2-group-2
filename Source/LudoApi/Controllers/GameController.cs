@@ -1,6 +1,5 @@
-﻿using LudoApi.DTOs;
-using LudoEngine.Database;
-using Microsoft.AspNetCore.Http;
+﻿using LudoApi.Database;
+using LudoApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -150,6 +149,18 @@ namespace LudoApi.Controllers
             return DbBoardToDTO(await _context.Boards.FindAsync(boardId));
         }
 
+        [HttpGet("boards/unfinished")]
+        public async Task<ActionResult<List<BoardDTO>>> GetBoardsUnfinished()
+        {
+            return await _context.Boards.Where(board => board.IsFinished == false).Select(board => DbBoardToDTO(board)).ToListAsync();
+        }
+
+        [HttpGet("boards/finished")]
+        public async Task<ActionResult<List<BoardDTO>>> GetBoardsFinished()
+        {
+            return await _context.Boards.Where(board => board.IsFinished == true).Select(board => DbBoardToDTO(board)).ToListAsync();
+        }
+
         [HttpPost("new")]
         public async Task<ActionResult<int>> NewGame(int[] playerIds, int firstPlayer)
         {
@@ -230,6 +241,7 @@ namespace LudoApi.Controllers
             baseBoardState.PiecePosition = startPosition;
             baseBoardState.IsInBase = false;
             await _context.SaveChangesAsync();
+            await SetNextPlayer(boardId);
 
             return true;
         }

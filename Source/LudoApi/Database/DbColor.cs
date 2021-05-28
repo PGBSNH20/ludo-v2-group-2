@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LudoEngine.Database
+namespace LudoApi.Database
 {
     public class DbColor
     {

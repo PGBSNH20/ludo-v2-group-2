@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LudoEngine.Database;
+using LudoApi.Database;
 using Microsoft.AspNetCore.Authorization;
 using LudoApi.DTOs;
 

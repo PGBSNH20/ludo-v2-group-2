@@ -1,4 +1,4 @@
-﻿using LudoEngine.Engine;
+﻿using LudoEngine.EngineModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LudoEngine.Database
+namespace LudoApi.Database
 {
     public static class DbQuery
     {
@@ -226,24 +226,6 @@ namespace LudoEngine.Database
             await context.SaveChangesAsync();
         }
 
-        public static async Task SaveDbState(Player player, Piece piece, Board board, int boardId, bool isInBase, bool isInSafeZone)
-        {
-            var pieceNumber = GetSpecificPieceByPlayerIdAndPiecenumber(player, piece, board);
-            var piecePosition = GetPiecePositionsByPlayer(player, board).Where(x => x.Value.PieceNumber == piece.PieceNumber).Select(x => x.Key).FirstOrDefault();
-            using var context = new LudoContext();
-            DbBoardState dbBoardState = new DbBoardState()
-            {
-                BoardId = boardId,
-                PlayerId = player.Id,
-                PieceNumber = pieceNumber,
-                PiecePosition = piecePosition,
-                IsInBase = isInBase,
-                IsInSafeZone = isInSafeZone
-            };
-            context.BoardStates.Add(dbBoardState);
-            await context.SaveChangesAsync();
-        }
-
         //Save Db Board to database.
         public static async Task<int> AddDbBoard()
         {
@@ -287,24 +269,6 @@ namespace LudoEngine.Database
 
             context.Add(dbWinner);
             await context.SaveChangesAsync();
-        }
-
-        //Get specific piece position by player Id and piece number.
-        public static int GetSpecificPieceByPlayerIdAndPiecenumber(Player player, Piece piece, Board board)
-        {
-            int x = GetPiecePositionsByPlayer(player, board).Where(x => x.Value.PieceNumber == piece.PieceNumber).Select(x => x.Value.PieceNumber).FirstOrDefault();
-            return x;
-        }
-        public static Dictionary<int, Piece> GetPiecePositionsByPlayer(Player player, Board board)
-        {
-            Dictionary<int, Piece> playerPiecePositions = new Dictionary<int, Piece>();
-
-            var result = board.GetBoardPieces(player);
-            foreach (var item in result)
-            {
-                playerPiecePositions.Add(item.Key, item.Value);
-            }
-            return playerPiecePositions;
         }
     }
 }

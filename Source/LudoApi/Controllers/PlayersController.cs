@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using LudoEngine.Database;
+using LudoApi.Database;
 
 using Microsoft.AspNetCore.Authorization;
 using LudoApi.DTOs;

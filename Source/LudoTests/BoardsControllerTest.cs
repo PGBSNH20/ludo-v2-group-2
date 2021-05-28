@@ -1,7 +1,6 @@
 using LudoApi.Controllers;
+using LudoApi.Database;
 using LudoApi.DTOs;
-using LudoEngine.Database;
-using LudoEngine.Engine;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace LudoTests
 
             Assert.Equal(3, boards.Count);
             Assert.Equal(2, boards[1].Id);
-            Assert.Equal("2021-03-29 21:55:05", boards[0].LastTimePlayed.ToString());
+            Assert.Equal(DateTime.Parse("2021-03-29 21:55:05"), boards[0].LastTimePlayed);
             Assert.True(boards[2].IsFinished);
         }
 
@@ -39,7 +38,7 @@ namespace LudoTests
             BoardDTO board = boardActionResult.Value;
 
             Assert.Equal(2, board.Id);
-            Assert.Equal("2021-04-01 21:55:05", board.LastTimePlayed.ToString());
+            Assert.Equal(DateTime.Parse("2021-04-01 21:55:05"), board.LastTimePlayed);
             Assert.False(board.IsFinished);
         }
 
@@ -54,7 +53,7 @@ namespace LudoTests
             var history = boardActionResult.Value;
 
             Assert.Equal(2, history.Count);
-            Assert.Equal("2021-03-29 21:55:05", history[0].LastTimePlayed.ToString());
+            Assert.Equal(DateTime.Parse("2021-03-29 21:55:05"), history[0].LastTimePlayed);
             Assert.Equal(2, history[0].Placements.Count);
             Assert.Equal("Allie", history[0].Placements[1]);
             Assert.Equal(1, history[0].GameId);
@@ -72,7 +71,7 @@ namespace LudoTests
 
             Assert.Single(unfinishedBoards);
             Assert.Equal(2, unfinishedBoards[0].BoardId);
-            Assert.Equal("2021-04-01 21:55:05", unfinishedBoards[0].LastTimePlayed.ToString());
+            Assert.Equal(DateTime.Parse("2021-04-01 21:55:05"), unfinishedBoards[0].LastTimePlayed);
             Assert.Contains("Allie", unfinishedBoards[0].PlayerNames);
         }
 

@@ -1,10 +1,6 @@
-﻿using LudoEngine.Database;
+﻿using LudoApi.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LudoTests
 {
@@ -19,9 +15,9 @@ namespace LudoTests
 
         public void SeedBoards()
         {
-            Add(new DbBoard { Id = 1, LastTimePlayed = DateTime.Parse("2021-03-29 21:55:05"), IsFinished = true });
-            Add(new DbBoard { Id = 2, LastTimePlayed = DateTime.Parse("2021-04-01 21:55:05"), IsFinished = false });
-            Add(new DbBoard { Id = 3, LastTimePlayed = DateTime.Parse("2021-05-13 21:55:05"), IsFinished = true });
+            Add(new DbBoard { Id = 1, LastTimePlayed = DateTime.Parse("2021-03-29 21:55:05"), IsFinished = true, activePlayerId = 1 });
+            Add(new DbBoard { Id = 2, LastTimePlayed = DateTime.Parse("2021-04-01 21:55:05"), IsFinished = false, activePlayerId = 1 });
+            Add(new DbBoard { Id = 3, LastTimePlayed = DateTime.Parse("2021-05-13 21:55:05"), IsFinished = true, activePlayerId = 1 });
             SaveChanges();
         }
 

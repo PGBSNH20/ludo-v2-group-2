@@ -1,4 +1,5 @@
 ﻿using LudoFrontEnd.Model;
+using LudoFrontEnd.Pages;
 using RestSharp;
 using RestSharp.Authenticators;
 using System;
@@ -22,6 +23,12 @@ namespace LudoFrontEnd.Api
         {
             var request = new RestRequest($"/boards/{boardId}/boardStates", DataFormat.Json);
             return await client.GetAsync<List<BoardState>>(request);
+        }
+
+        public async Task<List<Board>> GetUnfinishedBoards()
+        {
+            var request = new RestRequest($"/boards/unfinished", DataFormat.Json);
+            return await client.GetAsync<List<Board>>(request);
         }
 
         public async Task<List<BoardState>> GetBasePieces(int boardId, int playerId)

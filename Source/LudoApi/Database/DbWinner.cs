@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LudoApi.Database;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LudoEngine.Database
+namespace LudoApi.Database
 {
-    public class DbBoardState
+    public class DbWinner
     {
         [Key]
         public int Id { get; set; }
@@ -21,11 +22,6 @@ namespace LudoEngine.Database
         public int BoardId { get; set; }
         public virtual DbBoard Board { get; set; }
 
-        // Min 1, Max 4 check EF code first constraint
-        [Range(1, 4)]
-        public int PieceNumber { get; set; }
-        public int PiecePosition { get; set; }
-        public bool IsInSafeZone { get; set; }
-        public bool IsInBase { get; set; }
+        public int Placement { get; set; }
     }
 }

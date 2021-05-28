@@ -1,5 +1,37 @@
-﻿.colorBox {
-    width: 15px;
-    height: 15px;
-    border: 1px black solid;
+﻿input[type="radio"] {
+    visibility: hidden;
+    display: none;
+}
+
+input[type="radio"]:checked + label {
+    font-weight: bold;
+    border: .2vmin solid black;
+}
+
+.numberSelection {
+    background-color: #dedede;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+input[type="radio"]:checked + label.numberSelection {
+    background-color: aquamarine;
+}
+
+.circleLabel {
+    border-radius: 100%;
+    width: 4vmin;
+    height: 4vmin;
+    margin: .5vmin;
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+    background-color: #dedede;
+    border: none;
+    margin: .5vmin 0;
+    padding: .5vmin 1vmin;
+}
+
+h2 {
 }
