@@ -26,6 +26,19 @@ First we give it a new TestContext, then we seed the database with some colors, 
 ![image](https://user-images.githubusercontent.com/70092696/119715480-5959da80-be64-11eb-88d7-dcf3d41b134b.png)
 
 ## PlayersControllerTests.cs
+  
+![image](https://user-images.githubusercontent.com/56867894/119989536-925e9000-bfc7-11eb-979e-47d342baf179.png)
+  
+In the PlayersControllerTests I used In Memory Database where The advantage of in-memory provider is that you can test the code of your application against an in-memory      database instead of installing and configuring the real database.
+It is a general purpose database, designed strictly for the testing purpose of your application's code and not a relational database.
+  
+![image](https://user-images.githubusercontent.com/56867894/119992875-46154f00-bfcb-11eb-9866-cd1640695c31.png)
+  
+In this test we are making a Get request to the REST api in order to get back all the players saved in the database, the test is expecting a true value were it checks if the name " Anna" exist in the database.
+  
+ 
+  
+
 
 ## TestContext.cs
 Here we have the context that we will be using for BoardsControllerTests.cs I (Alejandra) really wanted to give testing a real go this project, first I make a class named this, TestContext. which inherits from LudoContext then in the configuring we call a Guid, that is simply creating a unique identifier, then we convert it into a string, so that we can have a "new" TestConext name each time and our tests can always come out correct because its a new database and we also use-in-momory-database.
