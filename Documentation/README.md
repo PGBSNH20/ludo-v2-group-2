@@ -24,6 +24,11 @@ References:
 
 [Authenticate and Authorization with ASP.NET Core](https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/)
 
+## End Points
+We decided that we would have the board Id following LudoGame, if you want a specific player after the board you do a "/" then the player number, so 1-4.
+
+(![image](https://user-images.githubusercontent.com/70092696/120015488-ab753a00-bfe3-11eb-873a-3d75ecdb77d9.png)
+
 ## LudoFrontEnd
 We also decided on using the same flow chart for the Razor Pages to guide our [Main Menu, New Game, Load, and history](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Ludo%20-%20Menu.jpg)
 
