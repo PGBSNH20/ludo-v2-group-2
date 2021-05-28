@@ -47,7 +47,7 @@ When the button is clicked all the details will be added to a list and each of t
 Then  we make some REST Api calls in order to save the players to the database and to create a new board.
 
 
-### [Razor Page Play!](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages%20Play!.md) 
+### [Razor Page: Play!](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Razor%20Pages%20Play!.md) 
 This is the page where you actually play the game, it has it's own set of [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md) called GameControllers, this is were we make REST Api calls with logic in order to make moves and make sure they are getting checked by before they go into the database. This one was perticularly hard, and realized that the original plan that we had on just wasn't going to work very well..
 
 **Original Plan** was to have a LudoApi, LudoEngine, and a LudoFrontEnd, and do the api calls once the logic was decided on the LudoFrontEnd... but it got quite complicated to write the code there, and then realized that they weren't really restfull Api calls... 
@@ -57,6 +57,8 @@ I made a seperate file to explain more about it, because it is alot of different
 
 ## Game over!
 Once a game has been completed, so we get all of the winners for that Board it will automatically take the user to the Game Over! page and display the winners.
+
+![Game Over](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/GameOver.png)
 
 ## [LudoTests](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoTests.md)
 Here will be our explanation of the testing we did, they are all Xunit tests.
