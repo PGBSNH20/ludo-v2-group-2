@@ -1,7 +1,11 @@
 ## General Overview
 We decided to use the Ludo Engine from the old project (from the database access course) some of the [database tables](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/ERDiagramLudo.png) were changed so it fits this project better.
 
-In order for the program to run, first the docker file has to be running in the background
+In order for the program to run:
+1. First the docker file has to be running in the background, so make sure that the docker compose is up.
+2. Make sure that you add-migration, and update-database (if there is any issues make sure that the migrations folder is deleted and retry the update-database step)
+3. RightClick the LudoApi solution and press "Build"
+ 
 
 ## [Controllers](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/Crontrollers.md)
 We made different controllers according to the [tables](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/ERDiagramLudo.png) we have on the Ludo Engine, We need all the controllers in order to get/post/patch/delete information in the database.
