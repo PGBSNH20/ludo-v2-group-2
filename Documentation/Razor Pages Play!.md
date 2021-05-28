@@ -39,3 +39,7 @@ This file is used for the server side, this is the logic the LudoGame.cshtml.
 
 ## SignalR
 This is where SignalR got implemented, if you have different browsers open it should automatically show when people have moved and rolled, when its *Your* turn in your browser the whole board will have a border to try to notify you its your turn, and you can see if anyone is cheating by refreshing the page to re-roll again! 😉
+
+This is an example of how signalR works with the Ludo game board:
+
+![SignalR example](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/WhosTurnIsIt.gif)
