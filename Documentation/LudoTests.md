@@ -34,12 +34,8 @@ It is a general purpose database, designed strictly for the testing purpose of y
   
 ![image](https://user-images.githubusercontent.com/56867894/119992875-46154f00-bfcb-11eb-9866-cd1640695c31.png)
   
-In this test we are making a Get request to the REST api in order to get back all the players saved in the database, the test is expecting a true value were it checks if the name " Anna" exist in the database.
+In this test we are making a Get request to the REST api in order to get back all the players saved in the database, the test is expecting a true value were it checks if the name " Anna" exist in the database. We first make the get request and we store all the players in result, then we loop through it to check if it contains any players, or if it contains a specific player name.
   
- 
-  
-
-
 ## TestContext.cs
 Here we have the context that we will be using for BoardsControllerTests.cs I (Alejandra) really wanted to give testing a real go this project, first I make a class named this, TestContext. which inherits from LudoContext then in the configuring we call a Guid, that is simply creating a unique identifier, then we convert it into a string, so that we can have a "new" TestConext name each time and our tests can always come out correct because its a new database and we also use-in-momory-database.
 
@@ -62,4 +58,5 @@ References:
 
 ![image](https://user-images.githubusercontent.com/56867894/119994342-cf795100-bfcc-11eb-8b67-f38f9f3da2c3.png)
 
-In the WinnersControllerTests I used In Memory also and as shown we are making a Get request for a specific player using its Id, so when we need to get the player with Id 1 we are expecting back a player object with an Id of 1, the test is expecting back a true value were it checks if the return player Id object is equal to 1. 
+In the WinnersControllerTests I used In Memory also and as shown we are making a Get request for a specific winner using its Id, so when we need to get the winner with Id 1 we are expecting back a winner object with an Id of 1.
+So we store the winner object in result and we then check if the winner is you entered is equal the winner is we got back.
