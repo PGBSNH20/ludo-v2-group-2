@@ -59,3 +59,7 @@ References:
 [Microsoft-Docs: EF core testing sample](https://docs.microsoft.com/en-us/ef/core/testing/testing-sample)
 
 ## WinnersControllerTests.cs
+
+![image](https://user-images.githubusercontent.com/56867894/119994342-cf795100-bfcc-11eb-8b67-f38f9f3da2c3.png)
+
+In the WinnersControllerTests I used In Memory also and as shown we are making a Get request for a specific player using its Id, so when we need to get the player with Id 1 we are expecting back a player object with an Id of 1, the test is expecting back a true value were it checks if the return player Id object is equal to 1. 
