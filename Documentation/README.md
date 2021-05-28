@@ -63,10 +63,13 @@ I made a seperate file to explain more about it, because it is alot of different
 ## Game over!
 Once a game has been completed, so we get all of the winners for that Board it will automatically take the user to the Game Over! page and display the winners.
 
-## Load Game
-In this page it will display all games that haven't been finished that we have currently in the database, it will display the last time played, and the player names. 
 
 ![Game Over](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoGifs/GameOver.png)
+
+## Load Game
+In this page it will display all games that haven't been finished that we have currently in the database, it will display the bboard number, last time played, and the player names. You simply click which one you want then click on Load Game! button.
+
+![Load Game](https://user-images.githubusercontent.com/70092696/120017454-2f302600-bfe6-11eb-9a05-e8a3f7757e56.png)
 
 ## [LudoTests](https://github.com/PGBSNH20/ludo-v2-group-2/blob/main/Documentation/LudoTests.md)
 Here will be our explanation of the testing we did, they are all Xunit tests.
